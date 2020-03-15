@@ -3,12 +3,6 @@ import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 
 class SignedOutLinks extends Component {
-  handleClick = e => {
-    //e.preventDefault();
-    e.persist();
-    console.log(e);
-    return <Redirect to="/signup" />;
-  };
   render() {
     return (
       <ul className="navbar-nav ml-auto">
