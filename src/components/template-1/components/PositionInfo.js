@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Card, Button } from "react-bootstrap";
+import firestore from "../../../firebase/firestore";
 
 class PositionInfo extends Component {
   handleAddPositionBlock = () => {
@@ -8,19 +9,42 @@ class PositionInfo extends Component {
     let newBlock = { id: tid, information: "" };
     this.props.addPositionBlock(newBlock);
   };
-
-  componentDidMount() {
-    let position = this.props.position.filter(e => e.id === this.props.id);
-    if (position.length === 0) return null;
-    let sz = Object.keys(position[0]).length;
-    for (let i = 0; i < sz - 3; i++) {
-      let newBlock = {
-        id: position[0][i].id,
-        information: position[0][i].information
-      };
-      this.props.removePositionBlock(newBlock.id);
-      this.props.addPositionBlock(newBlock);
+  componentDidUpdate() {
+    firestore
+      .collection("position")
+      .doc(this.props.id)
+      .set({
+        ...this.props.positionBlocks
+      })
+      .then(console.log("update position"))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  componentWillUnmount() {
+    let TpositionBlocks = this.props.positionBlocks;
+    let n = TpositionBlocks.length;
+    for (let i = 0; i < n; i++) {
+      this.props.removePositionBlock(TpositionBlocks[i].id);
     }
+  }
+  componentDidMount() {
+    firestore
+      .collection("position")
+      .doc(this.props.id)
+      .get()
+      .then(resp => {
+        let position = resp.data();
+        if (!position) return null;
+        let sz = Object.keys(position).length;
+        for (let i = 0; i < sz; i++) {
+          let newBlock = {
+            id: position[i].id,
+            information: position[i].information
+          };
+          this.props.addPositionBlock(newBlock);
+        }
+      });
   }
 
   handleChangePosition = (event, id) => {

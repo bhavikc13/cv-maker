@@ -9,11 +9,25 @@ import ProjectInfo from "./components/ProjectInfo";
 import PositionInfo from "./components/PositionInfo";
 import AwardInfo from "./components/AwardInfo";
 import HobbyInfo from "./components/HobbyInfo";
+import { connect } from "react-redux";
+import firestore from "./../../firebase/firestore";
 
 class Sidebar extends Component {
+  state = { title: "" };
+  componentDidMount() {
+    firestore
+      .collection("cvs")
+      .doc(this.props.id)
+      .get()
+      .then(resp => {
+        this.setState({ title: resp.data().title });
+      })
+      .catch(err => console.log(err));
+  }
   render() {
     return (
       <div className="sidebar">
+        <div className="container-fluid">{this.state.title}</div>
         <Accordion defaultActiveKey=" ">
           <Card>
             <Accordion.Toggle as={Card.Header} eventKey="1">
@@ -21,7 +35,7 @@ class Sidebar extends Component {
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="1">
               <Card.Body>
-                <PersonalInfo id={this.props.id} profile={this.props.profile} />
+                <PersonalInfo id={this.props.id} />
               </Card.Body>
             </Accordion.Collapse>
           </Card>
@@ -31,10 +45,7 @@ class Sidebar extends Component {
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="2">
               <Card.Body>
-                <EducationInfo
-                  id={this.props.id}
-                  education={this.props.education}
-                />
+                <EducationInfo id={this.props.id} />
               </Card.Body>
             </Accordion.Collapse>
           </Card>
@@ -104,4 +115,10 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth
+  };
+};
+
+export default connect(mapStateToProps)(Sidebar);

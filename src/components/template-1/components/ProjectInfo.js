@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Accordion, Card, Form, Button } from "react-bootstrap";
+import firestore from "../../../firebase/firestore";
 
 class ProjectInfo extends Component {
   handleAddProjectBlock = event => {
@@ -16,26 +17,48 @@ class ProjectInfo extends Component {
     };
     this.props.addProjectBlock(newBlock);
   };
-
-  componentDidMount() {
-    let project = this.props.project.filter(e => e.id === this.props.id);
-    if (project.length === 0) return null;
-    let sz = Object.keys(project[0]).length;
-    for (let i = 0; i < sz - 3; i++) {
-      let newBlock = {
-        id: project[0][i].id,
-        projectName: project[0][i].projectName,
-        description: project[0][i].description,
-        supervisor: project[0][i].supervisor,
-        start: project[0][i].start,
-        end: project[0][i].end,
-        teamSize: project[0][i].teamSize
-      };
-      this.props.removeProjectBlock(newBlock.id);
-      this.props.addProjectBlock(newBlock);
+  componentDidUpdate() {
+    firestore
+      .collection("project")
+      .doc(this.props.id)
+      .set({
+        ...this.props.projectBlocks
+      })
+      .then(console.log("update project"))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  componentWillUnmount() {
+    let TprojectBlocks = this.props.projectBlocks;
+    let n = TprojectBlocks.length;
+    for (let i = 0; i < n; i++) {
+      this.props.removeProjectBlock(TprojectBlocks[i].id);
     }
   }
-
+  componentDidMount() {
+    firestore
+      .collection("project")
+      .doc(this.props.id)
+      .get()
+      .then(resp => {
+        let project = resp.data();
+        if (!project) return null;
+        let sz = Object.keys(project).length;
+        for (let i = 0; i < sz; i++) {
+          let newBlock = {
+            id: project[i].id,
+            projectName: project[i].projectName,
+            description: project[i].description,
+            supervisor: project[i].supervisor,
+            start: project[i].start,
+            end: project[i].end,
+            teamSize: project[i].teamSize
+          };
+          this.props.addProjectBlock(newBlock);
+        }
+      });
+  }
   handleChangeProjectName = (event, id) => {
     this.props.updateProjectName(event.target.value, id);
     let dummyBlock = {

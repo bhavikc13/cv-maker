@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Accordion, Card, Form, Button } from "react-bootstrap";
+import firestore from "../../../firebase/firestore";
 
 class EducationInfo extends Component {
   handleAddDegreeBlock = e => {
@@ -14,21 +15,45 @@ class EducationInfo extends Component {
     };
     this.props.addDegreeBlock(newBlock);
   };
-  componentDidMount() {
-    let education = this.props.education.filter(e => e.id === this.props.id);
-    if (education.length === 0) return null;
-    let sz = Object.keys(education[0]).length;
-    for (let i = 0; i < sz - 3; i++) {
-      let newBlock = {
-        id: education[0][i].id,
-        degreeName: education[0][i].degreeName,
-        instituteName: education[0][i].instituteName,
-        year: education[0][i].year,
-        score: education[0][i].score
-      };
-      this.props.removeBlock(newBlock.id);
-      this.props.addDegreeBlock(newBlock);
+  componentDidUpdate() {
+    firestore
+      .collection("education")
+      .doc(this.props.id)
+      .set({
+        ...this.props.degreeBlocks
+      })
+      .then(console.log("update education"))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  componentWillUnmount() {
+    let TdegreeBlocks = this.props.degreeBlocks;
+    let n = TdegreeBlocks.length;
+    for (let i = 0; i < n; i++) {
+      this.props.removeBlock(TdegreeBlocks[i].id);
     }
+  }
+  componentDidMount() {
+    firestore
+      .collection("education")
+      .doc(this.props.id)
+      .get()
+      .then(resp => {
+        let education = resp.data();
+        if (!education) return null;
+        let sz = Object.keys(education).length;
+        for (let i = 0; i < sz; i++) {
+          let newBlock = {
+            id: education[i].id,
+            degreeName: education[i].degreeName,
+            instituteName: education[i].instituteName,
+            year: education[i].year,
+            score: education[i].score
+          };
+          this.props.addDegreeBlock(newBlock);
+        }
+      });
   }
   handleChangeDegreeName = (event, id) => {
     this.props.updateDegreeName(event.target.value, id);
@@ -180,8 +205,7 @@ class EducationInfo extends Component {
 
 const mapStateToProps = state => {
   return {
-    degreeBlocks: state.educationRed.degreeBlocks,
-    education: state.firestore.ordered.education
+    degreeBlocks: state.educationRed.degreeBlocks
   };
 };
 

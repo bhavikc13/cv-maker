@@ -4,12 +4,11 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
-import Temp from "./Temp";
 import { createStore, applyMiddleware, compose } from "redux";
 import rootReducer from "./store/reducers/rootReducer";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
-import fbConfig from "./config/fbConfig";
+import fbConfig from "./firebase/fbConfig";
 import {
   reduxFirestore,
   getFirestore,
@@ -20,25 +19,15 @@ import {
   getFirebase,
   ReactReduxFirebaseProvider
 } from "react-redux-firebase";
-import firebase from "../src/config/fbConfig";
+import firebase from "../src/firebase/fbConfig";
 import { useSelector } from "react-redux";
 import { isLoaded } from "react-redux-firebase";
 
 const AuthIsLoaded = ({ children }) => {
   const auth = useSelector(state => state.firebase.auth);
-  if (!isLoaded(auth)) return <div>splash screen...</div>;
+  if (!isLoaded(auth)) return <div>Loading...</div>;
   return children;
 };
-
-/*const store = createStore(
-  rootReducer,
-  compose(
-    applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
-    reduxFirestore(fbConfig),
-    reactReduxFirebase(fbConfig)
-  )
-);*/
-
 const rrfConfig = {
   ...fbConfig,
   userProfile: "users",

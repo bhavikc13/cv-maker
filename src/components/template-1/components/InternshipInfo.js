@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Accordion, Card, Form, Button } from "react-bootstrap";
+import firestore from "../../../firebase/firestore";
+
 class InternshipInfo extends Component {
   handleAddInternshipBlock = event => {
     let tid = Date.now();
@@ -15,23 +17,47 @@ class InternshipInfo extends Component {
     };
     this.props.addInternshipBlock(newBlock);
   };
-  componentDidMount() {
-    let internship = this.props.internship.filter(e => e.id === this.props.id);
-    if (internship.length === 0) return null;
-    let sz = Object.keys(internship[0]).length;
-    for (let i = 0; i < sz - 3; i++) {
-      let newBlock = {
-        id: internship[0][i].id,
-        organizationName: internship[0][i].organizationName,
-        description: internship[0][i].description,
-        supervisor: internship[0][i].supervisor,
-        start: internship[0][i].start,
-        end: internship[0][i].end,
-        teamSize: internship[0][i].teamSize
-      };
-      this.props.removeInternshipBlock(newBlock.id);
-      this.props.addInternshipBlock(newBlock);
+  componentDidUpdate() {
+    firestore
+      .collection("internship")
+      .doc(this.props.id)
+      .set({
+        ...this.props.internshipBlocks
+      })
+      .then(console.log("update internship"))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  componentWillUnmount() {
+    let TinternshipBlocks = this.props.internshipBlocks;
+    let n = TinternshipBlocks.length;
+    for (let i = 0; i < n; i++) {
+      this.props.removeInternshipBlock(TinternshipBlocks[i].id);
     }
+  }
+  componentDidMount() {
+    firestore
+      .collection("internship")
+      .doc(this.props.id)
+      .get()
+      .then(resp => {
+        let internship = resp.data();
+        if (!internship) return null;
+        let sz = Object.keys(internship).length;
+        for (let i = 0; i < sz; i++) {
+          let newBlock = {
+            id: internship[i].id,
+            organizationName: internship[i].organizationName,
+            description: internship[i].description,
+            supervisor: internship[i].supervisor,
+            start: internship[i].start,
+            end: internship[i].end,
+            teamSize: internship[i].teamSize
+          };
+          this.props.addInternshipBlock(newBlock);
+        }
+      });
   }
   handleChangeOrganizationName = (event, id) => {
     this.props.updateOrganiztionName(event.target.value, id);

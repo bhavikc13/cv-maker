@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Card, Button } from "react-bootstrap";
+import firestore from "../../../firebase/firestore";
 
 class AwardInfo extends Component {
   handleAddAwardBlock = () => {
@@ -8,18 +9,42 @@ class AwardInfo extends Component {
     let newBlock = { id: tid, information: "" };
     this.props.addAwardBlock(newBlock);
   };
-  componentDidMount() {
-    let award = this.props.award.filter(e => e.id === this.props.id);
-    if (award.length === 0) return null;
-    let sz = Object.keys(award[0]).length;
-    for (let i = 0; i < sz - 3; i++) {
-      let newBlock = {
-        id: award[0][i].id,
-        information: award[0][i].information
-      };
-      this.props.removeAwardBlock(newBlock.id);
-      this.props.addAwardBlock(newBlock);
+  componentDidUpdate() {
+    firestore
+      .collection("award")
+      .doc(this.props.id)
+      .set({
+        ...this.props.awardBlocks
+      })
+      .then(console.log("update award"))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  componentWillUnmount() {
+    let TawardBlocks = this.props.awardBlocks;
+    let n = TawardBlocks.length;
+    for (let i = 0; i < n; i++) {
+      this.props.removeAwardBlock(TawardBlocks[i].id);
     }
+  }
+  componentDidMount() {
+    firestore
+      .collection("award")
+      .doc(this.props.id)
+      .get()
+      .then(resp => {
+        let award = resp.data();
+        if (!award) return null;
+        let sz = Object.keys(award).length;
+        for (let i = 0; i < sz; i++) {
+          let newBlock = {
+            id: award[i].id,
+            information: award[i].information
+          };
+          this.props.addAwardBlock(newBlock);
+        }
+      });
   }
   handleChangeAward = (event, id) => {
     this.props.updateAward(event.target.value, id);
@@ -80,8 +105,7 @@ class AwardInfo extends Component {
 
 const mapStateToProps = state => {
   return {
-    awardBlocks: state.awardRed.awardBlocks,
-    award: state.firestore.ordered.award
+    awardBlocks: state.awardRed.awardBlocks
   };
 };
 

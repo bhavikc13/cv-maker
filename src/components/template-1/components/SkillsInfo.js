@@ -1,15 +1,43 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Card } from "react-bootstrap";
+import firestore from "../../../firebase/firestore";
 
 class SkillsInfo extends Component {
+  componentDidUpdate() {
+    firestore
+      .collection("skill")
+      .doc(this.props.id)
+      .set({
+        areaOfInterest: this.props.aoi,
+        proLanguages: this.props.pl,
+        toolsAndTech: this.props.tt,
+        techElectives: this.props.te
+      })
+      .then(console.log("update skill"))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  componentWillUnmount() {
+    this.props.updateAOI("");
+    this.props.updatePL("");
+    this.props.updateTT("");
+    this.props.updateTE("");
+  }
   componentDidMount() {
-    let skill = this.props.skill.filter(e => e.id === this.props.id);
-    if (skill.length === 0) return null;
-    this.props.updateAOI(skill[0].areaOfInterest);
-    this.props.updatePL(skill[0].proLanguages);
-    this.props.updateTT(skill[0].toolsAndTech);
-    this.props.updateTE(skill[0].techElectives);
+    firestore
+      .collection("skill")
+      .doc(this.props.id)
+      .get()
+      .then(resp => {
+        let skill = resp.data();
+        if (!skill) return null;
+        this.props.updateAOI(skill.areaOfInterest);
+        this.props.updatePL(skill.proLanguages);
+        this.props.updateTT(skill.toolsAndTech);
+        this.props.updateTE(skill.techElectives);
+      });
   }
   handleChangeAOI = event => {
     this.props.updateAOI(event.target.value);

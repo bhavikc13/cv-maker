@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Card, Button } from "react-bootstrap";
+import firestore from "../../../firebase/firestore";
 
 class HobbyInfo extends Component {
   handleAddHobbyBlock = () => {
@@ -8,18 +9,43 @@ class HobbyInfo extends Component {
     let newBlock = { id: tid, information: "" };
     this.props.addHobbyBlock(newBlock);
   };
-  componentDidMount() {
-    let hobby = this.props.hobby.filter(e => e.id === this.props.id);
-    if (hobby.length === 0) return null;
-    let sz = Object.keys(hobby[0]).length;
-    for (let i = 0; i < sz - 3; i++) {
-      let newBlock = {
-        id: hobby[0][i].id,
-        information: hobby[0][i].information
-      };
-      this.props.removeHobbyBlock(newBlock.id);
-      this.props.addHobbyBlock(newBlock);
+  componentDidUpdate() {
+    firestore
+      .collection("hobby")
+      .doc(this.props.id)
+      .set({
+        ...this.props.hobbyBlocks
+      })
+      .then(console.log("update hobby"))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  componentWillUnmount() {
+    let ThobbyBlocks = this.props.hobbyBlocks;
+    let n = ThobbyBlocks.length;
+    for (let i = 0; i < n; i++) {
+      this.props.removeHobbyBlock(ThobbyBlocks[i].id);
     }
+  }
+  componentDidMount() {
+    firestore
+      .collection("hobby")
+      .doc(this.props.id)
+      .get()
+      .then(resp => {
+        let hobby = resp.data();
+        if (!hobby) return null;
+        let sz = Object.keys(hobby).length;
+        console.log(hobby);
+        for (let i = 0; i < sz; i++) {
+          let newBlock = {
+            id: hobby[i].id,
+            information: hobby[i].information
+          };
+          this.props.addHobbyBlock(newBlock);
+        }
+      });
   }
   handleChangeHobby = (event, id) => {
     this.props.updateHobby(event.target.value, id);

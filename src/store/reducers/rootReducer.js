@@ -14,7 +14,7 @@ import hobbyRed from "./compoReducer/hobbyRed";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  cv: cvReducer,
+  cvRed: cvReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer,
   personRed: personRed,

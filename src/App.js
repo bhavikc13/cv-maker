@@ -4,9 +4,7 @@ import Navbar from "./components/layout/Navbar";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Dashboard from "./components/dashboard/Dashboard";
-import CvPreview from "./components/cvs/CvPreview";
 import CreateCV from "./components/cvs/CreateCv";
-import BlockContentAndList from "./components/blocks/BlockContentAndList";
 import CvEditor from "./components/cvs/CvEditor";
 
 function App() {

@@ -1,22 +1,34 @@
 import React, { Component } from "react";
-import { createCV } from "../../store/actions/cvActions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import firestore from "./../../firebase/firestore";
 
 class CreateCV extends Component {
   state = {
     title: ""
   };
-  handleChange = e => {
+  handleAddCv = e => {
+    e.preventDefault();
+    let cv = this.state,
+      userId = this.props.auth.uid;
+    firestore
+      .collection("cvs")
+      .add({
+        ...cv,
+        createdAt: new Date(),
+        userId: userId
+      })
+      .then(resp => {
+        console.log("cv added");
+        this.props.history.push("/" + resp.id);
+      })
+      .catch(err => console.log(err));
+  };
+  handleChangeCvTitle = (e, id) => {
     this.setState({
       [e.target.id]: e.target.value
     });
-  };
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.createCV(this.state);
-    this.props.history.push("/" + this.props.cvs[this.props.cvs.length - 1].id);
   };
   render() {
     const { auth } = this.props;
@@ -25,14 +37,14 @@ class CreateCV extends Component {
     }
     return (
       <div className="container">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleAddCv}>
           <div className="form-group">
             <label>CV Title</label>
             <input
               type="text"
               className="form-control"
               id="title"
-              onChange={this.handleChange}
+              onChange={this.handleChangeCvTitle}
             />
           </div>
           <div className="form-group">
@@ -48,15 +60,8 @@ class CreateCV extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.firebase.auth,
-    cvs: state.firestore.ordered.cvs
+    auth: state.firebase.auth
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    createCV: cv => dispatch(createCV(cv))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateCV);
+export default connect(mapStateToProps)(CreateCV);

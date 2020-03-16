@@ -1,18 +1,46 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Form from "react-bootstrap/Form";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
+import firestore from "../../../firebase/firestore";
 
 class PersonalInfo extends Component {
+  componentDidUpdate() {
+    firestore
+      .collection("profile")
+      .doc(this.props.id)
+      .set({
+        name: this.props.name,
+        collegeName: this.props.collegeName,
+        email: this.props.email,
+        dob: this.props.dob,
+        address: this.props.address
+      })
+      .then(console.log("update profile"))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  componentWillUnmount() {
+    this.props.updateName("");
+    this.props.updateCollgeName("");
+    this.props.updateEmail("");
+    this.props.updateDOB("");
+    this.props.updateAddress("");
+  }
   componentDidMount() {
-    let profile = this.props.profile.filter(e => e.id === this.props.id);
-    if (profile.length === 0) return null;
-    this.props.updateName(this.props.name);
-    this.props.updateCollgeName(this.props.collegeName);
-    this.props.updateEmail(this.props.email);
-    this.props.updateDOB(this.props.dob);
-    this.props.updateAddress(this.props.address);
+    firestore
+      .collection("profile")
+      .doc(this.props.id)
+      .get()
+      .then(resp => {
+        let profile = resp.data();
+        if (!profile) return null;
+        this.props.updateName(profile.name);
+        this.props.updateCollgeName(profile.collegeName);
+        this.props.updateEmail(profile.email);
+        this.props.updateDOB(profile.dob);
+        this.props.updateAddress(profile.address);
+      });
   }
   handleChangeName = event => {
     this.props.updateName(event.target.value);
@@ -139,8 +167,7 @@ const mapStateToProps = state => {
     collegeName: state.personRed.collegeName,
     email: state.personRed.email,
     dob: state.personRed.dob,
-    address: state.personRed.address,
-    profile: state.firestore.ordered.profile
+    address: state.personRed.address
   };
 };
 
