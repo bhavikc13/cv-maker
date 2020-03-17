@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import firestore from "./../../firebase/firestore";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import "./../css/loader.css";
+import Loader from "./../loader/Loader";
 
 class CvList extends Component {
+  state = { isLoading: true };
   componentWillUnmount() {
     let TcvList = this.props.cvList;
     let n = TcvList.length;
@@ -28,11 +31,16 @@ class CvList extends Component {
             createdAt: cv.createdAt
           };
           this.props.addCv(newCv);
+          this.setState({ isLoading: false });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoading: false });
+      });
   }
   handleRemoveCv = id => {
+    this.setState({ isLoading: true });
     this.props.removeCv(id);
     let TcvList = this.props.cvList;
     let n = TcvList.length;
@@ -97,14 +105,23 @@ class CvList extends Component {
                 createdAt: cv.createdAt
               };
               this.props.addCv(newCv);
+              this.setState({ isLoading: false });
             }
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            console.log(err);
+            this.setState({ isLoading: false });
+          });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoading: false });
+      });
   };
   render() {
-    return (
+    return this.state.isLoading ? (
+      <Loader />
+    ) : (
       <div>
         <div>
           {this.props.cvList

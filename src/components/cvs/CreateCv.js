@@ -3,13 +3,19 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import firestore from "./../../firebase/firestore";
+import Loader from "./../loader/Loader";
 
 class CreateCV extends Component {
   state = {
-    title: ""
+    title: "",
+    isLoading: true
   };
+  componentDidMount() {
+    this.setState({ isLoading: false });
+  }
   handleAddCv = e => {
     e.preventDefault();
+    this.setState({ isLoading: true });
     let cv = this.state,
       userId = this.props.auth.uid;
     firestore
@@ -21,9 +27,13 @@ class CreateCV extends Component {
       })
       .then(resp => {
         console.log("cv added");
+        this.setState({ isLoading: false });
         this.props.history.push("/" + resp.id);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoading: false });
+      });
   };
   handleChangeCvTitle = (e, id) => {
     this.setState({
@@ -35,7 +45,9 @@ class CreateCV extends Component {
     if (!auth.uid) {
       return <Redirect to="/signin" />;
     }
-    return (
+    return this.state.isLoading ? (
+      <Loader />
+    ) : (
       <div className="container">
         <form onSubmit={this.handleAddCv}>
           <div className="form-group">

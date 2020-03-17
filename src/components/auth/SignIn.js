@@ -2,12 +2,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { signIn } from "../../store/actions/authActions";
 import { Redirect } from "react-router-dom";
+import firebase from "./../../firebase/fbConfig";
+import Loader from "./../loader/Loader";
 
 class SignIn extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    isLoading: true,
+    error: ""
   };
+  componentDidMount() {
+    this.setState({ isLoading: false });
+  }
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
@@ -15,14 +22,27 @@ class SignIn extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    this.props.signIn(this.state);
+    this.setState({ isLoading: true });
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => {
+        console.log("signin success");
+        this.setState({ isLoading: false });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoading: false, error: err.message });
+      });
   };
   render() {
     const { authError, auth } = this.props;
     if (auth.uid) {
       return <Redirect to="/" />;
     }
-    return (
+    return this.state.isLoading ? (
+      <Loader />
+    ) : (
       <div className="container">
         <form onSubmit={this.handleSubmit}>
           <h5>Sign In</h5>
@@ -51,6 +71,9 @@ class SignIn extends Component {
           </button>
           <div className="form-group">
             {authError ? <p>{authError}</p> : null}
+          </div>
+          <div className="form-group">
+            {this.state.error ? <p>{this.state.error}</p> : null}
           </div>
         </form>
       </div>

@@ -1,15 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { signUp } from "../../store/actions/authActions";
+import firebase from "./../../firebase/fbConfig";
+import firestore from "./../../firebase/firestore";
+import Loader from "./../loader/Loader";
 
 class SignUp extends Component {
   state = {
     email: "",
     password: "",
     firstName: "",
-    lastName: ""
+    lastName: "",
+    isLoading: true,
+    error: ""
   };
+  componentDidMount() {
+    this.setState({ isLoading: false });
+  }
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
@@ -17,14 +24,37 @@ class SignUp extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    this.props.signUp(this.state);
+    this.setState({ isLoading: true });
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(resp => {
+        return firestore
+          .collection("users")
+          .doc(resp.user.uid)
+          .set({
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            initials: this.state.firstName[0]
+          });
+      })
+      .then(() => {
+        console.log("signup success");
+        this.setState({ isLoading: false });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoading: false, error: err.message });
+      });
   };
   render() {
     const { authError, auth } = this.props;
     if (auth.uid) {
       return <Redirect to="/" />;
     }
-    return (
+    return this.state.isLoading ? (
+      <Loader />
+    ) : (
       <div className="container">
         <form onSubmit={this.handleSubmit}>
           <h5>Sign Up</h5>
@@ -74,6 +104,9 @@ class SignUp extends Component {
           <div className="form-group">
             {authError ? <p>{authError}</p> : null}
           </div>
+          <div className="form-group">
+            {this.state.error ? <p>{this.state.error}</p> : null}
+          </div>
         </form>
       </div>
     );
@@ -86,11 +119,4 @@ const mapStateToProps = state => {
     authError: state.auth.authError
   };
 };
-
-const mapDispatchToProps = dispatch => {
-  return {
-    signUp: newUser => dispatch(signUp(newUser))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps)(SignUp);
