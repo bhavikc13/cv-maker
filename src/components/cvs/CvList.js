@@ -138,7 +138,7 @@ class CvList extends Component {
                 <div
                   className="card border-dark"
                   style={{
-                    minHeight: "250px"
+                    minHeight: "200px"
                   }}
                 >
                   <button
@@ -175,7 +175,7 @@ class CvList extends Component {
             marginTop: "10px"
           }}
         >
-          <div className="card border-dark" style={{ minHeight: "250px" }}>
+          <div className="card border-dark" style={{ minHeight: "200px" }}>
             <div className="card-body">
               <h5 className="card-title">Create New Cv</h5>
               <p className="card-text"></p>

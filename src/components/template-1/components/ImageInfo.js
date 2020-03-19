@@ -253,7 +253,13 @@ class ImageInfo extends Component {
 
   render() {
     if (this.state.isLoading) {
-      return <Loader />;
+      return (
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      );
     } else if (this.props.img === null) {
       return (
         <div>

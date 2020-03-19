@@ -8,13 +8,13 @@ class SignedOutLinks extends Component {
     return (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
-          <Link className="btn btn-outline-success" to="/signup">
+          <Link className="btn btn-outline-secondary" to="/signup">
             Sign Up
           </Link>
         </li>
         <li className="nav-item" style={{ marginLeft: "5px" }}>
           <Link
-            className="btn btn-outline-success"
+            className="btn btn-outline-secondary"
             to="/signin"
             onClick={this.handleClick}
           >
