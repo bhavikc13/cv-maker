@@ -16,9 +16,25 @@ class InternshipInfo extends Component {
       teamSize: ""
     };
     this.props.addInternshipBlock(newBlock);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
   componentDidUpdate() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("internship")
       .doc(this.props.id)
       .set({
@@ -38,6 +54,10 @@ class InternshipInfo extends Component {
   }
   componentDidMount() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("internship")
       .doc(this.props.id)
       .get()
@@ -72,6 +92,18 @@ class InternshipInfo extends Component {
     };
     this.props.addInternshipBlock(dummyBlock);
     this.props.removeInternshipBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeDescription = (event, id) => {
@@ -87,6 +119,18 @@ class InternshipInfo extends Component {
     };
     this.props.addInternshipBlock(dummyBlock);
     this.props.removeInternshipBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeSupervisor = (event, id) => {
@@ -102,6 +146,18 @@ class InternshipInfo extends Component {
     };
     this.props.addInternshipBlock(dummyBlock);
     this.props.removeInternshipBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeStart = (event, id) => {
@@ -117,6 +173,18 @@ class InternshipInfo extends Component {
     };
     this.props.addInternshipBlock(dummyBlock);
     this.props.removeInternshipBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeEnd = (event, id) => {
@@ -132,6 +200,18 @@ class InternshipInfo extends Component {
     };
     this.props.addInternshipBlock(dummyBlock);
     this.props.removeInternshipBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeTeamSize = (event, id) => {
@@ -147,10 +227,34 @@ class InternshipInfo extends Component {
     };
     this.props.addInternshipBlock(dummyBlock);
     this.props.removeInternshipBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleRemoveInternshipBlock = id => {
     this.props.removeInternshipBlock(id);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -162,6 +266,16 @@ class InternshipInfo extends Component {
               <Card key={value.id}>
                 <Accordion.Toggle as={Card.Header} eventKey={index}>
                   Internship #{index + 1}
+                  <Button
+                    className="float-right"
+                    size="sm"
+                    variant="danger"
+                    onClick={() => {
+                      this.handleRemoveInternshipBlock(value.id);
+                    }}
+                  >
+                    -Remove
+                  </Button>
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey={index}>
                   <Card.Body>
@@ -249,20 +363,6 @@ class InternshipInfo extends Component {
                         />
                       </Form.Group>
                     </Form>
-
-                    <Button
-                      variant="danger"
-                      onClick={() => {
-                        this.handleRemoveInternshipBlock(value.id);
-                      }}
-                      style={{
-                        display: "inline-block",
-                        float: "left",
-                        margin: "5px"
-                      }}
-                    >
-                      -Remove
-                    </Button>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
@@ -281,7 +381,7 @@ class InternshipInfo extends Component {
 const mapStateToProps = state => {
   return {
     internshipBlocks: state.internshipRed.internshipBlocks,
-    internship: state.firestore.ordered.internship
+    auth: state.firebase.auth
   };
 };
 

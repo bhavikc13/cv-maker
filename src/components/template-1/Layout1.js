@@ -1,9 +1,60 @@
 import React, { Component } from "react";
-import logo from "./assets/daiict-logo.jpg";
 import { connect } from "react-redux";
 import "./style/TemplateStyle.css";
 
 class Layout1 extends Component {
+  imageCheck = () => {
+    if (this.props.image === null) {
+      return (
+        <tr>
+          <td className="intro w-100">
+            <h1>{this.props.fullName}</h1>
+            <p>
+              <b>{this.props.collegeName}</b>
+            </p>
+            <p>
+              <span className="w-60 inline-block">
+                <b>Email:</b> {this.props.email}
+              </span>
+              <span className="w-40 text-right">
+                <b>DOB:</b> {this.props.dob}
+              </span>
+            </p>
+            <p>
+              <b>Address:</b> {this.props.address}
+            </p>
+          </td>
+        </tr>
+      );
+    }
+
+    return (
+      <tr>
+        <td className="w-20">
+          <img src={this.props.image} alt="image" />
+        </td>
+
+        <td className="intro w-80">
+          <h1>{this.props.fullName}</h1>
+          <p>
+            <b>{this.props.collegeName}</b>
+          </p>
+          <p>
+            <span className="w-60 inline-block">
+              <b>Email:</b> {this.props.email}
+            </span>
+            <span className="w-40 text-right">
+              <b>DOB:</b> {this.props.dob}
+            </span>
+          </p>
+          <p>
+            <b>Address:</b> {this.props.address}
+          </p>
+        </td>
+      </tr>
+    );
+  };
+
   updateDegreeBlock = () => {
     let newDegreeBlocks = [];
 
@@ -185,29 +236,7 @@ class Layout1 extends Component {
             <table className="main" style={{ marignBottom: "20px" }}>
               <thead>
                 {/*console.log('1',this.props.degreeBlocks)*/}
-                <tr>
-                  <td className="w-20">
-                    <img src={logo} alt="daiict-logo" />
-                  </td>
-
-                  <td className="intro w-80">
-                    <h1>{this.props.fullName}</h1>
-                    <p>
-                      <b>{this.props.collegeName}</b>
-                    </p>
-                    <p>
-                      <span className="w-60 inline-block">
-                        <b>Email:</b> {this.props.email}
-                      </span>
-                      <span className="w-40 text-right">
-                        <b>DOB:</b> {this.props.dob}
-                      </span>
-                    </p>
-                    <p>
-                      <b>Address:</b> {this.props.address}
-                    </p>
-                  </td>
-                </tr>
+                {this.imageCheck()}
               </thead>
             </table>
 
@@ -341,8 +370,9 @@ class Layout1 extends Component {
 }
 
 const mapStateToProps = state => {
-  //console.log(state.educationRed.degreeBlocks);
   return {
+    image: state.imageRed.img,
+
     fullName: state.personRed.name,
     collegeName: state.personRed.collegeName,
     email: state.personRed.email,

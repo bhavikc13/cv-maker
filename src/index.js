@@ -22,10 +22,11 @@ import {
 import firebase from "../src/firebase/fbConfig";
 import { useSelector } from "react-redux";
 import { isLoaded } from "react-redux-firebase";
+import Loader from "./components/loader/Loader";
 
 const AuthIsLoaded = ({ children }) => {
   const auth = useSelector(state => state.firebase.auth);
-  if (!isLoaded(auth)) return <div>Loading...</div>;
+  if (!isLoaded(auth)) return <Loader />;
   return children;
 };
 const rrfConfig = {

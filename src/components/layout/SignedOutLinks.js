@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 class SignedOutLinks extends Component {
   render() {
@@ -11,8 +12,12 @@ class SignedOutLinks extends Component {
             Sign Up
           </Link>
         </li>
-        <li className="nav-item">
-          <Link className="btn btn-outline-success" to="/signin">
+        <li className="nav-item" style={{ marginLeft: "5px" }}>
+          <Link
+            className="btn btn-outline-success"
+            to="/signin"
+            onClick={this.handleClick}
+          >
             Sign In
           </Link>
         </li>
@@ -21,4 +26,10 @@ class SignedOutLinks extends Component {
   }
 }
 
-export default SignedOutLinks;
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth
+  };
+};
+
+export default connect(mapStateToProps)(SignedOutLinks);

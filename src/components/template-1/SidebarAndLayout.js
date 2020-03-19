@@ -13,11 +13,14 @@ import { connect } from "react-redux";
 import firestore from "../../firebase/firestore";
 import Loader from "../loader/Loader";
 import Layout1 from "./Layout1";
+import ImageInfo from "./components/ImageInfo";
 
 class SidebarAndLayout extends Component {
   state = { title: "", isLoading: true };
   componentDidMount() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
       .collection("cvs")
       .doc(this.props.id)
       .get()
@@ -37,6 +40,16 @@ class SidebarAndLayout extends Component {
         <div className="sidebar">
           <div className="container-fluid">{this.state.title}</div>
           <Accordion defaultActiveKey=" ">
+            <Card>
+              <Accordion.Toggle as={Card.Header} eventKey="0">
+                Upload Image
+              </Accordion.Toggle>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <ImageInfo id={this.props.id} />
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
             <Card>
               <Accordion.Toggle as={Card.Header} eventKey="1">
                 Personal Information

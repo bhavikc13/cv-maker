@@ -19,11 +19,14 @@ class CreateCV extends Component {
     let cv = this.state,
       userId = this.props.auth.uid;
     firestore
+      .collection("users")
+      .doc(userId)
       .collection("cvs")
       .add({
-        ...cv,
-        createdAt: new Date(),
-        userId: userId
+        title: cv.title,
+        updatedAt: new Date(),
+        userId: userId,
+        imageUploaded: false
       })
       .then(resp => {
         console.log("cv added");

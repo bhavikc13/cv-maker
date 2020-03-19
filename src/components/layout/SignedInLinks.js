@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import firebase from "./../../firebase/fbConfig";
+import "./../css/button.css";
 
 class SignedInLinks extends Component {
   state = {
@@ -37,9 +38,9 @@ class SignedInLinks extends Component {
           </button>
         </li>
         <li className="nav-item">
-          <a className="nav-link btn-floating btn-secondary">
+          <button className="btn btn-secondary btn-circle btn-sm">
             {this.props.profile.initials}
-          </a>
+          </button>
         </li>
       </ul>
     );

@@ -11,7 +11,7 @@ const Navbar = ({ auth, profile }) => {
     <SignedOutLinks />
   );
   return (
-    <nav className="navbar navbar-expand-sm navbar-light bg-light">
+    <nav className="navbar navbar-expand navbar-dark bg-dark">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           CV Maker

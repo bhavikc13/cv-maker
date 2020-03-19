@@ -6,6 +6,10 @@ import firestore from "../../../firebase/firestore";
 class PersonalInfo extends Component {
   componentDidUpdate() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("profile")
       .doc(this.props.id)
       .set({
@@ -29,6 +33,10 @@ class PersonalInfo extends Component {
   }
   componentDidMount() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("profile")
       .doc(this.props.id)
       .get()
@@ -44,22 +52,82 @@ class PersonalInfo extends Component {
   }
   handleChangeName = event => {
     this.props.updateName(event.target.value);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeCollegeName = event => {
     this.props.updateCollgeName(event.target.value);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeEmail = event => {
     this.props.updateEmail(event.target.value);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeDOB = event => {
     this.props.updateDOB(event.target.value);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeAddress = event => {
     this.props.updateAddress(event.target.value);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -167,7 +235,8 @@ const mapStateToProps = state => {
     collegeName: state.personRed.collegeName,
     email: state.personRed.email,
     dob: state.personRed.dob,
-    address: state.personRed.address
+    address: state.personRed.address,
+    auth: state.firebase.auth
   };
 };
 

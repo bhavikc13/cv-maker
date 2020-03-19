@@ -8,9 +8,25 @@ class HobbyInfo extends Component {
     let tid = Date.now();
     let newBlock = { id: tid, information: "" };
     this.props.addHobbyBlock(newBlock);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
   componentDidUpdate() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("hobby")
       .doc(this.props.id)
       .set({
@@ -30,6 +46,10 @@ class HobbyInfo extends Component {
   }
   componentDidMount() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("hobby")
       .doc(this.props.id)
       .get()
@@ -37,7 +57,6 @@ class HobbyInfo extends Component {
         let hobby = resp.data();
         if (!hobby) return null;
         let sz = Object.keys(hobby).length;
-        console.log(hobby);
         for (let i = 0; i < sz; i++) {
           let newBlock = {
             id: hobby[i].id,
@@ -52,10 +71,34 @@ class HobbyInfo extends Component {
     let dummyBlock = { id: "dummy", information: "" };
     this.props.addHobbyBlock(dummyBlock);
     this.props.removeHobbyBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleRemoveHobbyBlock = id => {
     this.props.removeHobbyBlock(id);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -107,7 +150,7 @@ class HobbyInfo extends Component {
 const mapStateToProps = state => {
   return {
     hobbyBlocks: state.hobbyRed.hobbyBlocks,
-    hobby: state.firestore.ordered.hobby
+    auth: state.firebase.auth
   };
 };
 

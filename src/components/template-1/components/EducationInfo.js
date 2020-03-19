@@ -14,9 +14,25 @@ class EducationInfo extends Component {
       score: ""
     };
     this.props.addDegreeBlock(newBlock);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
   componentDidUpdate() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("education")
       .doc(this.props.id)
       .set({
@@ -36,6 +52,10 @@ class EducationInfo extends Component {
   }
   componentDidMount() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("education")
       .doc(this.props.id)
       .get()
@@ -66,6 +86,18 @@ class EducationInfo extends Component {
     };
     this.props.addDegreeBlock(dummyBlock);
     this.props.removeBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeInstituteName = (event, id) => {
@@ -79,6 +111,18 @@ class EducationInfo extends Component {
     };
     this.props.addDegreeBlock(dummyBlock);
     this.props.removeBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeYear = (event, id) => {
@@ -92,6 +136,18 @@ class EducationInfo extends Component {
     };
     this.props.addDegreeBlock(dummyBlock);
     this.props.removeBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeScore = (event, id) => {
@@ -105,10 +161,34 @@ class EducationInfo extends Component {
     };
     this.props.addDegreeBlock(dummyBlock);
     this.props.removeBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleRemoveBlock = id => {
     this.props.removeBlock(id);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
   render() {
     return (
@@ -119,6 +199,16 @@ class EducationInfo extends Component {
               <Card key={value.id}>
                 <Accordion.Toggle as={Card.Header} eventKey={index}>
                   Degree #{index + 1}
+                  <Button
+                    className="float-right"
+                    size="sm"
+                    variant="danger"
+                    onClick={() => {
+                      this.handleRemoveBlock(value.id);
+                    }}
+                  >
+                    -Remove
+                  </Button>
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey={index}>
                   <Card.Body>
@@ -175,20 +265,6 @@ class EducationInfo extends Component {
                         />
                       </Form.Group>
                     </Form>
-
-                    <Button
-                      variant="danger"
-                      onClick={() => {
-                        this.handleRemoveBlock(value.id);
-                      }}
-                      style={{
-                        display: "inline-block",
-                        float: "left",
-                        margin: "5px"
-                      }}
-                    >
-                      -Remove
-                    </Button>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
@@ -205,6 +281,7 @@ class EducationInfo extends Component {
 
 const mapStateToProps = state => {
   return {
+    auth: state.firebase.auth,
     degreeBlocks: state.educationRed.degreeBlocks
   };
 };

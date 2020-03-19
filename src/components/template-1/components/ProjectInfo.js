@@ -16,9 +16,25 @@ class ProjectInfo extends Component {
       teamSize: ""
     };
     this.props.addProjectBlock(newBlock);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
   componentDidUpdate() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("project")
       .doc(this.props.id)
       .set({
@@ -38,6 +54,10 @@ class ProjectInfo extends Component {
   }
   componentDidMount() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("project")
       .doc(this.props.id)
       .get()
@@ -72,6 +92,18 @@ class ProjectInfo extends Component {
     };
     this.props.addProjectBlock(dummyBlock);
     this.props.removeProjectBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeDescription = (event, id) => {
@@ -87,6 +119,18 @@ class ProjectInfo extends Component {
     };
     this.props.addProjectBlock(dummyBlock);
     this.props.removeProjectBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeSupervisor = (event, id) => {
@@ -102,6 +146,18 @@ class ProjectInfo extends Component {
     };
     this.props.addProjectBlock(dummyBlock);
     this.props.removeProjectBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeStart = (event, id) => {
@@ -117,6 +173,18 @@ class ProjectInfo extends Component {
     };
     this.props.addProjectBlock(dummyBlock);
     this.props.removeProjectBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeEnd = (event, id) => {
@@ -132,6 +200,18 @@ class ProjectInfo extends Component {
     };
     this.props.addProjectBlock(dummyBlock);
     this.props.removeProjectBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeTeamSize = (event, id) => {
@@ -147,10 +227,34 @@ class ProjectInfo extends Component {
     };
     this.props.addProjectBlock(dummyBlock);
     this.props.removeProjectBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleRemoveProjectBlock = id => {
     this.props.removeProjectBlock(id);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -281,7 +385,7 @@ class ProjectInfo extends Component {
 const mapStateToProps = state => {
   return {
     projectBlocks: state.projectRed.projectBlocks,
-    project: state.firestore.ordered.project
+    auth: state.firebase.auth
   };
 };
 

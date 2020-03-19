@@ -8,9 +8,25 @@ class PositionInfo extends Component {
     let tid = Date.now();
     let newBlock = { id: tid, information: "" };
     this.props.addPositionBlock(newBlock);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
   componentDidUpdate() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("position")
       .doc(this.props.id)
       .set({
@@ -30,6 +46,10 @@ class PositionInfo extends Component {
   }
   componentDidMount() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("position")
       .doc(this.props.id)
       .get()
@@ -52,10 +72,34 @@ class PositionInfo extends Component {
     let dummyBlock = { id: "dummy", information: "" };
     this.props.addPositionBlock(dummyBlock);
     this.props.removePositionBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleRemovePositionBlock = id => {
     this.props.removePositionBlock(id);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -107,7 +151,7 @@ class PositionInfo extends Component {
 const mapStateToProps = state => {
   return {
     positionBlocks: state.positionRed.positionBlocks,
-    position: state.firestore.ordered.position
+    auth: state.firebase.auth
   };
 };
 

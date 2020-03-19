@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./../css/loader.css";
 import Loader from "./../loader/Loader";
+import moment from "moment";
 
 class CvList extends Component {
   state = { isLoading: true };
@@ -16,21 +17,38 @@ class CvList extends Component {
   }
   componentDidMount() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
       .collection("cvs")
-      .orderBy("createdAt")
       .get()
       .then(resp => {
-        let cvs = resp.docs;
-        let sz = cvs.length;
-        for (let i = 0; i < sz; i++) {
-          let cv = cvs[i].data();
-          let newCv = {
-            id: cvs[i].id,
-            title: cv.title,
-            userId: cv.userId,
-            createdAt: cv.createdAt
-          };
-          this.props.addCv(newCv);
+        if (resp.docs.length > 0) {
+          firestore
+            .collection("users")
+            .doc(this.props.auth.uid)
+            .collection("cvs")
+            .orderBy("updatedAt")
+            .get()
+            .then(resp => {
+              let cvs = resp.docs;
+              let sz = cvs.length;
+              for (let i = 0; i < sz; i++) {
+                let cv = cvs[i].data();
+                let newCv = {
+                  id: cvs[i].id,
+                  title: cv.title,
+                  userId: cv.userId,
+                  updatedAt: cv.updatedAt
+                };
+                this.props.addCv(newCv);
+                this.setState({ isLoading: false });
+              }
+            })
+            .catch(err => {
+              console.log(err);
+              this.setState({ isLoading: false });
+            });
+        } else {
           this.setState({ isLoading: false });
         }
       })
@@ -48,63 +66,46 @@ class CvList extends Component {
       this.props.removeCv(TcvList[i].id);
     }
     firestore
-      .collection("profile")
-      .doc(id)
-      .delete()
-      .then(() => console.log("profile deleted"))
-      .catch(err => console.log(err));
-    firestore
-      .collection("education")
-      .doc(id)
-      .delete()
-      .then(() => console.log("education deleted"))
-      .catch(err => console.log(err));
-    firestore
-      .collection("project")
-      .doc(id)
-      .delete()
-      .then(() => console.log("project deleted"))
-      .catch(err => console.log(err));
-    firestore
-      .collection("position")
-      .doc(id)
-      .delete()
-      .then(() => console.log("position deleted"))
-      .catch(err => console.log(err));
-    firestore
-      .collection("award")
-      .doc(id)
-      .delete()
-      .then(() => console.log("award deleted"))
-      .catch(err => console.log(err));
-    firestore
-      .collection("hobby")
-      .doc(id)
-      .delete()
-      .then(() => console.log("hobby deleted"))
-      .catch(err => console.log(err));
-    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
       .collection("cvs")
       .doc(id)
       .delete()
       .then(() => {
         console.log("cv deleted");
         firestore
+          .collection("users")
+          .doc(this.props.auth.uid)
           .collection("cvs")
-          .orderBy("createdAt")
           .get()
           .then(resp => {
-            let cvs = resp.docs;
-            let sz = cvs.length;
-            for (let i = 0; i < sz; i++) {
-              let cv = cvs[i].data();
-              let newCv = {
-                id: cvs[i].id,
-                title: cv.title,
-                userId: cv.userId,
-                createdAt: cv.createdAt
-              };
-              this.props.addCv(newCv);
+            if (resp.docs.length > 0) {
+              firestore
+                .collection("users")
+                .doc(this.props.auth.uid)
+                .collection("cvs")
+                .orderBy("updatedAt")
+                .get()
+                .then(resp => {
+                  let cvs = resp.docs;
+                  let sz = cvs.length;
+                  for (let i = 0; i < sz; i++) {
+                    let cv = cvs[i].data();
+                    let newCv = {
+                      id: cvs[i].id,
+                      title: cv.title,
+                      userId: cv.userId,
+                      updatedAt: cv.updatedAt
+                    };
+                    this.props.addCv(newCv);
+                    this.setState({ isLoading: false });
+                  }
+                })
+                .catch(err => {
+                  console.log(err);
+                  this.setState({ isLoading: false });
+                });
+            } else {
               this.setState({ isLoading: false });
             }
           })
@@ -122,31 +123,66 @@ class CvList extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div>
-        <div>
-          {this.props.cvList
-            .filter(cv => cv.userId === this.props.auth.uid)
-            .map(cv => {
-              return (
-                <div key={cv.id}>
-                  <Link className="btn btn-light" to={"/" + cv.id}>
-                    {cv.title}
-                  </Link>
+      <div className="row" style={{ margin: "5px" }}>
+        {this.props.cvList
+          .filter(cv => cv.userId === this.props.auth.uid)
+          .map(cv => {
+            return (
+              <div
+                className="col-md-2 col-sm-4"
+                key={cv.id}
+                style={{
+                  marginTop: "10px"
+                }}
+              >
+                <div
+                  className="card border-dark"
+                  style={{
+                    minHeight: "250px"
+                  }}
+                >
                   <button
-                    className="btn btn-danger"
+                    className="btn btn-light btn-sm"
                     onClick={() => {
                       this.handleRemoveCv(cv.id);
+                    }}
+                    style={{
+                      position: "relative",
+                      marginLeft: "88%",
+                      zIndex: "2"
                     }}
                   >
                     X
                   </button>
+                  <div className="card-body">
+                    <h5 className="card-title">{cv.title}</h5>
+                    <p className="card-text"></p>
+                    <Link to={"/" + cv.id} className="stretched-link"></Link>
+                  </div>
+                  <div className="card-footer">
+                    <small className="text-muted">
+                      Last updated {moment(cv.updatedAt.toDate()).calendar()}
+                    </small>
+                  </div>
                 </div>
-              );
-            })}
+              </div>
+            );
+          })}
+        <div
+          className="col-md-2 col-sm-4"
+          key="createCv"
+          style={{
+            marginTop: "10px"
+          }}
+        >
+          <div className="card border-dark" style={{ minHeight: "250px" }}>
+            <div className="card-body">
+              <h5 className="card-title">Create New Cv</h5>
+              <p className="card-text"></p>
+              <Link to="/createcv" className="stretched-link"></Link>
+            </div>
+          </div>
         </div>
-        <Link className="btn btn-primary" to="/createcv">
-          Create New Cv
-        </Link>
       </div>
     );
   }
@@ -171,3 +207,22 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CvList);
+
+/*<Link className="btn btn-light" to={"/" + cv.id}>
+                    {cv.title}
+                  </Link>
+                  <span>
+                    Last updated {moment(cv.updatedAt.toDate()).calendar()}
+                  </span>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {
+                      this.handleRemoveCv(cv.id);
+                    }}
+                  >
+                    X
+                  </button>
+                  
+                  <Link className="btn btn-primary" to="/createcv">
+          Create New Cv
+        </Link>*/

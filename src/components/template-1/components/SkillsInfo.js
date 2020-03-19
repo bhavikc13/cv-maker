@@ -6,6 +6,10 @@ import firestore from "../../../firebase/firestore";
 class SkillsInfo extends Component {
   componentDidUpdate() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("skill")
       .doc(this.props.id)
       .set({
@@ -41,18 +45,66 @@ class SkillsInfo extends Component {
   }
   handleChangeAOI = event => {
     this.props.updateAOI(event.target.value);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangePL = event => {
     this.props.updatePL(event.target.value);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeTT = event => {
     this.props.updateTT(event.target.value);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleChangeTE = event => {
     this.props.updateTE(event.target.value);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -129,7 +181,7 @@ const mapStateToProps = state => {
     pl: state.skillRed.proLanguages,
     tt: state.skillRed.toolsAndTech,
     te: state.skillRed.techElectives,
-    skill: state.firestore.ordered.skill
+    auth: state.firebase.auth
   };
 };
 

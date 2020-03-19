@@ -8,9 +8,25 @@ class AwardInfo extends Component {
     let tid = Date.now();
     let newBlock = { id: tid, information: "" };
     this.props.addAwardBlock(newBlock);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
   componentDidUpdate() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("award")
       .doc(this.props.id)
       .set({
@@ -30,6 +46,10 @@ class AwardInfo extends Component {
   }
   componentDidMount() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("award")
       .doc(this.props.id)
       .get()
@@ -44,17 +64,42 @@ class AwardInfo extends Component {
           };
           this.props.addAwardBlock(newBlock);
         }
-      });
+      })
+      .catch(err => console.log(err));
   }
   handleChangeAward = (event, id) => {
     this.props.updateAward(event.target.value, id);
     let dummyBlock = { id: "dummy", information: "" };
     this.props.addAwardBlock(dummyBlock);
     this.props.removeAwardBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleRemoveAwardBlock = id => {
     this.props.removeAwardBlock(id);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -105,6 +150,7 @@ class AwardInfo extends Component {
 
 const mapStateToProps = state => {
   return {
+    auth: state.firebase.auth,
     awardBlocks: state.awardRed.awardBlocks
   };
 };

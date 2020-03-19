@@ -11,6 +11,7 @@ import projectRed from "./compoReducer/projectRed";
 import positionRed from "./compoReducer/positionRed";
 import awardRed from "./compoReducer/awardRed";
 import hobbyRed from "./compoReducer/hobbyRed";
+import imageRed from "./compoReducer/imageRed";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   projectRed: projectRed,
   positionRed: positionRed,
   awardRed: awardRed,
-  hobbyRed: hobbyRed
+  hobbyRed: hobbyRed,
+  imageRed: imageRed
 });
 
 export default rootReducer;
