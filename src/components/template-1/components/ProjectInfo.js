@@ -266,6 +266,16 @@ class ProjectInfo extends Component {
               <Card key={value.id}>
                 <Accordion.Toggle as={Card.Header} eventKey={index}>
                   Project #{index + 1}
+                  <Button
+                    className="float-right"
+                    size="sm"
+                    variant="danger"
+                    onClick={() => {
+                      this.handleRemoveProjectBlock(value.id);
+                    }}
+                  >
+                    -Remove
+                  </Button>
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey={index}>
                   <Card.Body>
@@ -351,21 +361,6 @@ class ProjectInfo extends Component {
                         />
                       </Form.Group>
                     </Form>
-
-                    <Button
-                      variant="danger"
-                      onClick={() => {
-                        this.handleRemoveProjectBlock(value.id);
-                      }}
-                      style={{
-                        display: "inline-block",
-                        float: "left",
-                        margin: "5px"
-                      }}
-                    >
-                      {" "}
-                      -Remove{" "}
-                    </Button>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
@@ -373,7 +368,11 @@ class ProjectInfo extends Component {
           })}
         </Accordion>
 
-        <Button variant="primary" onClick={this.handleAddProjectBlock}>
+        <Button
+          variant="primary"
+          onClick={this.handleAddProjectBlock}
+          style={{ marginTop: "10px" }}
+        >
           {" "}
           +Add{" "}
         </Button>

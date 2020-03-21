@@ -14,6 +14,7 @@ import firestore from "../../firebase/firestore";
 import Loader from "../loader/Loader";
 import Layout1 from "./Layout1";
 import ImageInfo from "./components/ImageInfo";
+import { Link } from "react-router-dom";
 
 class SidebarAndLayout extends Component {
   state = { title: "", isLoading: true };
@@ -37,9 +38,21 @@ class SidebarAndLayout extends Component {
       <Loader />
     ) : (
       <div>
+        <div className="container-fluid">
+          <Link
+            className="btn btn-secondary btn-sm float-right"
+            to={{
+              pathname: "/feedback",
+              prevUrl: window.location.pathname
+            }}
+            style={{ margin: "5px" }}
+          >
+            Feedback
+          </Link>
+        </div>
+        <h3 className="text-center">{this.state.title}</h3>
         <div className="sidebar">
-          <div className="container-fluid">{this.state.title}</div>
-          <Accordion defaultActiveKey=" ">
+          <Accordion defaultActiveKey="">
             <Card>
               <Accordion.Toggle as={Card.Header} eventKey="0">
                 Upload Image

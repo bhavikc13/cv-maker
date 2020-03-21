@@ -5,11 +5,12 @@
 }
 
 .resume-render-wrapper {
+  font-size: 18px;
   padding: 20px;
   position: fixed;
   left: 450px; /*sidebar-width*/
   right: 0;
-  top: 58px; /*navbar-height*/
+  top: 80px; /*navbar-height*/
   bottom: 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -18,7 +19,7 @@
 
 .resume-template {
   font-family: "Calibri", sans-serif;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.5;
   background: #fff;
   padding: 40px;
@@ -30,14 +31,17 @@
 }
 
 .text-right {
+  font-size: 18px;
   text-align: right;
 }
 
 .inline-block {
+  font-size: 18px;
   display: inline-block;
 }
 
 table {
+  font-size: 18px;
   padding: 15px;
   width: 100%;
 }
@@ -99,6 +103,7 @@ table {
 }
 
 .intro p {
+  font-size: 18px;
   display: block;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -115,17 +120,29 @@ table {
 }
 
 .section th {
+  font-size: 18px;
   text-align: left;
   padding: 10px;
 }
 
 .section td {
+  font-size: 18px;
   padding: 10px;
 }
 
 .list li {
-  list-style-type: disc;
-  margin-bottom: 0px;
+  list-style-type: none;
+  margin-left: 20px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.hide {
+  display: none;
+}
+
+.para {
+  font-size: 18px;
 }
 
 @media only screen and (min-device-width: 1000px) {

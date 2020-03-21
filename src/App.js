@@ -6,6 +6,7 @@ import SignUp from "./components/auth/SignUp";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateCV from "./components/cvs/CreateCv";
 import CvEditor from "./components/cvs/CvEditor";
+import Feedback from "./components/layout/Feedback";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route exact path="/createcv" component={CreateCV} />
           <Route exact path="/signin" component={SignIn} />
           <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/feedback" component={Feedback} />
           <Route path="/:id" component={CvEditor} />
         </Switch>
       </div>

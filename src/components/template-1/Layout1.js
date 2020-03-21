@@ -3,77 +3,26 @@ import { connect } from "react-redux";
 import "./style/TemplateStyle.css";
 
 class Layout1 extends Component {
-  imageCheck = () => {
-    if (this.props.image === null) {
-      return (
-        <tr>
-          <td className="intro w-100">
-            <h1>{this.props.fullName}</h1>
-            <p>
-              <b>{this.props.collegeName}</b>
-            </p>
-            <p>
-              <span className="w-60 inline-block">
-                <b>Email:</b> {this.props.email}
-              </span>
-              <span className="w-40 text-right">
-                <b>DOB:</b> {this.props.dob}
-              </span>
-            </p>
-            <p>
-              <b>Address:</b> {this.props.address}
-            </p>
-          </td>
-        </tr>
-      );
-    }
-
-    return (
-      <tr>
-        <td className="w-20">
-          <img src={this.props.image} alt="image" />
-        </td>
-
-        <td className="intro w-80">
-          <h1>{this.props.fullName}</h1>
-          <p>
-            <b>{this.props.collegeName}</b>
-          </p>
-          <p>
-            <span className="w-60 inline-block">
-              <b>Email:</b> {this.props.email}
-            </span>
-            <span className="w-40 text-right">
-              <b>DOB:</b> {this.props.dob}
-            </span>
-          </p>
-          <p>
-            <b>Address:</b> {this.props.address}
-          </p>
-        </td>
-      </tr>
-    );
-  };
-
+  
   updateDegreeBlock = () => {
     let newDegreeBlocks = [];
 
     for (let [index, value] of this.props.degreeBlocks.entries()) {
       newDegreeBlocks.push(
         <tr key={index}>
-          <td style={{ textAlign: "left", padding: "10px" }}>
+          <td style={{ textAlign: "left"}}>
             {" "}
-            <b>{value.degreeName}</b>{" "}
+            <b style={{fontSize:'18px'}}>{value.degreeName}</b>{" "}
           </td>
-          <td style={{ textAlign: "left", padding: "10px 0px 10px 10px" }}>
+          <td style={{ textAlign: "left"}}>
             {" "}
             {value.instituteName}{" "}
           </td>
-          <td style={{ textAlign: "left", padding: "10px 10px 10px 5px" }}>
+          <td style={{ textAlign: "left"}}>
             {" "}
             {value.year}{" "}
           </td>
-          <td style={{ textAlign: "left", padding: "10px 5px 10px 10px" }}>
+          <td style={{ textAlign: "left"}}>
             {" "}
             {value.score}{" "}
           </td>
@@ -95,15 +44,15 @@ class Layout1 extends Component {
             style={{ textAlignVertical: "top", textAlign: "left" }}
           >
             <p>
-              <b>{value.organizationName}</b>
+              <b style={{fontSize:'18px'}}>{value.organizationName}</b>
             </p>
           </td>
           <td className="w-60" style={{ textAlignVertical: "top" }}>
-            <p>
+            <p style={{fontSize:'18px'}}>
               {value.description}
-              <p style={{ textAlign: "left" }}>
-                <i>
-                  <b>Guide:</b> {value.supervisor}
+              <p style={{ textAlign: "left", fontSize: '18px'}}>
+                <i style={{fontSize:'18px'}}>
+                  <b style={{fontSize:'18px'}}>Guide:</b> {value.supervisor}
                 </i>
               </p>
             </p>
@@ -112,10 +61,10 @@ class Layout1 extends Component {
             className="w-20"
             style={{ textAlignVertical: "top", textAlign: "right" }}
           >
-            <p>
+            <p style={{fontSize:'18px'}}>
               ({value.start} - {value.end})
             </p>
-            <p>Team Size - {value.teamSize}</p>
+            <p style={{fontSize:'18px'}}>Team Size - {value.teamSize}</p>
           </td>
         </tr>
       );
@@ -135,13 +84,13 @@ class Layout1 extends Component {
             style={{ textAlignVertical: "top", textAlign: "left" }}
           >
             <p>
-              <b>{value.projectName}</b>
+              <b style={{fontSize:'18px'}}>{value.projectName}</b>
             </p>
-            <p>
+            <p style={{fontSize:'18px'}}>
               {value.description}
               <p>
-                <i>
-                  <b>Guide:</b> {value.supervisor}
+                <i style={{fontSize:'18px'}}>
+                  <b style={{fontSize:'18px'}}>Guide:</b> {value.supervisor}
                 </i>
               </p>
             </p>
@@ -150,10 +99,10 @@ class Layout1 extends Component {
             className="w-20"
             style={{ textAlignVertical: "top", textAlign: "right" }}
           >
-            <p>
+            <p style={{fontSize:'18px'}}>
               ({value.start} - {value.end})
             </p>
-            <p>Team Size - {value.team_size}</p>
+            <p style={{fontSize:'18px'}}>Team Size - {value.team_size}</p>
           </td>
         </tr>
       );
@@ -167,13 +116,11 @@ class Layout1 extends Component {
 
     for (let [index, value] of this.props.positionBlocks.entries()) {
       newPositionBlocks.push(
-        <tr key={index}>
-          <td style={{ textAlignVertical: "top", textAlign: "left" }}>
-            <ul className="list">
-              <li>{value.information}</li>
-            </ul>
-          </td>
-        </tr>
+        <ul key={index} className="list" style={{ padding: '0px', margin: '0px', textAlign: 'left' }}>
+            <li>
+                {index + 1}. {value.information}
+            </li>
+        </ul>
       );
     }
 
@@ -185,13 +132,11 @@ class Layout1 extends Component {
 
     for (let [index, value] of this.props.awardBlocks.entries()) {
       newAwardBlocks.push(
-        <tr key={index}>
-          <td style={{ textAlignVertical: "top", textAlign: "left" }}>
-            <ul className="list">
-              <li>{value.information}</li>
-            </ul>
-          </td>
-        </tr>
+        <ul key={index} className="list" style={{ padding: '0px', margin: '0px', textAlign: 'left' }}>
+            <li>
+                {index + 1}. {value.information}
+            </li>
+        </ul>
       );
     }
 
@@ -203,13 +148,11 @@ class Layout1 extends Component {
 
     for (let [index, value] of this.props.hobbyBlocks.entries()) {
       newHobbyBlocks.push(
-        <tr key={index}>
-          <td style={{ textAlignVertical: "top", textAlign: "left" }}>
-            <ul className="list">
-              <li>{value.information}</li>
-            </ul>
-          </td>
-        </tr>
+        <ul key={index} className="list" style={{ padding: '0px', margin: '0px', textAlign: 'left' }}>
+            <li>
+                {index + 1}. {value.information}
+            </li>
+        </ul>
       );
     }
 
@@ -235,12 +178,33 @@ class Layout1 extends Component {
           <div className="resume-template">
             <table className="main" style={{ marignBottom: "20px" }}>
               <thead>
-                {/*console.log('1',this.props.degreeBlocks)*/}
-                {this.imageCheck()}
+                <tr>
+                    <td className={(this.props.image === null) ? "hide" : "w-20"}>
+                        <img src={this.props.image} alt="image"/>
+                    </td>
+
+                    <td className={(this.props.image === null) ? "intro w-100" : "intro w-80"}>
+                        <h1>{this.props.fullName}</h1>
+                        <p>
+                            <b style={{fontSize:'18px'}}>{this.props.collegeName}</b>
+                        </p>
+                        <p>
+                            <span className="w-60 inline-block">
+                                <b style={{fontSize:'18px'}}>Email:</b> {this.props.email}
+                            </span>
+                            <span className="w-40 text-right">
+                                <b style={{fontSize:'18px'}}>DOB:</b> {this.props.dob}
+                            </span>
+                        </p>
+                        <p>
+                            <b style={{fontSize:'18px'}}>Address:</b> {this.props.address}
+                        </p>
+                    </td>
+                </tr>
               </thead>
             </table>
 
-            <table className="w-100 section">
+            <table className={(this.props.degreeBlocks.length > 0) ? "w-100 section" : "hide"}>
               <thead>
                 <tr>
                   <td colSpan="4" className="section-header">
@@ -260,7 +224,10 @@ class Layout1 extends Component {
               <tbody>{this.updateDegreeBlock()}</tbody>
             </table>
 
-            <table className="w-100 section">
+            <table className={(this.props.areaOfInterest !== "" ||
+                            this.props.proLanguages !== "" ||
+                            this.props.toolsAndTech !== "" ||
+                            this.props.techElectives !== "") ? "w-100 section" : "hide"}>
               <thead>
                 <tr>
                   <td colSpan="2" className="section-header">
@@ -268,33 +235,38 @@ class Layout1 extends Component {
                   </td>
                 </tr>
               </thead>
-              <tr>
+
+              <tr className={(this.props.areaOfInterest.length > 0) ? "" : "hide"}>
                 <td className="w-30">
-                  <b>Expertise Area/Area(s) of Interest</b>
+                  <b style={{fontSize:'18px'}}>Expertise Area/Area(s) of Interest</b>
                 </td>
+
                 <td className="w-70" style={{ textAlign: "left" }}>
                   {this.props.areaOfInterest}
                 </td>
               </tr>
-              <tr>
+
+              <tr className={(this.props.proLanguages.length > 0) ? "" : "hide"}>
                 <td className="w-30">
-                  <b>Programming Language(s)</b>
+                  <b style={{fontSize:'18px'}}>Programming Language(s)</b>
                 </td>
                 <td className="w-70" style={{ textAlign: "left" }}>
                   {this.props.proLanguages}
                 </td>
               </tr>
-              <tr>
+
+              <tr className={(this.props.toolsAndTech.length > 0) ? "" : "hide"}>
                 <td className="w-30">
-                  <b>Tools and Technologies</b>
+                  <b style={{fontSize:'18px'}}>Tools and Technologies</b>
                 </td>
                 <td className="w-70" style={{ textAlign: "left" }}>
                   {this.props.toolsAndTech}
                 </td>
               </tr>
-              <tr>
+
+              <tr className={(this.props.techElectives.length > 0) ? "" : "hide"}>
                 <td className="w-30">
-                  <b>Technical Electives</b>
+                  <b style={{fontSize:'18px'}}>Technical Electives</b>
                 </td>
                 <td className="w-70" style={{ textAlign: "left" }}>
                   {this.props.techElectives}
@@ -303,7 +275,8 @@ class Layout1 extends Component {
             </table>
             <div className="page-break"></div>
 
-            <table className="w-100 section">
+            <table className={(this.props.internshipBlocks.length > 0) ? "w-100 section" : "hide"}>
+
               <thead>
                 <tr>
                   <td colSpan="3" className="section-header">
@@ -315,7 +288,7 @@ class Layout1 extends Component {
               <tbody>{this.updateInternshipBlock()}</tbody>
             </table>
 
-            <table className="w-100 section">
+            <table className={(this.props.projectBlocks.length > 0) ? "w-100 section" : "hide"}>
               <thead>
                 <tr>
                   <td colSpan="2" className="section-header">
@@ -327,7 +300,7 @@ class Layout1 extends Component {
               <tbody>{this.updateProjectBlock()}</tbody>
             </table>
 
-            <table className="w-100 section">
+            <table className={(this.props.positionBlocks.length > 0) ? "w-100 section" : "hide"}>
               <thead>
                 <tr>
                   <td colSpan="2" className="section-header">
@@ -339,7 +312,7 @@ class Layout1 extends Component {
               <tbody>{this.updatePositionBlock()}</tbody>
             </table>
 
-            <table className="w-100 section">
+            <table className={(this.props.awardBlocks.length > 0) ? "w-100 section" : "hide"}>
               <thead>
                 <tr>
                   <td colSpan="2" className="section-header">
@@ -351,7 +324,7 @@ class Layout1 extends Component {
               <tbody>{this.updateAwardBlock()}</tbody>
             </table>
 
-            <table className="w-100 section">
+            <table className={(this.props.hobbyBlocks.length > 0) ? "w-100 section" : "hide"}>
               <thead>
                 <tr>
                   <td colSpan="2" className="section-header">

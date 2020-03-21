@@ -5,6 +5,7 @@ import NavbarBottom from "./../layout/NavbarBottom";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Loader from "./../loader/Loader";
+import { Link } from "react-router-dom";
 
 class CvEditor extends Component {
   state = { isLoading: true };
@@ -23,14 +24,12 @@ class CvEditor extends Component {
       <Loader />
     ) : (
       <div className="container-fluid">
-        <div className="container-fluid">
-          <SidebarAndLayout id={this.props.match.params.id} />
-          {/*<Layout1 />*/}
-          {/*<NavbarBottom
+        <SidebarAndLayout id={this.props.match.params.id} />
+        {/*<Layout1 />*/}
+        {/*<NavbarBottom
             id={this.props.match.params.id}
             push={this.props.history.push}
           />*/}
-        </div>
       </div>
     );
   }

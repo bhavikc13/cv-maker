@@ -25,6 +25,7 @@ class CreateCV extends Component {
       .add({
         title: cv.title,
         updatedAt: new Date(),
+        createdAt: new Date(),
         userId: userId,
         imageUploaded: false
       })
@@ -51,23 +52,37 @@ class CreateCV extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="container">
-        <form onSubmit={this.handleAddCv}>
-          <div className="form-group">
-            <label>CV Title</label>
-            <input
-              type="text"
-              className="form-control"
-              id="title"
-              onChange={this.handleChangeCvTitle}
-            />
-          </div>
-          <div className="form-group">
-            <button className="btn btn-primary" type="submit">
-              Create
-            </button>
-          </div>
-        </form>
+      <div>
+        <div className="row container-fluid">
+          <Link
+            className="btn btn-secondary btn-sm ml-auto"
+            to={{
+              pathname: "/feedback",
+              prevUrl: window.location.pathname
+            }}
+            style={{ margin: "5px" }}
+          >
+            Feedback
+          </Link>
+        </div>
+        <div className="container">
+          <form onSubmit={this.handleAddCv}>
+            <div className="form-group">
+              <label>CV Title</label>
+              <input
+                type="text"
+                className="form-control"
+                id="title"
+                onChange={this.handleChangeCvTitle}
+              />
+            </div>
+            <div className="form-group">
+              <button className="btn btn-primary" type="submit">
+                Create
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

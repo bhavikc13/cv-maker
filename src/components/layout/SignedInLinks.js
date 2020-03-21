@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import firebase from "./../../firebase/fbConfig";
 import "./../css/button.css";
@@ -67,4 +67,11 @@ class SignedInLinks extends Component {
   }
 }
 
-export default SignedInLinks;
+const mapStatesToProps = state => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile
+  };
+};
+
+export default connect(mapStatesToProps)(SignedInLinks);

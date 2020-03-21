@@ -370,7 +370,11 @@ class InternshipInfo extends Component {
           })}
         </Accordion>
 
-        <Button variant="primary" onClick={this.handleAddInternshipBlock}>
+        <Button
+          variant="primary"
+          onClick={this.handleAddInternshipBlock}
+          style={{ marginTop: "10px" }}
+        >
           +Add
         </Button>
       </div>

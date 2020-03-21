@@ -271,7 +271,11 @@ class EducationInfo extends Component {
             );
           })}
         </Accordion>
-        <Button variant="primary" onClick={this.handleAddDegreeBlock}>
+        <Button
+          variant="primary"
+          onClick={this.handleAddDegreeBlock}
+          style={{ marginTop: "10px" }}
+        >
           +Add
         </Button>
       </div>

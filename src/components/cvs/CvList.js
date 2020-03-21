@@ -27,7 +27,7 @@ class CvList extends Component {
             .collection("users")
             .doc(this.props.auth.uid)
             .collection("cvs")
-            .orderBy("updatedAt")
+            .orderBy("createdAt")
             .get()
             .then(resp => {
               let cvs = resp.docs;
@@ -84,7 +84,7 @@ class CvList extends Component {
                 .collection("users")
                 .doc(this.props.auth.uid)
                 .collection("cvs")
-                .orderBy("updatedAt")
+                .orderBy("createdAt")
                 .get()
                 .then(resp => {
                   let cvs = resp.docs;
@@ -123,63 +123,76 @@ class CvList extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="row" style={{ margin: "5px" }}>
-        {this.props.cvList
-          .filter(cv => cv.userId === this.props.auth.uid)
-          .map(cv => {
-            return (
-              <div
-                className="col-md-2 col-sm-4"
-                key={cv.id}
-                style={{
-                  marginTop: "10px"
-                }}
-              >
+      <div>
+        <div className="row container-fluid">
+          <Link
+            className="btn btn-secondary btn-sm ml-auto"
+            to={{
+              pathname: "/feedback",
+              prevUrl: window.location.pathname
+            }}
+            style={{ margin: "5px" }}
+          >
+            Feedback
+          </Link>
+        </div>
+        <div className="row" style={{ margin: "5px" }}>
+          {this.props.cvList
+            .filter(cv => cv.userId === this.props.auth.uid)
+            .map(cv => {
+              return (
                 <div
-                  className="card border-dark"
+                  className="col-md-2 col-sm-4"
+                  key={cv.id}
                   style={{
-                    minHeight: "200px"
+                    marginTop: "10px"
                   }}
                 >
-                  <button
-                    className="btn btn-light btn-sm"
-                    onClick={() => {
-                      this.handleRemoveCv(cv.id);
-                    }}
+                  <div
+                    className="card border-dark"
                     style={{
-                      position: "relative",
-                      marginLeft: "88%",
-                      zIndex: "2"
+                      minHeight: "200px"
                     }}
                   >
-                    X
-                  </button>
-                  <div className="card-body">
-                    <h5 className="card-title">{cv.title}</h5>
-                    <p className="card-text"></p>
-                    <Link to={"/" + cv.id} className="stretched-link"></Link>
-                  </div>
-                  <div className="card-footer">
-                    <small className="text-muted">
-                      Last updated {moment(cv.updatedAt.toDate()).calendar()}
-                    </small>
+                    <button
+                      className="btn btn-light btn-sm"
+                      onClick={() => {
+                        this.handleRemoveCv(cv.id);
+                      }}
+                      style={{
+                        marginLeft: "82%",
+                        zIndex: "2"
+                      }}
+                    >
+                      X
+                    </button>
+                    <div className="card-body">
+                      <h5 className="card-title">{cv.title}</h5>
+                      <p className="card-text"></p>
+                      <Link to={"/" + cv.id} className="stretched-link"></Link>
+                    </div>
+                    <div className="card-footer">
+                      <small className="text-muted">
+                        Last updated {moment(cv.updatedAt.toDate()).calendar()}
+                      </small>
+                    </div>
                   </div>
                 </div>
+              );
+            })}
+          <div
+            className="col-md-2 col-sm-4"
+            key="createCv"
+            style={{
+              marginTop: "10px"
+            }}
+          >
+            <div className="card border-dark" style={{ minHeight: "200px" }}>
+              <div className="card-body">
+                <h5 className="card-title">Create New Cv</h5>
+                <p className="card-text"></p>
+                <Link to="/createcv" className="stretched-link"></Link>
               </div>
-            );
-          })}
-        <div
-          className="col-md-2 col-sm-4"
-          key="createCv"
-          style={{
-            marginTop: "10px"
-          }}
-        >
-          <div className="card border-dark" style={{ minHeight: "200px" }}>
-            <div className="card-body">
-              <h5 className="card-title">Create New Cv</h5>
-              <p className="card-text"></p>
-              <Link to="/createcv" className="stretched-link"></Link>
             </div>
           </div>
         </div>
