@@ -134,7 +134,9 @@ class SidebarAndLayout extends Component {
             </Card>
           </Accordion>
         </div>
-        <Layout1 />
+        <div className="template-1">
+          <Layout1 />
+        </div>
       </div>
     );
   }
