@@ -5,14 +5,16 @@
 }
 
 .resume-render-wrapper {
+  /*left: 450px; /*sidebar-width*/
+  background-color: #edeef0;
+  padding: 10px;
   font-size: 18px;
-  padding: 20px;
   position: fixed;
-  left: 450px; /*sidebar-width*/
+  left: 28%;
   right: 0;
-  top: 80px; /*navbar-height*/
   bottom: 0;
-  overflow-x: hidden;
+  top: 88px; /*navbar-height*/
+  overflow-x: auto;
   overflow-y: auto;
   display: none;
 }
