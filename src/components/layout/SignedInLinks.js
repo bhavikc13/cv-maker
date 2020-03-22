@@ -43,29 +43,36 @@ class SignedInLinks extends Component {
               <Popover onMouseLeave={this.hidePopover}>
                 <Popover.Content>
                   <div className="container-fluid">
-                    <h4>
+
+                    <h4 style={{textAlign: 'center'}}>
                       {this.props.profile.firstName}{" "}
                       {this.props.profile.lastName}
                     </h4>
-                    <h5>{this.props.auth.email}</h5>
-                    <div className="row container-fluid">
-                      <Link
-                        to={{
-                          pathname: "/feedback",
-                          prevUrl: this.props.prevUrl
-                        }}
-                        onClick={this.hidePopover}
-                      >
-                        Any Feedback?
-                      </Link>
-                    </div>
+
+                    <h5 style={{textAlign: 'center'}}>
+                      {this.props.auth.email}
+                    </h5>
+                    
+                    <Link
+                      className="btn btn-outline-primary float-left"
+                      to={{
+                        pathname: "/feedback",
+                        prevUrl: this.props.prevUrl
+                      }}
+                      onClick={this.hidePopover}
+                      style={{ margin: "5px"}}
+                    >
+                      Any Feedback?
+                    </Link>
+                    
                     <button
-                      className="btn btn-outline-secondary float-right"
+                      className="btn btn-outline-danger float-right"
                       onClick={this.handleSignOut}
-                      style={{ marginTop: "5px", marginBottom: "5px" }}
+                      style={{ margin: '5px'}}
                     >
                       Sign Out
                     </button>
+                    
                   </div>
                 </Popover.Content>
               </Popover>
