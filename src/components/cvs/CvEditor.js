@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 class CvEditor extends Component {
   state = { isLoading: true };
   componentDidMount() {
+    this.props.updatePrevUrl(window.location.pathname);
     window.onpopstate = e => {
       this.props.history.push("/");
     };
@@ -25,7 +26,6 @@ class CvEditor extends Component {
     ) : (
       <div className="container-fluid">
         <SidebarAndLayout id={this.props.match.params.id} />
-        {/*<Layout1 />*/}
         {/*<NavbarBottom
             id={this.props.match.params.id}
             push={this.props.history.push}
@@ -37,8 +37,20 @@ class CvEditor extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    prevUrl: state.prevUrlRed.prevUrl
   };
 };
 
-export default connect(mapStateToProps)(CvEditor);
+const mapDispatchToProps = dispatch => {
+  return {
+    updatePrevUrl: prevUrl => {
+      dispatch({
+        type: "UPDATE_PREVURL",
+        prevUrl: prevUrl
+      });
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CvEditor);

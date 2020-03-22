@@ -124,18 +124,6 @@ class CvList extends Component {
       <Loader />
     ) : (
       <div>
-        <div className="row container-fluid">
-          <Link
-            className="btn btn-secondary btn-sm ml-auto"
-            to={{
-              pathname: "/feedback",
-              prevUrl: window.location.pathname
-            }}
-            style={{ margin: "5px" }}
-          >
-            Feedback
-          </Link>
-        </div>
         <div className="row" style={{ margin: "5px" }}>
           {this.props.cvList
             .filter(cv => cv.userId === this.props.auth.uid)

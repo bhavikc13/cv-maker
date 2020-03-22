@@ -11,6 +11,7 @@ class CreateCV extends Component {
     isLoading: true
   };
   componentDidMount() {
+    this.props.updatePrevUrl(window.location.pathname);
     this.setState({ isLoading: false });
   }
   handleAddCv = e => {
@@ -52,37 +53,23 @@ class CreateCV extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div>
-        <div className="row container-fluid">
-          <Link
-            className="btn btn-secondary btn-sm ml-auto"
-            to={{
-              pathname: "/feedback",
-              prevUrl: window.location.pathname
-            }}
-            style={{ margin: "5px" }}
-          >
-            Feedback
-          </Link>
-        </div>
-        <div className="container">
-          <form onSubmit={this.handleAddCv}>
-            <div className="form-group">
-              <label>CV Title</label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                onChange={this.handleChangeCvTitle}
-              />
-            </div>
-            <div className="form-group">
-              <button className="btn btn-primary" type="submit">
-                Create
-              </button>
-            </div>
-          </form>
-        </div>
+      <div className="container">
+        <form onSubmit={this.handleAddCv}>
+          <div className="form-group">
+            <label>CV Title</label>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              onChange={this.handleChangeCvTitle}
+            />
+          </div>
+          <div className="form-group">
+            <button className="btn btn-primary" type="submit">
+              Create
+            </button>
+          </div>
+        </form>
       </div>
     );
   }
@@ -90,8 +77,20 @@ class CreateCV extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    prevUrl: state.prevUrlRed.prevUrl
   };
 };
 
-export default connect(mapStateToProps)(CreateCV);
+const mapDispatchToProps = dispatch => {
+  return {
+    updatePrevUrl: prevUrl => {
+      dispatch({
+        type: "UPDATE_PREVURL",
+        prevUrl: prevUrl
+      });
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateCV);

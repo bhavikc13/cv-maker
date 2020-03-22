@@ -12,8 +12,10 @@ import positionRed from "./compoReducer/positionRed";
 import awardRed from "./compoReducer/awardRed";
 import hobbyRed from "./compoReducer/hobbyRed";
 import imageRed from "./compoReducer/imageRed";
+import prevUrlReducer from "./prevUrlReducer";
 
 const rootReducer = combineReducers({
+  prevUrlRed: prevUrlReducer,
   auth: authReducer,
   cvRed: cvReducer,
   firestore: firestoreReducer,

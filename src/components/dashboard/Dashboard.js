@@ -7,6 +7,7 @@ import Loader from "./../loader/Loader";
 class Dashboard extends Component {
   state = { isLoading: true };
   componentDidMount() {
+    this.props.updatePrevUrl(window.location.pathname);
     this.setState({ isLoading: false });
   }
   render() {
@@ -20,8 +21,20 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    prevUrl: state.prevUrlRed.prevUrl
   };
 };
 
-export default connect(mapStateToProps)(Dashboard);
+const mapDispatchToProps = dispatch => {
+  return {
+    updatePrevUrl: prevUrl => {
+      dispatch({
+        type: "UPDATE_PREVURL",
+        prevUrl: prevUrl
+      });
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

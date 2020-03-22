@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 class SidebarAndLayout extends Component {
   state = { title: "", isLoading: true };
   componentDidMount() {
+    this.props.updatePrevUrl(window.location.pathname);
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -38,18 +39,6 @@ class SidebarAndLayout extends Component {
       <Loader />
     ) : (
       <div>
-        <div className="container-fluid">
-          <Link
-            className="btn btn-secondary btn-sm float-right"
-            to={{
-              pathname: "/feedback",
-              prevUrl: window.location.pathname
-            }}
-            style={{ margin: "5px" }}
-          >
-            Feedback
-          </Link>
-        </div>
         <h3 className="text-center">{this.state.title}</h3>
         <div className="sidebar">
           <Accordion defaultActiveKey="">
@@ -153,8 +142,20 @@ class SidebarAndLayout extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    prevUrl: state.prevUrlRed.prevUrl
   };
 };
 
-export default connect(mapStateToProps)(SidebarAndLayout);
+const mapDispatchToProps = dispatch => {
+  return {
+    updatePrevUrl: prevUrl => {
+      dispatch({
+        type: "UPDATE_PREVURL",
+        prevUrl: prevUrl
+      });
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarAndLayout);
