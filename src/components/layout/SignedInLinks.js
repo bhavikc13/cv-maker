@@ -54,6 +54,7 @@ class SignedInLinks extends Component {
                           pathname: "/feedback",
                           prevUrl: this.props.prevUrl
                         }}
+                        onClick={this.hidePopover}
                       >
                         Any Feedback?
                       </Link>
