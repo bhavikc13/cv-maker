@@ -13,8 +13,10 @@ import awardRed from "./compoReducer/awardRed";
 import hobbyRed from "./compoReducer/hobbyRed";
 import imageRed from "./compoReducer/imageRed";
 import prevUrlReducer from "./prevUrlReducer";
+import orderOfBlocksReducer from "./orderOfBlocksReducer";
 
 const rootReducer = combineReducers({
+  orderOfBlocksRed: orderOfBlocksReducer,
   prevUrlRed: prevUrlReducer,
   auth: authReducer,
   cvRed: cvReducer,

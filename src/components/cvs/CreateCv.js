@@ -5,6 +5,30 @@ import { Redirect } from "react-router-dom";
 import firestore from "./../../firebase/firestore";
 import Loader from "./../loader/Loader";
 
+const orderOfBlocks = [
+  {
+    id: 1
+  },
+  {
+    id: 2
+  },
+  {
+    id: 3
+  },
+  {
+    id: 4
+  },
+  {
+    id: 5
+  },
+  {
+    id: 6
+  },
+  {
+    id: 7
+  }
+];
+
 class CreateCV extends Component {
   state = {
     title: "",
@@ -25,6 +49,7 @@ class CreateCV extends Component {
       .collection("cvs")
       .add({
         title: cv.title,
+        orderOfBlocks: orderOfBlocks,
         updatedAt: new Date(),
         createdAt: new Date(),
         userId: userId,
