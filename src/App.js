@@ -4,11 +4,13 @@ import Navbar from "./components/layout/Navbar";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Dashboard from "./components/dashboard/Dashboard";
+import CvList from "./components/cvs/CvList";
+import TemplateList from "./components/template/TemplateList";
 import CreateCV from "./components/cvs/CreateCv";
 import CvEditor from "./components/cvs/CvEditor";
 import Feedback from "./components/layout/Feedback";
-import { DndProvider } from 'react-dnd'
-import Backend from 'react-dnd-html5-backend'
+import { DndProvider } from "react-dnd";
+import Backend from "react-dnd-html5-backend";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path="/" component={Dashboard} />
+            <Route exact path="/cvlist" component={CvList} />
+            <Route exact path="/templatelist" component={TemplateList} />
             <Route exact path="/createcv" component={CreateCV} />
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/signup" component={SignUp} />

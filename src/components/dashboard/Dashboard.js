@@ -3,6 +3,7 @@ import CvList from "../cvs/CvList";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Loader from "./../loader/Loader";
+import { Link } from "react-router-dom";
 
 class Dashboard extends Component {
   state = { isLoading: true };
@@ -15,7 +16,46 @@ class Dashboard extends Component {
     if (!auth.uid) {
       return <Redirect to="/signin" />;
     }
-    return this.state.isLoading ? <Loader /> : <CvList auth={auth} />;
+    return this.state.isLoading ? (
+      <Loader />
+    ) : (
+      <div
+        className="row"
+        style={{ position: "absolute", left: "30%", top: "30%" }}
+      >
+        <div>
+          <div
+            className="card border-dark"
+            style={{ minHeight: "200px", margin: "30px" }}
+          >
+            <div className="card-body">
+              <h5 className="card-title">Use existing CVs</h5>
+              <p className="card-text"></p>
+              <Link to="/cvlist" className="stretched-link"></Link>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div
+            className="card border-dark"
+            style={{ minHeight: "200px", margin: "30px" }}
+          >
+            <div className="card-body">
+              <h5 className="card-title">Create New Cv</h5>
+              <p className="card-text"></p>
+              <Link
+                to={{
+                  pathname: "/templatelist",
+                  changeTemplate: false
+                }}
+                className="stretched-link"
+              ></Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 

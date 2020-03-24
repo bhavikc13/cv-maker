@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Layout1 from "./../template-1/Layout1";
-import SidebarAndLayout from "../template-1/SidebarAndLayout";
+import Layout1 from "../template/Layout1";
+import SidebarAndLayout from "../template/SidebarAndLayout";
 import NavbarBottom from "./../layout/NavbarBottom";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -9,12 +9,14 @@ import { Link } from "react-router-dom";
 import firestore from "./../../firebase/firestore";
 
 class CvEditor extends Component {
-  state = { title: "", isLoading: true };
+  state = { title: "", isLoading: true, templateId: null };
   componentDidMount() {
-    this.props.updatePrevUrl(window.location.pathname);
-    window.onpopstate = e => {
-      this.props.history.push("/");
-    };
+    console.log(this.props.prevUrl);
+    if (this.props.prevUrl !== "/cvlist") {
+      window.onpopstate = e => {
+        this.props.history.push("/");
+      };
+    }
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -23,12 +25,17 @@ class CvEditor extends Component {
       .get()
       .then(resp => {
         this.props.updateOrderOfBlocks(resp.data().orderOfBlocks);
-        this.setState({ title: resp.data().title, isLoading: false });
+        this.setState({
+          title: resp.data().title,
+          isLoading: false,
+          templateId: resp.data().templateId
+        });
       })
       .catch(err => {
         console.log(err);
         this.setState({ isLoading: false });
       });
+    this.props.updatePrevUrl(window.location.pathname);
   }
   componentDidUpdate() {
     if (this.props.orderOfBlocks !== null) {
@@ -52,7 +59,7 @@ class CvEditor extends Component {
   render() {
     const { auth } = this.props;
     if (!auth.uid) {
-      return <Redirect to="/" />;
+      return <Redirect to="/signin" />;
     }
     return this.state.isLoading ? (
       <Loader />
@@ -61,7 +68,23 @@ class CvEditor extends Component {
         <SidebarAndLayout
           id={this.props.match.params.id}
           title={this.state.title}
+          templateId={this.state.templateId}
         />
+        <Link
+          className="btn btn-primary"
+          to={{
+            pathname: "/templatelist",
+            changeTemplate: true,
+            id: this.props.match.params.id
+          }}
+          style={{
+            position: "absolute",
+            marginTop: "-33px",
+            marginLeft: "0px"
+          }}
+        >
+          Change Template
+        </Link>
       </div>
     );
   }

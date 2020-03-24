@@ -53,7 +53,8 @@ class CreateCV extends Component {
         updatedAt: new Date(),
         createdAt: new Date(),
         userId: userId,
-        imageUploaded: false
+        imageUploaded: false,
+        templateId: this.props.location.templateId
       })
       .then(resp => {
         console.log("cv added");

@@ -5,9 +5,11 @@ import { connect } from "react-redux";
 import "./../css/loader.css";
 import Loader from "./../loader/Loader";
 import moment from "moment";
+import { Redirect } from "react-router-dom";
 
 class CvList extends Component {
   state = { isLoading: true };
+
   componentWillUnmount() {
     let TcvList = this.props.cvList;
     let n = TcvList.length;
@@ -15,7 +17,9 @@ class CvList extends Component {
       this.props.removeCv(TcvList[i].id);
     }
   }
+
   componentDidMount() {
+    this.props.updatePrevUrl(window.location.pathname);
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -57,6 +61,7 @@ class CvList extends Component {
         this.setState({ isLoading: false });
       });
   }
+
   handleRemoveCv = id => {
     this.setState({ isLoading: true });
     this.props.removeCv(id);
@@ -119,7 +124,12 @@ class CvList extends Component {
         this.setState({ isLoading: false });
       });
   };
+
   render() {
+    const { auth } = this.props;
+    if (!auth.uid) {
+      return <Redirect to="/signin" />;
+    }
     return this.state.isLoading ? (
       <Loader />
     ) : (
@@ -168,21 +178,6 @@ class CvList extends Component {
                 </div>
               );
             })}
-          <div
-            className="col-md-2 col-sm-4"
-            key="createCv"
-            style={{
-              marginTop: "10px"
-            }}
-          >
-            <div className="card border-dark" style={{ minHeight: "200px" }}>
-              <div className="card-body">
-                <h5 className="card-title">Create New Cv</h5>
-                <p className="card-text"></p>
-                <Link to="/createcv" className="stretched-link"></Link>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     );
@@ -192,7 +187,8 @@ class CvList extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    cvList: state.cvRed.cvList
+    cvList: state.cvRed.cvList,
+    prevUrl: state.prevUrlRed.prevUrl
   };
 };
 
@@ -203,6 +199,12 @@ const mapDispatchToProps = dispatch => {
     },
     removeCv: id => {
       dispatch({ type: "REMOVE_CV", id: id });
+    },
+    updatePrevUrl: prevUrl => {
+      dispatch({
+        type: "UPDATE_PREVURL",
+        prevUrl: prevUrl
+      });
     }
   };
 };
