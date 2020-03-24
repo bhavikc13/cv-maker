@@ -9,16 +9,12 @@ import { Redirect } from "react-router-dom";
 
 class CvList extends Component {
   state = { isLoading: true };
-
-  componentWillUnmount() {
+  componentDidMount() {
     let TcvList = this.props.cvList;
     let n = TcvList.length;
     for (let i = 0; i < n; i++) {
       this.props.removeCv(TcvList[i].id);
     }
-  }
-
-  componentDidMount() {
     this.props.updatePrevUrl(window.location.pathname);
     firestore
       .collection("users")

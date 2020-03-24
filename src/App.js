@@ -5,7 +5,7 @@ import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Dashboard from "./components/dashboard/Dashboard";
 import CvList from "./components/cvs/CvList";
-import TemplateList from "./components/template/TemplateList";
+import TemplateList from "./components/templates/TemplateList";
 import CreateCV from "./components/cvs/CreateCv";
 import CvEditor from "./components/cvs/CvEditor";
 import Feedback from "./components/layout/Feedback";

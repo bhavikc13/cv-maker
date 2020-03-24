@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Layout1 from "../template/Layout1";
-import SidebarAndLayout from "../template/SidebarAndLayout";
+import SidebarAndLayout1 from "../templates/template1/SidebarAndLayout1";
+import SidebarAndLayout2 from "./../templates/template2/SidebarAndLayout2";
 import NavbarBottom from "./../layout/NavbarBottom";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -65,26 +65,20 @@ class CvEditor extends Component {
       <Loader />
     ) : (
       <div className="container-fluid">
-        <SidebarAndLayout
-          id={this.props.match.params.id}
-          title={this.state.title}
-          templateId={this.state.templateId}
-        />
-        <Link
-          className="btn btn-primary"
-          to={{
-            pathname: "/templatelist",
-            changeTemplate: true,
-            id: this.props.match.params.id
-          }}
-          style={{
-            position: "absolute",
-            marginTop: "-33px",
-            marginLeft: "0px"
-          }}
-        >
-          Change Template
-        </Link>
+        {this.state.templateId === 1 ? (
+          <SidebarAndLayout1
+            id={this.props.match.params.id}
+            title={this.state.title}
+            templateId={this.state.templateId}
+          />
+        ) : null}
+        {this.state.templateId === 2 ? (
+          <SidebarAndLayout2
+            id={this.props.match.params.id}
+            title={this.state.title}
+            templateId={this.state.templateId}
+          />
+        ) : null}
       </div>
     );
   }
