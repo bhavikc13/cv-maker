@@ -231,11 +231,11 @@ class PersonalInfo extends Component {
 
 const mapStateToProps = state => {
   return {
-    name: state.personRed.name,
-    collegeName: state.personRed.collegeName,
-    email: state.personRed.email,
-    dob: state.personRed.dob,
-    address: state.personRed.address,
+    name: state.personRed_1.name_1,
+    collegeName: state.personRed_1.collegeName_1,
+    email: state.personRed_1.email_1,
+    dob: state.personRed_1.dob_1,
+    address: state.personRed_1.address_1,
     auth: state.firebase.auth
   };
 };
@@ -243,19 +243,19 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     updateName: name => {
-      dispatch({ type: "UPDATE_NAME", name: name });
+      dispatch({ type: "UPDATE_NAME_1", name: name });
     },
     updateCollgeName: collegeName => {
-      dispatch({ type: "UPDATE_COLLEGENAME", collegeName: collegeName });
+      dispatch({ type: "UPDATE_COLLEGENAME_1", collegeName: collegeName });
     },
     updateEmail: email => {
-      dispatch({ type: "UPDATE_EMAIL", email: email });
+      dispatch({ type: "UPDATE_EMAIL_1", email: email });
     },
     updateDOB: dob => {
-      dispatch({ type: "UPDATE_DOB", dob: dob });
+      dispatch({ type: "UPDATE_DOB_1", dob: dob });
     },
     updateAddress: address => {
-      dispatch({ type: "UPDATE_ADDRESS", address: address });
+      dispatch({ type: "UPDATE_ADDRESS_1", address: address });
     }
   };
 };

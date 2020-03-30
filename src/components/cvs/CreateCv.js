@@ -43,28 +43,52 @@ class CreateCV extends Component {
     this.setState({ isLoading: true });
     let cv = this.state,
       userId = this.props.auth.uid;
-    firestore
-      .collection("users")
-      .doc(userId)
-      .collection("cvs")
-      .add({
-        title: cv.title,
-        orderOfBlocks: orderOfBlocks,
-        updatedAt: new Date(),
-        createdAt: new Date(),
-        userId: userId,
-        imageUploaded: false,
-        templateId: this.props.location.templateId
-      })
-      .then(resp => {
-        console.log("cv added");
-        this.setState({ isLoading: false });
-        this.props.history.push("/" + resp.id);
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({ isLoading: false });
-      });
+    if (this.props.location.templateId === 1) {
+      firestore
+        .collection("users")
+        .doc(userId)
+        .collection("cvs")
+        .add({
+          title: cv.title,
+          orderOfBlocks: orderOfBlocks,
+          updatedAt: new Date(),
+          createdAt: new Date(),
+          userId: userId,
+          imageUploaded: false,
+          templateId: this.props.location.templateId
+        })
+        .then(resp => {
+          console.log("cv added");
+          this.setState({ isLoading: false });
+          this.props.history.push("/" + resp.id);
+        })
+        .catch(err => {
+          console.log(err);
+          this.setState({ isLoading: false });
+        });
+    } else if (this.props.location.templateId === 2) {
+      firestore
+        .collection("users")
+        .doc(userId)
+        .collection("cvs")
+        .add({
+          title: cv.title,
+          updatedAt: new Date(),
+          createdAt: new Date(),
+          userId: userId,
+          imageUploaded: false,
+          templateId: this.props.location.templateId
+        })
+        .then(resp => {
+          console.log("cv added");
+          this.setState({ isLoading: false });
+          this.props.history.push("/" + resp.id);
+        })
+        .catch(err => {
+          console.log(err);
+          this.setState({ isLoading: false });
+        });
+    }
   };
   handleChangeCvTitle = (e, id) => {
     this.setState({

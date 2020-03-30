@@ -100,7 +100,6 @@ class HobbyInfo extends Component {
         console.log(err);
       });
   };
-
   render() {
     return (
       <div>
@@ -117,7 +116,6 @@ class HobbyInfo extends Component {
                     onChange={event => {
                       this.handleChangeHobby(event, value.id);
                     }}
-                    defaultValue={this.props.hobbyBlocks[index].information}
                   />
                 </Form.Group>
               </Form>
@@ -149,7 +147,7 @@ class HobbyInfo extends Component {
 
 const mapStateToProps = state => {
   return {
-    hobbyBlocks: state.hobbyRed.hobbyBlocks,
+    hobbyBlocks: state.hobbyRed_2.hobbyBlocks_2,
     auth: state.firebase.auth
   };
 };
@@ -157,17 +155,17 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addHobbyBlock: newBlock => {
-      dispatch({ type: "ADD_HOBBY_BLOCK", newBlock: newBlock });
+      dispatch({ type: "ADD_HOBBY_BLOCK_2", newBlock: newBlock });
     },
     updateHobby: (information, id) => {
       dispatch({
-        type: "UPDATE_HOBBY_INFORMATION",
+        type: "UPDATE_HOBBY_INFORMATION_2",
         information: information,
         id: id
       });
     },
     removeHobbyBlock: id => {
-      dispatch({ type: "REMOVE_HOBBY_BLOCK", id: id });
+      dispatch({ type: "REMOVE_HOBBY_BLOCK_2", id: id });
     }
   };
 };

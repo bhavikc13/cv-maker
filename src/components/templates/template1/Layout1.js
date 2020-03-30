@@ -104,7 +104,7 @@ class Layout1 extends Component {
             <p style={{fontSize:'18px'}}>
               ({value.start} - {value.end})
             </p>
-            <p style={{fontSize:'18px'}}>Team Size - {value.team_size}</p>
+            <p style={{fontSize:'18px'}}>Team Size - {value.teamSize}</p>
           </td>
         </tr>
       );
@@ -415,30 +415,30 @@ class Layout1 extends Component {
 
 const mapStateToProps = state => {
   return {
-    image: state.imageRed.img,
+    image: state.imageRed_1.img_1,
 
-    fullName: state.personRed.name,
-    collegeName: state.personRed.collegeName,
-    email: state.personRed.email,
-    dob: state.personRed.dob,
-    address: state.personRed.address,
+    fullName: state.personRed_1.name_1,
+    collegeName: state.personRed_1.collegeName_1,
+    email: state.personRed_1.email_1,
+    dob: state.personRed_1.dob_1,
+    address: state.personRed_1.address_1,
 
-    degreeBlocks: state.educationRed.degreeBlocks,
+    degreeBlocks: state.educationRed_1.degreeBlocks_1,
 
-    areaOfInterest: state.skillRed.areaOfInterest,
-    proLanguages: state.skillRed.proLanguages,
-    toolsAndTech: state.skillRed.toolsAndTech,
-    techElectives: state.skillRed.techElectives,
+    areaOfInterest: state.skillRed_1.areaOfInterest_1,
+    proLanguages: state.skillRed_1.proLanguages_1,
+    toolsAndTech: state.skillRed_1.toolsAndTech_1,
+    techElectives: state.skillRed_1.techElectives_1,
 
-    internshipBlocks: state.internshipRed.internshipBlocks,
+    internshipBlocks: state.internshipRed_1.internshipBlocks_1,
 
-    projectBlocks: state.projectRed.projectBlocks,
+    projectBlocks: state.projectRed_1.projectBlocks_1,
 
-    positionBlocks: state.positionRed.positionBlocks,
+    positionBlocks: state.positionRed_1.positionBlocks_1,
 
-    awardBlocks: state.awardRed.awardBlocks,
+    awardBlocks: state.awardRed_1.awardBlocks_1,
 
-    hobbyBlocks: state.hobbyRed.hobbyBlocks,
+    hobbyBlocks: state.hobbyRed_1.hobbyBlocks_1,
 
     orderOfBlocks: state.orderOfBlocksRed.orderOfBlocks,
   };

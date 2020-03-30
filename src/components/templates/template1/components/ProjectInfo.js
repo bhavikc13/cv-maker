@@ -53,6 +53,11 @@ class ProjectInfo extends Component {
     }
   }
   componentDidMount() {
+    let TprojectBlocks = this.props.projectBlocks;
+    let n = TprojectBlocks.length;
+    for (let i = 0; i < n; i++) {
+      this.props.removeProjectBlock(TprojectBlocks[i].id);
+    }
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -383,7 +388,7 @@ class ProjectInfo extends Component {
 
 const mapStateToProps = state => {
   return {
-    projectBlocks: state.projectRed.projectBlocks,
+    projectBlocks: state.projectRed_1.projectBlocks_1,
     auth: state.firebase.auth
   };
 };
@@ -391,44 +396,44 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addProjectBlock: newBlock => {
-      dispatch({ type: "ADD_PROJECT_BLOCK", newBlock: newBlock });
+      dispatch({ type: "ADD_PROJECT_BLOCK_1", newBlock: newBlock });
     },
     updateProjectName: (projectName, id) => {
       dispatch({
-        type: "UPDATE_PROJECT_NAME",
+        type: "UPDATE_PROJECT_NAME_1",
         projectName: projectName,
         id: id
       });
     },
     updateDescription: (description, id) => {
       dispatch({
-        type: "UPDATE_PROJECT_DESCRIPTION",
+        type: "UPDATE_PROJECT_DESCRIPTION_1",
         description: description,
         id: id
       });
     },
     updateSupervisor: (supervisor, id) => {
       dispatch({
-        type: "UPDATE_PROJECT_SUPERVISOR",
+        type: "UPDATE_PROJECT_SUPERVISOR_1",
         supervisor: supervisor,
         id: id
       });
     },
     updateStart: (start, id) => {
-      dispatch({ type: "UPDATE_PROJECT_START", start: start, id: id });
+      dispatch({ type: "UPDATE_PROJECT_START_1", start: start, id: id });
     },
     updateEnd: (end, id) => {
-      dispatch({ type: "UPDATE_PROJECT_END", end: end, id: id });
+      dispatch({ type: "UPDATE_PROJECT_END_1", end: end, id: id });
     },
     updateTeamSize: (teamSize, id) => {
       dispatch({
-        type: "UPDATE_PROJECT_TEAM_SIZE",
+        type: "UPDATE_PROJECT_TEAM_SIZE_1",
         teamSize: teamSize,
         id: id
       });
     },
     removeProjectBlock: id => {
-      dispatch({ type: "REMOVE_PROJECT_BLOCK", id: id });
+      dispatch({ type: "REMOVE_PROJECT_BLOCK_1", id: id });
     }
   };
 };

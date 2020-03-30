@@ -43,36 +43,34 @@ class SignedInLinks extends Component {
               <Popover onMouseLeave={this.hidePopover}>
                 <Popover.Content>
                   <div className="container-fluid">
-
-                    <h4 style={{textAlign: 'center'}}>
+                    <h4 style={{ textAlign: "center" }}>
                       {this.props.profile.firstName}{" "}
                       {this.props.profile.lastName}
                     </h4>
 
-                    <h5 style={{textAlign: 'center'}}>
+                    <h5 style={{ textAlign: "center" }}>
                       {this.props.auth.email}
                     </h5>
-                    
-                    <Link
-                      className="btn btn-outline-primary float-left"
-                      to={{
-                        pathname: "/feedback",
-                        prevUrl: this.props.prevUrl
-                      }}
-                      onClick={this.hidePopover}
-                      style={{ margin: "5px"}}
-                    >
-                      Any Feedback?
-                    </Link>
-                    
-                    <button
-                      className="btn btn-outline-danger float-right"
-                      onClick={this.handleSignOut}
-                      style={{ margin: '5px'}}
-                    >
-                      Sign Out
-                    </button>
-                    
+                    <div className="row">
+                      <Link
+                        className="btn btn-outline-primary float-left"
+                        to={{
+                          pathname: "/feedback",
+                          prevUrl: this.props.prevUrl
+                        }}
+                        onClick={this.hidePopover}
+                        style={{ margin: "5px" }}
+                      >
+                        Any Feedback?
+                      </Link>
+                      <button
+                        className="btn btn-outline-danger float-right"
+                        onClick={this.handleSignOut}
+                        style={{ margin: "5px" }}
+                      >
+                        Sign Out
+                      </button>
+                    </div>
                   </div>
                 </Popover.Content>
               </Popover>

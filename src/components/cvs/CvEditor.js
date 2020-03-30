@@ -10,13 +10,13 @@ import firestore from "./../../firebase/firestore";
 
 class CvEditor extends Component {
   state = { title: "", isLoading: true, templateId: null };
+  _isMounted = false;
   componentDidMount() {
-    console.log(this.props.prevUrl);
-    if (this.props.prevUrl !== "/cvlist") {
-      window.onpopstate = e => {
-        this.props.history.push("/");
-      };
-    }
+    this._isMounted = true;
+    let prevUrl = this.props.prevUrl;
+    window.onpopstate = e => {
+      if (prevUrl !== "/cvlist") this.props.history.push("/");
+    };
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -24,7 +24,8 @@ class CvEditor extends Component {
       .doc(this.props.match.params.id)
       .get()
       .then(resp => {
-        this.props.updateOrderOfBlocks(resp.data().orderOfBlocks);
+        if (resp.data().templateId === 1)
+          this.props.updateOrderOfBlocks(resp.data().orderOfBlocks);
         this.setState({
           title: resp.data().title,
           isLoading: false,
@@ -38,6 +39,7 @@ class CvEditor extends Component {
     this.props.updatePrevUrl(window.location.pathname);
   }
   componentDidUpdate() {
+    this._isMounted = true;
     if (this.props.orderOfBlocks !== null) {
       firestore
         .collection("users")

@@ -286,37 +286,37 @@ class EducationInfo extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    degreeBlocks: state.educationRed.degreeBlocks
+    degreeBlocks: state.educationRed_1.degreeBlocks_1
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     addDegreeBlock: newBlock => {
-      dispatch({ type: "ADD_EDUCATION_BLOCK", newBlock: newBlock });
+      dispatch({ type: "ADD_EDUCATION_BLOCK_1", newBlock: newBlock });
     },
     updateDegreeName: (degreeName, id) => {
       dispatch({
-        type: "UPDATE_EDUCATION_DEGREE_NAME",
+        type: "UPDATE_EDUCATION_DEGREE_NAME_1",
         degreeName: degreeName,
         id: id
       });
     },
     updateInstituteName: (instituteName, id) => {
       dispatch({
-        type: "UPDATE_EDUCATION_INSTITUTE_NAME",
+        type: "UPDATE_EDUCATION_INSTITUTE_NAME_1",
         instituteName: instituteName,
         id: id
       });
     },
     updateYear: (year, id) => {
-      dispatch({ type: "UPDATE_EDUCATION_YEAR", year: year, id: id });
+      dispatch({ type: "UPDATE_EDUCATION_YEAR_1", year: year, id: id });
     },
     updateScore: (score, id) => {
-      dispatch({ type: "UPDATE_EDUCATION_SCORE", score: score, id: id });
+      dispatch({ type: "UPDATE_EDUCATION_SCORE_1", score: score, id: id });
     },
     removeBlock: id => {
-      dispatch({ type: "REMOVE_EDUCATION_BLOCK", id: id });
+      dispatch({ type: "REMOVE_EDUCATION_BLOCK_1", id: id });
     }
   };
 };

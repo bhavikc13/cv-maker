@@ -1,122 +1,104 @@
 import React, { Component } from "react";
+import logo from "./assets/daiict-logo.jpg";
 import { connect } from "react-redux";
 import "./style/TemplateStyle.css";
+import { Container, Row, Col } from "react-bootstrap";
 
-class Layout1 extends Component {
+class Layout2 extends Component {
+  updateExpDescriptionBlocks = descBlocks => {
+    let newDescBlocks = [];
+
+    for (let [index, value] of descBlocks.entries()) {
+      newDescBlocks.push(
+        <ul
+          key={index}
+          className="list points"
+          style={{ padding: "0px", margin: "0px" }}
+        >
+          <li style={{ fontSize: "14px" }}>{value.descInfo}</li>
+        </ul>
+      );
+    }
+
+    return newDescBlocks;
+  };
+
+  updateExpKeyAchvBlocks = keyAchvBlocks => {
+    let newKeyAchvBlocks = [];
+
+    for (let [index, value] of keyAchvBlocks.entries()) {
+      newKeyAchvBlocks.push(
+        <ul
+          key={index}
+          className="list points"
+          style={{ padding: "0px", margin: "0px" }}
+        >
+          <li style={{ fontSize: "14px" }}>{value.keyAchvInfo}</li>
+        </ul>
+      );
+    }
+
+    return newKeyAchvBlocks;
+  };
+
+  updateExperienceBlock = () => {
+    let newExpBlocks = [];
+
+    for (let [index, value] of this.props.expBlocks.entries()) {
+      newExpBlocks.push(
+        <Row key={index}>
+          <Col sm={2} className="timeRange">
+            {value.start} - {value.end}
+          </Col>
+
+          <Col sm={10}>
+            <div style={{ textAlign: "left" }}>
+              <p>
+                <b className="posTitle">{value.positionName}</b>
+                <p className="orgName">{value.organizationName}</p>
+                {this.updateExpDescriptionBlocks(value.descBlocks)}
+              </p>
+
+              <b
+                className={
+                  value.keyAchvBlocks.length > 0 ? "subHeading" : "hide"
+                }
+              >
+                Key Achievment:
+              </b>
+              {this.updateExpKeyAchvBlocks(value.keyAchvBlocks)}
+
+              <br />
+            </div>
+          </Col>
+        </Row>
+      );
+    }
+
+    return newExpBlocks;
+  };
+
   updateDegreeBlock = () => {
     let newDegreeBlocks = [];
 
     for (let [index, value] of this.props.degreeBlocks.entries()) {
       newDegreeBlocks.push(
-        <tr key={index}>
-          <td style={{ textAlign: "left" }}>
-            {" "}
-            <b style={{ fontSize: "18px" }}>{value.degreeName}</b>{" "}
-          </td>
-          <td style={{ textAlign: "left" }}> {value.instituteName} </td>
-          <td style={{ textAlign: "left" }}> {value.year} </td>
-          <td style={{ textAlign: "left" }}> {value.score} </td>
-        </tr>
+        <Row key={index}>
+          <Col sm={2} className="timeRange">
+            {value.year}
+          </Col>
+
+          <Col sm={10} style={{ textAlign: "left" }}>
+            <p>
+              <b className="posTitle">{value.degreeName}</b>
+              <p className="orgName">{value.instituteName}</p>
+            </p>
+          </Col>
+        </Row>
       );
     }
 
     return newDegreeBlocks;
-  };
-
-  updateInternshipBlock = () => {
-    let newInternshipBlocks = [];
-
-    for (let [index, value] of this.props.internshipBlocks.entries()) {
-      newInternshipBlocks.push(
-        <tr key={index}>
-          <td
-            className="w-20"
-            style={{ textAlignVertical: "top", textAlign: "left" }}
-          >
-            <p>
-              <b style={{ fontSize: "18px" }}>{value.organizationName}</b>
-            </p>
-          </td>
-          <td className="w-60" style={{ textAlignVertical: "top" }}>
-            <p style={{ fontSize: "18px" }}>{value.description}</p>
-
-            <p style={{ textAlign: "left", fontSize: "18px" }}>
-              <i style={{ fontSize: "18px" }}>
-                <b style={{ fontSize: "18px" }}>Guide:</b> {value.supervisor}
-              </i>
-            </p>
-          </td>
-
-          <td
-            className="w-20"
-            style={{ textAlignVertical: "top", textAlign: "right" }}
-          >
-            <p style={{ fontSize: "18px" }}>
-              ({value.start} - {value.end})
-            </p>
-            <p style={{ fontSize: "18px" }}>Team Size - {value.teamSize}</p>
-          </td>
-        </tr>
-      );
-    }
-
-    return newInternshipBlocks;
-  };
-
-  updateProjectBlock = () => {
-    let newProjectBlocks = [];
-
-    for (let [index, value] of this.props.projectBlocks.entries()) {
-      newProjectBlocks.push(
-        <tr key={index}>
-          <td
-            className="w-80"
-            style={{ textAlignVertical: "top", textAlign: "left" }}
-          >
-            <p>
-              <b style={{ fontSize: "18px" }}>{value.projectName}</b>
-            </p>
-            <p style={{ fontSize: "18px" }}>{value.description}</p>
-            <p>
-              <i style={{ fontSize: "18px" }}>
-                <b style={{ fontSize: "18px" }}>Guide:</b> {value.supervisor}
-              </i>
-            </p>
-          </td>
-          <td
-            className="w-20"
-            style={{ textAlignVertical: "top", textAlign: "right" }}
-          >
-            <p style={{ fontSize: "18px" }}>
-              ({value.start} - {value.end})
-            </p>
-            <p style={{ fontSize: "18px" }}>Team Size - {value.team_size}</p>
-          </td>
-        </tr>
-      );
-    }
-
-    return newProjectBlocks;
-  };
-
-  updatePositionBlock = () => {
-    let newPositionBlocks = [];
-
-    for (let [index, value] of this.props.positionBlocks.entries()) {
-      newPositionBlocks.push(
-        <ul
-          key={index}
-          className="list"
-          style={{ padding: "0px", margin: "0px", textAlign: "left" }}
-        >
-          <li>
-            {index + 1}. {value.information}
-          </li>
-        </ul>
-      );
-    }
-
-    return newPositionBlocks;
   };
 
   updateAwardBlock = () => {
@@ -124,19 +106,91 @@ class Layout1 extends Component {
 
     for (let [index, value] of this.props.awardBlocks.entries()) {
       newAwardBlocks.push(
-        <ul
-          key={index}
-          className="list"
-          style={{ padding: "0px", margin: "0px", textAlign: "left" }}
-        >
-          <li>
-            {index + 1}. {value.information}
-          </li>
-        </ul>
+        <Row key={index}>
+          <Col sm={2} className="timeRange">
+            {value.year}
+          </Col>
+
+          <Col sm={10} style={{ textAlign: "left" }}>
+            <p className="awards">{value.information}</p>
+          </Col>
+        </Row>
       );
     }
 
     return newAwardBlocks;
+  };
+
+  updateSkillBlock = () => {
+    let newSkillBlocks = [];
+
+    for (let [index, value] of this.props.skillBlocks.entries()) {
+      newSkillBlocks.push(
+        <div style={{ margin: "5px", display: "block" }}>
+          <p className="points" style={{ textAlign: "left", display: "block" }}>
+            {value.skillName}
+          </p>
+
+          <div className="circleVector">
+            <div className="blackCircle" />
+            <div
+              className={value.skillLevel > 1 ? "blackCircle" : "whiteCircle"}
+            />
+            <div
+              className={value.skillLevel > 2 ? "blackCircle" : "whiteCircle"}
+            />
+            <div
+              className={value.skillLevel > 3 ? "blackCircle" : "whiteCircle"}
+            />
+            <div
+              className={value.skillLevel > 4 ? "blackCircle" : "whiteCircle"}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    return newSkillBlocks;
+  };
+
+  updateLanguageBlock = () => {
+    let newLanguageBlocks = [];
+
+    for (let [index, value] of this.props.languageBlocks.entries()) {
+      newLanguageBlocks.push(
+        <div style={{ margin: "5px", display: "block" }}>
+          <p className="points" style={{ textAlign: "left", display: "block" }}>
+            {value.languageName}
+          </p>
+
+          <div className="circleVector">
+            <div className="blackCircle" />
+            <div
+              className={
+                value.languageLevel > 1 ? "blackCircle" : "whiteCircle"
+              }
+            />
+            <div
+              className={
+                value.languageLevel > 2 ? "blackCircle" : "whiteCircle"
+              }
+            />
+            <div
+              className={
+                value.languageLevel > 3 ? "blackCircle" : "whiteCircle"
+              }
+            />
+            <div
+              className={
+                value.languageLevel > 4 ? "blackCircle" : "whiteCircle"
+              }
+            />
+          </div>
+        </div>
+      );
+    }
+
+    return newLanguageBlocks;
   };
 
   updateHobbyBlock = () => {
@@ -146,12 +200,10 @@ class Layout1 extends Component {
       newHobbyBlocks.push(
         <ul
           key={index}
-          className="list"
-          style={{ padding: "0px", margin: "0px", textAlign: "left" }}
+          className="list points"
+          style={{ padding: "0px", margin: "0px" }}
         >
-          <li>
-            {index + 1}. {value.information}
-          </li>
+          <li style={{ fontSize: "14px" }}>{value.information}</li>
         </ul>
       );
     }
@@ -159,262 +211,181 @@ class Layout1 extends Component {
     return newHobbyBlocks;
   };
 
-  educationSection = () => {
-    return (
-      <table
-        className={
-          this.props.degreeBlocks.length > 0 ? "w-100 section" : "hide"
-        }
-      >
-        <thead>
-          <tr>
-            <td colSpan="4" className="section-header">
-              <h3>EDUCATION</h3>
-            </td>
-          </tr>
-
-          <tr>
-            <th colSpan="1">Degree</th>
-            <th colSpan="1">University/Institute</th>
-            <th colSpan="1">Year</th>
-            <th colSpan="1">CPI/Aggregate</th>
-          </tr>
-        </thead>
-
-        {/*console.log('2',this.props.degreeBlocks)*/}
-        <tbody>{this.updateDegreeBlock()}</tbody>
-      </table>
-    );
-  };
-
-  skillSection = () => {
-    return (
-      <table
-        className={
-          this.props.areaOfInterest !== "" ||
-          this.props.proLanguages !== "" ||
-          this.props.toolsAndTech !== "" ||
-          this.props.techElectives !== ""
-            ? "w-100 section"
-            : "hide"
-        }
-      >
-        <thead>
-          <tr>
-            <td colSpan="2" className="section-header">
-              <h3>SKILLS</h3>
-            </td>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr className={this.props.areaOfInterest.length > 0 ? "" : "hide"}>
-            <td className="w-30">
-              <b style={{ fontSize: "18px" }}>
-                Expertise Area/Area(s) of Interest
-              </b>
-            </td>
-
-            <td className="w-70" style={{ textAlign: "left" }}>
-              {this.props.areaOfInterest}
-            </td>
-          </tr>
-
-          <tr className={this.props.proLanguages.length > 0 ? "" : "hide"}>
-            <td className="w-30">
-              <b style={{ fontSize: "18px" }}>Programming Language(s)</b>
-            </td>
-            <td className="w-70" style={{ textAlign: "left" }}>
-              {this.props.proLanguages}
-            </td>
-          </tr>
-
-          <tr className={this.props.toolsAndTech.length > 0 ? "" : "hide"}>
-            <td className="w-30">
-              <b style={{ fontSize: "18px" }}>Tools and Technologies</b>
-            </td>
-            <td className="w-70" style={{ textAlign: "left" }}>
-              {this.props.toolsAndTech}
-            </td>
-          </tr>
-
-          <tr className={this.props.techElectives.length > 0 ? "" : "hide"}>
-            <td className="w-30">
-              <b style={{ fontSize: "18px" }}>Technical Electives</b>
-            </td>
-            <td className="w-70" style={{ textAlign: "left" }}>
-              {this.props.techElectives}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    );
-  };
-
-  internshipSection = () => {
-    return (
-      <table
-        className={
-          this.props.internshipBlocks.length > 0 ? "w-100 section" : "hide"
-        }
-      >
-        <thead>
-          <tr>
-            <td colSpan="3" className="section-header">
-              <h3>PROFESSIONAL EXPERIENCE/INTERNSHIPS</h3>
-            </td>
-          </tr>
-        </thead>
-
-        <tbody>{this.updateInternshipBlock()}</tbody>
-      </table>
-    );
-  };
-
-  projectSection = () => {
-    return (
-      <table
-        className={
-          this.props.projectBlocks.length > 0 ? "w-100 section" : "hide"
-        }
-      >
-        <thead>
-          <tr>
-            <td colSpan="2" className="section-header">
-              <h3>PROJECTS</h3>
-            </td>
-          </tr>
-        </thead>
-
-        <tbody>{this.updateProjectBlock()}</tbody>
-      </table>
-    );
-  };
-
-  responsibilitySection = () => {
-    return (
-      <table
-        className={
-          this.props.positionBlocks.length > 0 ? "w-100 section" : "hide"
-        }
-      >
-        <thead>
-          <tr>
-            <td colSpan="2" className="section-header">
-              <h3>POSITION OF RESPONSIBILITY</h3>
-            </td>
-          </tr>
-        </thead>
-
-        <tbody>{this.updatePositionBlock()}</tbody>
-      </table>
-    );
-  };
-
-  awardSection = () => {
-    return (
-      <table
-        className={this.props.awardBlocks.length > 0 ? "w-100 section" : "hide"}
-      >
-        <thead>
-          <tr>
-            <td colSpan="2" className="section-header">
-              <h3>AWARDS AND ACHIEVEMENTS</h3>
-            </td>
-          </tr>
-        </thead>
-
-        <tbody>{this.updateAwardBlock()}</tbody>
-      </table>
-    );
-  };
-
-  hobbySection = () => {
-    return (
-      <table
-        className={this.props.hobbyBlocks.length > 0 ? "w-100 section" : "hide"}
-      >
-        <thead>
-          <tr>
-            <td colSpan="2" className="section-header">
-              <h3>INTERESTS AND HOBBIES</h3>
-            </td>
-          </tr>
-        </thead>
-
-        <tbody>{this.updateHobbyBlock()}</tbody>
-      </table>
-    );
-  };
-
-  sectionOrderDisplay = () => {
-    let orderedSections = [];
-
-    for (let [, value] of this.props.orderOfBlocks.entries()) {
-      if (value.id === 1) {
-        orderedSections.push(this.educationSection());
-      } else if (value.id === 2) {
-        orderedSections.push(this.skillSection());
-      } else if (value.id === 3) {
-        orderedSections.push(this.internshipSection());
-      } else if (value.id === 4) {
-        orderedSections.push(this.projectSection());
-      } else if (value.id === 5) {
-        orderedSections.push(this.responsibilitySection());
-      } else if (value.id === 6) {
-        orderedSections.push(this.awardSection());
-      } else if (value.id === 7) {
-        orderedSections.push(this.hobbySection());
-      }
-    }
-
-    return orderedSections;
-  };
-
   render() {
+    /*let newDegreeBlocks = this.props.degreeBlocks.map((value,index) => {
+            return (
+                <tr key={index}>
+                    <td style={{textAlign: "left", padding: '10px'}}> <b>{value.degreeName}</b> </td>
+                    <td style={{textAlign: "left", padding: '10px'}}> {value.instituteName} </td>
+                    <td style={{textAlign: "left", padding: '10px'}}> {value.year} </td>
+                    <td style={{textAlign: "left", padding: '10px'}}> {value.score} </td>
+                </tr>
+            )
+        })
+        */
+
     return (
       <div>
         <div className="resume-render-wrapper">
           <div className="resume-template">
             <table className="main" style={{ marignBottom: "20px" }}>
-              <p>t2</p>
               <thead>
                 <tr>
-                  <td className={this.props.image === null ? "hide" : "w-20"}>
+                  <td
+                    className={
+                      this.props.image === null ? "hide" : "bodyImg img"
+                    }
+                  >
                     <img src={this.props.image} alt="image" />
                   </td>
 
                   <td
                     className={
-                      this.props.image === null ? "intro w-100" : "intro w-80"
+                      this.props.image === null ? "body1" : "bodyImg w-100"
                     }
                   >
-                    <h1>{this.props.fullName}</h1>
+                    <h3>{this.props.fullName}</h3>
                     <p>
-                      <b style={{ fontSize: "18px" }}>
-                        {this.props.collegeName}
-                      </b>
-                    </p>
-                    <p>
-                      <span className="w-60 inline-block">
-                        <b style={{ fontSize: "18px" }}>Email:</b>{" "}
-                        {this.props.email}
-                      </span>
-                      <span className="w-40 text-right">
-                        <b style={{ fontSize: "18px" }}>DOB:</b>{" "}
-                        {this.props.dob}
-                      </span>
-                    </p>
-                    <p>
-                      <b style={{ fontSize: "18px" }}>Address:</b>{" "}
-                      {this.props.address}
+                      <b className="posTitle">{this.props.curPos}</b>
                     </p>
                   </td>
                 </tr>
               </thead>
             </table>
 
-            {this.sectionOrderDisplay()}
+            <div className="outer">
+              <div className="leftSide">
+                <table className="section text-left">
+                  {this.props.description}
+                </table>
+
+                <table
+                  className={
+                    this.props.expBlocks.length > 0
+                      ? "w-100 section text-left"
+                      : "hide"
+                  }
+                >
+                  <thead>
+                    <tr className="section-header">
+                      <h4 style={{ fontWeight: "bold" }}>Experience</h4>
+                    </tr>
+                  </thead>
+
+                  <tbody>{this.updateExperienceBlock()}</tbody>
+                </table>
+
+                <table
+                  className={
+                    this.props.degreeBlocks.length > 0
+                      ? "w-100 section text-left"
+                      : "hide"
+                  }
+                >
+                  <thead>
+                    <tr className="section-header">
+                      <h4 style={{ fontWeight: "bold" }}>Education</h4>
+                    </tr>
+                  </thead>
+
+                  <tbody>{this.updateDegreeBlock()}</tbody>
+                </table>
+
+                <table
+                  className={
+                    this.props.awardBlocks.length > 0 ? "w-100 section" : "hide"
+                  }
+                >
+                  <thead>
+                    <tr className="section-header">
+                      <h4 style={{ fontWeight: "bold" }}>Honours And Awards</h4>
+                    </tr>
+                  </thead>
+
+                  <tbody>{this.updateAwardBlock()}</tbody>
+                </table>
+              </div>
+
+              <div className="rightSide">
+                <table className="section">
+                  <thead>
+                    <tr className="section-header">
+                      <h4 style={{ fontWeight: "bold" }}>Personal Info</h4>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <br />
+                    <tr className={this.props.address === "" ? "hide" : ""}>
+                      <b>Address:</b>
+                      <p> {this.props.address} </p>
+                    </tr>
+
+                    <tr className={this.props.dob === "" ? "hide" : ""}>
+                      <b>DOB:</b>
+                      <p>{this.props.dob}</p>
+                    </tr>
+
+                    <tr className={this.props.email === "" ? "hide" : ""}>
+                      <b>Email:</b>
+                      <p>{this.props.email}</p>
+                    </tr>
+
+                    <tr className={this.props.phoneNo === "" ? "hide" : ""}>
+                      <b>Phone:</b>
+                      <p>{this.props.phoneNo}</p>
+                    </tr>
+
+                    <tr className={this.props.link === "" ? "hide" : ""}>
+                      <b>LinkedIn:</b>
+                      <p>{this.props.link}</p>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <table
+                  className={
+                    this.props.skillBlocks.length > 0 ? "section" : "hide"
+                  }
+                >
+                  <thead>
+                    <tr className="section-header">
+                      <h4 style={{ fontWeight: "bold" }}>Skills</h4>
+                    </tr>
+                  </thead>
+
+                  <tbody>{this.updateSkillBlock()}</tbody>
+                </table>
+
+                <table
+                  className={
+                    this.props.languageBlocks.length > 0 ? "section" : "hide"
+                  }
+                >
+                  <thead>
+                    <tr className="section-header">
+                      <h4 style={{ fontWeight: "bold" }}>Languages</h4>
+                    </tr>
+                  </thead>
+
+                  <tbody>{this.updateLanguageBlock()}</tbody>
+                </table>
+
+                <table
+                  className={
+                    this.props.hobbyBlocks.length > 0 ? "section" : "hide"
+                  }
+                >
+                  <thead>
+                    <tr className="section-header">
+                      <h4 style={{ fontWeight: "bold" }}>Interests</h4>
+                    </tr>
+                  </thead>
+
+                  <tbody>{this.updateHobbyBlock()}</tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -424,33 +395,30 @@ class Layout1 extends Component {
 
 const mapStateToProps = state => {
   return {
-    image: state.imageRed.img,
+    image: state.imageRed_2.img_2,
 
-    fullName: state.personRed.name,
-    collegeName: state.personRed.collegeName,
-    email: state.personRed.email,
-    dob: state.personRed.dob,
-    address: state.personRed.address,
+    fullName: state.personRed_2.name_2,
+    curPos: state.personRed_2.currentPosition_2,
+    address: state.personRed_2.address_2,
+    email: state.personRed_2.email_2,
+    dob: state.personRed_2.dob_2,
+    phoneNo: state.personRed_2.phoneNo_2,
+    link: state.personRed_2.link_2,
 
-    degreeBlocks: state.educationRed.degreeBlocks,
+    description: state.descriptionRed_2.description_2,
 
-    areaOfInterest: state.skillRed.areaOfInterest,
-    proLanguages: state.skillRed.proLanguages,
-    toolsAndTech: state.skillRed.toolsAndTech,
-    techElectives: state.skillRed.techElectives,
+    expBlocks: state.expRed_2.expBlocks_2,
 
-    internshipBlocks: state.internshipRed.internshipBlocks,
+    degreeBlocks: state.educationRed_2.degreeBlocks_2,
 
-    projectBlocks: state.projectRed.projectBlocks,
+    awardBlocks: state.awardRed_2.awardBlocks_2,
 
-    positionBlocks: state.positionRed.positionBlocks,
+    skillBlocks: state.skillRed_2.skillBlocks_2,
 
-    awardBlocks: state.awardRed.awardBlocks,
+    languageBlocks: state.languageRed_2.languageBlocks_2,
 
-    hobbyBlocks: state.hobbyRed.hobbyBlocks,
-
-    orderOfBlocks: state.orderOfBlocksRed.orderOfBlocks
+    hobbyBlocks: state.hobbyRed_2.hobbyBlocks_2
   };
 };
 
-export default connect(mapStateToProps)(Layout1);
+export default connect(mapStateToProps)(Layout2);

@@ -4,54 +4,8 @@ import Form from "react-bootstrap/Form";
 import firestore from "./../../../../firebase/firestore";
 
 class PersonalInfo extends Component {
-  componentDidUpdate() {
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .collection("profile")
-      .doc(this.props.id)
-      .set({
-        name: this.props.name,
-        collegeName: this.props.collegeName,
-        email: this.props.email,
-        dob: this.props.dob,
-        address: this.props.address
-      })
-      .then(() => console.log("update profile"))
-      .catch(err => {
-        console.log(err);
-      });
-  }
-  componentWillUnmount() {
-    this.props.updateName("");
-    this.props.updateCollgeName("");
-    this.props.updateEmail("");
-    this.props.updateDOB("");
-    this.props.updateAddress("");
-  }
-  componentDidMount() {
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .collection("profile")
-      .doc(this.props.id)
-      .get()
-      .then(resp => {
-        let profile = resp.data();
-        if (!profile) return null;
-        this.props.updateName(profile.name);
-        this.props.updateCollgeName(profile.collegeName);
-        this.props.updateEmail(profile.email);
-        this.props.updateDOB(profile.dob);
-        this.props.updateAddress(profile.address);
-      });
-  }
-  handleChangeName = event => {
-    this.props.updateName(event.target.value);
+  handleChangeCurPos = event => {
+    this.props.updateCurPos(event.target.value);
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -66,8 +20,91 @@ class PersonalInfo extends Component {
       });
   };
 
-  handleChangeCollegeName = event => {
-    this.props.updateCollgeName(event.target.value);
+  handleChangePhoneNo = event => {
+    this.props.updatePhoneNo(event.target.value);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(() => console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  handleChangeLink = event => {
+    this.props.updateLink(event.target.value);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(() => console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  componentDidUpdate() {
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .collection("profile")
+      .doc(this.props.id)
+      .set({
+        name: this.props.name,
+        curPos: this.props.curPos,
+        email: this.props.email,
+        dob: this.props.dob,
+        address: this.props.address,
+        phoneNo: this.props.phoneNo,
+        link: this.props.link
+      })
+      .then(() => console.log("update profile"))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  componentWillUnmount() {
+    this.props.updateName("");
+    this.props.updateCurPos("");
+    this.props.updateEmail("");
+    this.props.updateDOB("");
+    this.props.updateAddress("");
+    this.props.updateLink("");
+    this.props.updatePhoneNo("");
+  }
+  componentDidMount() {
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .collection("profile")
+      .doc(this.props.id)
+      .get()
+      .then(resp => {
+        let profile = resp.data();
+        if (!profile) return null;
+        this.props.updateName(profile.name);
+        this.props.updateCurPos(profile.curPos);
+        this.props.updateEmail(profile.email);
+        this.props.updateDOB(profile.dob);
+        this.props.updateAddress(profile.address);
+        this.props.updateLink(profile.link);
+        this.props.updatePhoneNo(profile.phoneNo);
+      });
+  }
+  handleChangeName = event => {
+    this.props.updateName(event.target.value);
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -131,6 +168,7 @@ class PersonalInfo extends Component {
   };
 
   render() {
+    //console.log(this.props);
     return (
       <div>
         <Form>
@@ -144,23 +182,24 @@ class PersonalInfo extends Component {
             />
           </Form.Group>
 
-          <Form.Group controlId="formGroupCollegeName">
-            <Form.Label>College Name</Form.Label>
+          <Form.Group controlId="formGroupCurPos">
+            <Form.Label>Current Position</Form.Label>
             <Form.Control
               type="text"
-              placeholder="College name"
-              onChange={this.handleChangeCollegeName}
-              defaultValue={this.props.collegeName}
+              placeholder="Software Devlopment Engineer"
+              onChange={this.handleChangeCurPos}
+              defaultValue={this.props.curPos}
             />
           </Form.Group>
 
-          <Form.Group controlId="formGroupEmail">
-            <Form.Label>Email</Form.Label>
+          <Form.Group controlId="formGroupAddress">
+            <Form.Label>Address</Form.Label>
             <Form.Control
-              type="email"
-              placeholder="Email"
-              onChange={this.handleChangeEmail}
-              defaultValue={this.props.email}
+              as="textarea"
+              rows="3"
+              placeholder="Address"
+              onChange={this.handleChangeAddress}
+              defaultValue={this.props.address}
             />
           </Form.Group>
 
@@ -174,14 +213,33 @@ class PersonalInfo extends Component {
             />
           </Form.Group>
 
-          <Form.Group controlId="formGroupAddress">
-            <Form.Label>Address</Form.Label>
+          <Form.Group controlId="formGroupEmail">
+            <Form.Label>Email</Form.Label>
             <Form.Control
-              as="textarea"
-              rows="3"
-              placeholder="Address"
-              onChange={this.handleChangeAddress}
-              defaultValue={this.props.address}
+              type="email"
+              placeholder="Email"
+              onChange={this.handleChangeEmail}
+              defaultValue={this.props.email}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formGroupPhone">
+            <Form.Label>Contact No.</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="+91 1234567890"
+              onChange={this.handleChangePhoneNo}
+              defaultValue={this.props.phoneNo}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formGroupLink">
+            <Form.Label>LinkedIn: </Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="linkedin.com/in/name"
+              onChange={this.handleChangeLink}
+              defaultValue={this.props.link}
             />
           </Form.Group>
         </Form>
@@ -230,32 +288,43 @@ class PersonalInfo extends Component {
 }
 
 const mapStateToProps = state => {
+  //console.log(state);
   return {
-    name: state.personRed.name,
-    collegeName: state.personRed.collegeName,
-    email: state.personRed.email,
-    dob: state.personRed.dob,
-    address: state.personRed.address,
+    name: state.personRed_2.name_2,
+    curPos: state.personRed_2.currentPosition_2,
+    email: state.personRed_2.email_2,
+    dob: state.personRed_2.dob_2,
+    address: state.personRed_2.address_2,
+    phoneNo: state.personRed_2.phoneNo_2,
+    link: state.personRed_2.link_2,
     auth: state.firebase.auth
   };
 };
 
 const mapDispatchToProps = dispatch => {
+  //console.log(dispatch)
+  //store.subscribe(()=>store.getState());
   return {
     updateName: name => {
-      dispatch({ type: "UPDATE_NAME", name: name });
+      dispatch({ type: "UPDATE_NAME_2", name: name });
     },
-    updateCollgeName: collegeName => {
-      dispatch({ type: "UPDATE_COLLEGENAME", collegeName: collegeName });
+    updateCurPos: curPos => {
+      dispatch({ type: "UPDATE_CUR_POS_2", curPos: curPos });
     },
     updateEmail: email => {
-      dispatch({ type: "UPDATE_EMAIL", email: email });
+      dispatch({ type: "UPDATE_EMAIL_2", email: email });
     },
     updateDOB: dob => {
-      dispatch({ type: "UPDATE_DOB", dob: dob });
+      dispatch({ type: "UPDATE_DOB_2", dob: dob });
     },
     updateAddress: address => {
-      dispatch({ type: "UPDATE_ADDRESS", address: address });
+      dispatch({ type: "UPDATE_ADDRESS_2", address: address });
+    },
+    updatePhoneNo: phoneNo => {
+      dispatch({ type: "UPDATE_PHONE_2", phoneNo: phoneNo });
+    },
+    updateLink: link => {
+      dispatch({ type: "UPDATE_LINK_2", link: link });
     }
   };
 };

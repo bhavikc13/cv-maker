@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Accordion, Form, Card, Button } from "react-bootstrap";
+import { Accordion, Card, Form, Button } from "react-bootstrap";
 import firestore from "./../../../../firebase/firestore";
 
-class SkillsInfo extends Component {
-  handleAddSkillBlock = () => {
+class LanguageInfo extends Component {
+  handleAddLanguageBlock = () => {
     let tid = Date.now();
-    let newBlock = { id: tid, skillName: "", skillLevel: "1" };
-    this.props.addSkillBlock(newBlock);
+    let newBlock = { id: tid, languageName: "", languageLevel: "1" };
+    this.props.addLanguageBlock(newBlock);
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -22,27 +22,8 @@ class SkillsInfo extends Component {
       });
   };
 
-  handleChangeSkillName = (event, id) => {
-    this.props.updateSkillName(event.target.value, id);
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .update({
-        updatedAt: new Date()
-      })
-      .then(() => console.log("update date and time"))
-      .catch(err => {
-        console.log(err);
-      });
-    let dummyBlock = { id: "dummy" };
-    this.props.addSkillBlock(dummyBlock);
-    this.props.removeSkillBlock("dummy");
-  };
-
-  handleChangeSkillLevel = (event, id) => {
-    this.props.updateSkillLevel(event.target.value, id);
+  handleChangeLanguageName = (event, id) => {
+    this.props.updateLanguageName(event.target.value, id);
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -56,12 +37,31 @@ class SkillsInfo extends Component {
         console.log(err);
       });
     let dummyBlock = { id: "dummy" };
-    this.props.addSkillBlock(dummyBlock);
-    this.props.removeSkillBlock("dummy");
+    this.props.addLanguageBlock(dummyBlock);
+    this.props.removeLanguageBlock("dummy");
   };
 
-  handleRemoveSkillBlock = id => {
-    this.props.removeSkillBlock(id);
+  handleChangeLanguageLevel = (event, id) => {
+    this.props.updateLanguageLevel(event.target.value, id);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(() => console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
+    let dummyBlock = { id: "dummy" };
+    this.props.addLanguageBlock(dummyBlock);
+    this.props.removeLanguageBlock("dummy");
+  };
+
+  handleRemoveLanguageBlock = id => {
+    this.props.removeLanguageBlock(id);
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -81,21 +81,21 @@ class SkillsInfo extends Component {
       .doc(this.props.auth.uid)
       .collection("cvs")
       .doc(this.props.id)
-      .collection("skill")
+      .collection("language")
       .doc(this.props.id)
       .set({
-        ...this.props.skillBlocks
+        ...this.props.languageBlocks
       })
-      .then(() => console.log("update skill"))
+      .then(() => console.log("update language"))
       .catch(err => {
         console.log(err);
       });
   }
   componentWillUnmount() {
-    let TskillBlocks = this.props.skillBlocks;
-    let n = TskillBlocks.length;
+    let TlanguageBlocks = this.props.languageBlocks;
+    let n = TlanguageBlocks.length;
     for (let i = 0; i < n; i++) {
-      this.props.removeSkillBlock(TskillBlocks[i].id);
+      this.props.removeLanguageBlock(TlanguageBlocks[i].id);
     }
   }
   componentDidMount() {
@@ -104,20 +104,20 @@ class SkillsInfo extends Component {
       .doc(this.props.auth.uid)
       .collection("cvs")
       .doc(this.props.id)
-      .collection("skill")
+      .collection("language")
       .doc(this.props.id)
       .get()
       .then(resp => {
-        let skill = resp.data();
-        if (!skill) return null;
-        let sz = Object.keys(skill).length;
+        let language = resp.data();
+        if (!language) return null;
+        let sz = Object.keys(language).length;
         for (let i = 0; i < sz; i++) {
           let newBlock = {
-            id: skill[i].id,
-            skillName: skill[i].skillName,
-            skillLevel: skill[i].skillLevel
+            id: language[i].id,
+            languageName: language[i].languageName,
+            languageLevel: language[i].languageLevel
           };
-          this.props.addSkillBlock(newBlock);
+          this.props.addLanguageBlock(newBlock);
         }
       });
   }
@@ -126,17 +126,17 @@ class SkillsInfo extends Component {
     return (
       <div>
         <Accordion defaultActiveKey=" ">
-          {this.props.skillBlocks.map((value, index) => {
+          {this.props.languageBlocks.map((value, index) => {
             return (
               <Card key={value.id}>
                 <Accordion.Toggle as={Card.Header} eventKey={index}>
-                  Skill #{index + 1}
+                  Language #{index + 1}
                   <Button
                     className="float-right"
                     size="sm"
                     variant="danger"
                     onClick={() => {
-                      this.handleRemoveSkillBlock(value.id);
+                      this.handleRemoveLanguageBlock(value.id);
                     }}
                     style={{
                       display: "inline-block",
@@ -153,31 +153,33 @@ class SkillsInfo extends Component {
                   <Card.Body>
                     <Form>
                       <Form.Group controlId="formGroupDegreeName">
-                        <Form.Label>Skill Name</Form.Label>
+                        <Form.Label>Language Name</Form.Label>
                         <Form.Control
                           type="text"
                           placeholder="Leadership"
                           onChange={event => {
-                            this.handleChangeSkillName(event, value.id);
+                            this.handleChangeLanguageName(event, value.id);
                           }}
-                          defaultValue={this.props.skillBlocks[index].skillName}
+                          defaultValue={
+                            this.props.languageBlocks[index].languageName
+                          }
                         />
                       </Form.Group>
 
-                      <Form.Group controlId="formGroupSkillLevel">
-                        <Form.Label>Skill Level - (Range: 1-5)</Form.Label>
+                      <Form.Group controlId="formGroupLanguageLevel">
+                        <Form.Label>Language Level - (Range: 1-5)</Form.Label>
 
                         <Form.Control
                           type="range"
                           min="1"
                           max="5"
-                          title={value.skillLevel}
+                          title={value.languageLevel}
                           defaultValue={
-                            this.props.skillBlocks[index].skillLevel
+                            this.props.languageBlocks[index].languageLevel
                           }
                           step="1"
                           onChange={event => {
-                            this.handleChangeSkillLevel(event, value.id);
+                            this.handleChangeLanguageLevel(event, value.id);
                           }}
                           custom
                         />
@@ -193,7 +195,7 @@ class SkillsInfo extends Component {
         <Button
           variant="primary"
           style={{ margin: "5px" }}
-          onClick={this.handleAddSkillBlock}
+          onClick={this.handleAddLanguageBlock}
         >
           {" "}
           +Add
@@ -206,30 +208,34 @@ class SkillsInfo extends Component {
 const mapStateToProps = state => {
   //console.log(state);
   return {
-    skillBlocks: state.skillRed_2.skillBlocks_2,
+    languageBlocks: state.languageRed_2.languageBlocks_2,
     auth: state.firebase.auth
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    addSkillBlock: newBlock => {
-      dispatch({ type: "ADD_SKILL_BLOCK_2", newBlock: newBlock });
+    addLanguageBlock: newBlock => {
+      dispatch({ type: "ADD_LANGUAGE_BLOCK_2", newBlock: newBlock });
     },
-    updateSkillName: (skillName, id) => {
-      dispatch({ type: "UPDATE_SKILL_NAME_2", skillName: skillName, id: id });
-    },
-    updateSkillLevel: (skillLevel, id) => {
+    updateLanguageName: (languageName, id) => {
       dispatch({
-        type: "UPDATE_SKILL_LEVEL_2",
-        skillLevel: skillLevel,
+        type: "UPDATE_LANGUAGE_NAME_2",
+        languageName: languageName,
         id: id
       });
     },
-    removeSkillBlock: id => {
-      dispatch({ type: "REMOVE_SKILL_BLOCK_2", id: id });
+    updateLanguageLevel: (languageLevel, id) => {
+      dispatch({
+        type: "UPDATE_LANGUAGE_LEVEL_2",
+        languageLevel: languageLevel,
+        id: id
+      });
+    },
+    removeLanguageBlock: id => {
+      dispatch({ type: "REMOVE_LANGUAGE_BLOCK_2", id: id });
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillsInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(LanguageInfo);

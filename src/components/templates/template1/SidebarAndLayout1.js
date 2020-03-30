@@ -19,7 +19,7 @@ import ImageInfo from "./components/ImageInfo";
 import { Link } from "react-router-dom";
 import Block from "./Block";
 
-const SidebarAndLayout = props => {
+const SidebarAndLayout1 = props => {
   const [state, setState] = useState({ title: "", isLoading: false });
   props.updatePrevUrl(window.location.pathname);
   const [blocks, setBlocks] = useState(props.orderOfBlocks);
@@ -48,7 +48,7 @@ const SidebarAndLayout = props => {
   ) : (
     <div>
       <h3 className="text-center">{props.title}</h3>
-      <div ref={drop} className="sidebar">
+      <div className="sidebar" ref={drop}>
         <Accordion defaultActiveKey="">
           <Card>
             <Accordion.Toggle
@@ -64,6 +64,7 @@ const SidebarAndLayout = props => {
               </Card.Body>
             </Accordion.Collapse>
           </Card>
+
           <Card>
             <Accordion.Toggle
               as={Card.Header}
@@ -78,6 +79,7 @@ const SidebarAndLayout = props => {
               </Card.Body>
             </Accordion.Collapse>
           </Card>
+
           {blocks.map((block, index) => (
             <Block
               key={block.id}
@@ -90,6 +92,7 @@ const SidebarAndLayout = props => {
           ))}
         </Accordion>
       </div>
+
       <div className="template1">
         <Layout1 />
       </div>
@@ -122,7 +125,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarAndLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarAndLayout1);
 
 /*<Card>
               <Accordion.Toggle as={Card.Header} eventKey="2">

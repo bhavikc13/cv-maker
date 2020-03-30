@@ -10,7 +10,7 @@
   padding: 10px;
   font-size: 18px;
   position: fixed;
-  left: 28%;
+  left: 29%;
   right: 0;
   bottom: 0;
   top: 88px; /*navbar-height*/
@@ -24,7 +24,7 @@
   font-size: 18px;
   line-height: 1.5;
   background: #fff;
-  padding: 40px;
+  padding: 20px;
 }
 
 .main img {

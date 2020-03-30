@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Form, Card, Button } from "react-bootstrap";
+import { Accordion, Form, Card, Button } from "react-bootstrap";
 import firestore from "./../../../../firebase/firestore";
 
 class AwardInfo extends Component {
   handleAddAwardBlock = () => {
     let tid = Date.now();
-    let newBlock = { id: tid, information: "" };
+    let newBlock = { id: tid, year: "", information: "" };
     this.props.addAwardBlock(newBlock);
     firestore
       .collection("users")
@@ -21,22 +21,59 @@ class AwardInfo extends Component {
         console.log(err);
       });
   };
-  componentDidUpdate() {
+
+  handleChangeYear = (event, id) => {
+    this.props.updateYear(event.target.value, id);
+
+    let dummyBlock = { id: "dummy" };
+    this.props.addAwardBlock(dummyBlock);
+    this.props.removeAwardBlock("dummy");
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
       .collection("cvs")
       .doc(this.props.id)
-      .collection("award")
-      .doc(this.props.id)
-      .set({
-        ...this.props.awardBlocks
+      .update({
+        updatedAt: new Date()
       })
-      .then(() => console.log("update award"))
+      .then(() => console.log("update date and time"))
       .catch(err => {
         console.log(err);
       });
-  }
+  };
+  handleChangeAward = (event, id) => {
+    this.props.updateAward(event.target.value, id);
+    let dummyBlock = { id: "dummy", information: "" };
+    this.props.addAwardBlock(dummyBlock);
+    this.props.removeAwardBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(() => console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  handleRemoveAwardBlock = id => {
+    this.props.removeAwardBlock(id);
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(() => console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
+  };
   componentWillUnmount() {
     let TawardBlocks = this.props.awardBlocks;
     let n = TawardBlocks.length;
@@ -60,88 +97,101 @@ class AwardInfo extends Component {
         for (let i = 0; i < sz; i++) {
           let newBlock = {
             id: award[i].id,
-            information: award[i].information
+            information: award[i].information,
+            year: award[i].year
           };
           this.props.addAwardBlock(newBlock);
         }
       })
       .catch(err => console.log(err));
   }
-  handleChangeAward = (event, id) => {
-    this.props.updateAward(event.target.value, id);
-    let dummyBlock = { id: "dummy", information: "" };
-    this.props.addAwardBlock(dummyBlock);
-    this.props.removeAwardBlock("dummy");
+  componentDidUpdate() {
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
       .collection("cvs")
       .doc(this.props.id)
-      .update({
-        updatedAt: new Date()
-      })
-      .then(() => console.log("update date and time"))
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  handleRemoveAwardBlock = id => {
-    this.props.removeAwardBlock(id);
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
+      .collection("award")
       .doc(this.props.id)
-      .update({
-        updatedAt: new Date()
+      .set({
+        ...this.props.awardBlocks
       })
-      .then(() => console.log("update date and time"))
+      .then(() => console.log("update award"))
       .catch(err => {
         console.log(err);
       });
-  };
+  }
 
   render() {
     return (
       <div>
-        {this.props.awardBlocks.map((value, index) => {
-          return (
-            <Card body border="primary" style={{ margin: "10px" }} key={index}>
-              <Form>
-                <Form.Group controlId="formGroupPos">
-                  {" "}
-                  {/*Area of Interest*/}
-                  <Form.Control
-                    type="text"
-                    placeholder="Member of X committee from January 2020 to May 2020..."
-                    onChange={event => {
-                      this.handleChangeAward(event, value.id);
+        <Accordion defaultActiveKey=" ">
+          {this.props.awardBlocks.map((value, index) => {
+            return (
+              <Card key={value.id}>
+                <Accordion.Toggle as={Card.Header} eventKey={index}>
+                  Award/Honour #{index + 1}
+                  <Button
+                    className="float-right"
+                    size="sm"
+                    variant="danger"
+                    onClick={() => {
+                      this.handleRemoveAwardBlock(value.id);
                     }}
-                    defaultValue={this.props.awardBlocks[index].information}
-                  />
-                </Form.Group>
-              </Form>
-              <Button
-                variant="danger"
-                onClick={() => {
-                  this.handleRemoveAwardBlock(value.id);
-                }}
-                style={{
-                  display: "inline-block",
-                  float: "left",
-                  margin: "5px"
-                }}
-              >
-                {" "}
-                -Remove{" "}
-              </Button>
-            </Card>
-          );
-        })}
-        <Button variant="primary" onClick={this.handleAddAwardBlock}>
+                    style={{
+                      display: "inline-block",
+                      float: "left",
+                      margin: "5px"
+                    }}
+                  >
+                    {" "}
+                    -Remove
+                  </Button>
+                </Accordion.Toggle>
+
+                <Accordion.Collapse eventKey={index}>
+                  <Card.Body>
+                    <Form>
+                      <Form.Group controlId="formGroupYear">
+                        <Form.Label>Year</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="2017-01"
+                          onChange={event => {
+                            this.handleChangeYear(event, value.id);
+                          }}
+                          defaultValue={this.props.awardBlocks[index].year}
+                        />
+                      </Form.Group>
+
+                      <Form.Group controlId="formGroupAwardName">
+                        <Form.Label>Award Information</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder=""
+                          onChange={event => {
+                            this.handleChangeAward(event, value.id);
+                          }}
+                          defaultValue={
+                            this.props.awardBlocks[index].information
+                          }
+                        />
+                      </Form.Group>
+                    </Form>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
+            );
+          })}
+        </Accordion>
+
+        <Button
+          variant="primary"
+          style={{ margin: "5px" }}
+          onClick={this.handleAddAwardBlock}
+        >
           {" "}
-          +Add{" "}
+          +Add
         </Button>
       </div>
     );
@@ -151,24 +201,27 @@ class AwardInfo extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    awardBlocks: state.awardRed.awardBlocks
+    awardBlocks: state.awardRed_2.awardBlocks_2
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     addAwardBlock: newBlock => {
-      dispatch({ type: "ADD_AWARD_BLOCK", newBlock: newBlock });
+      dispatch({ type: "ADD_AWARD_BLOCK_2", newBlock: newBlock });
+    },
+    updateYear: (year, id) => {
+      dispatch({ type: "UPDATE_AWARD_YEAR_2", year: year, id: id });
     },
     updateAward: (information, id) => {
       dispatch({
-        type: "UPDATE_AWARD_INFORMATION",
+        type: "UPDATE_AWARD_INFORMATION_2",
         information: information,
         id: id
       });
     },
     removeAwardBlock: id => {
-      dispatch({ type: "REMOVE_AWARD_BLOCK", id: id });
+      dispatch({ type: "REMOVE_AWARD_BLOCK_2", id: id });
     }
   };
 };

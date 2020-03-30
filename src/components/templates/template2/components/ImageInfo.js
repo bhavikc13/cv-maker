@@ -60,7 +60,6 @@ class ImageInfo extends Component {
       isUploading: false
     };
   }
-  componentDidUpdate() {}
   componentWillUnmount() {
     this.props.removeImage();
   }
@@ -312,7 +311,7 @@ class ImageInfo extends Component {
 
 const mapStateToProps = state => {
   return {
-    img: state.imageRed.img,
+    img: state.imageRed_2.img_2,
     auth: state.firebase.auth
   };
 };
@@ -320,10 +319,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     updateImage: img => {
-      dispatch({ type: "UPLOAD_IMAGE", img: img });
+      dispatch({ type: "UPLOAD_IMAGE_2", img: img });
     },
     removeImage: () => {
-      dispatch({ type: "REMOVE_IMAGE" });
+      dispatch({ type: "REMOVE_IMAGE_2" });
     }
   };
 };

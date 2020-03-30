@@ -150,7 +150,7 @@ class PositionInfo extends Component {
 
 const mapStateToProps = state => {
   return {
-    positionBlocks: state.positionRed.positionBlocks,
+    positionBlocks: state.positionRed_1.positionBlocks_1,
     auth: state.firebase.auth
   };
 };
@@ -158,17 +158,17 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addPositionBlock: newBlock => {
-      dispatch({ type: "ADD_POSITION_BLOCK", newBlock: newBlock });
+      dispatch({ type: "ADD_POSITION_BLOCK_1", newBlock: newBlock });
     },
     updatePosition: (information, id) => {
       dispatch({
-        type: "UPDATE_POSITION_INFORMATION",
+        type: "UPDATE_POSITION_INFORMATION_1",
         information: information,
         id: id
       });
     },
     removePositionBlock: id => {
-      dispatch({ type: "REMOVE_POSITION_BLOCK", id: id });
+      dispatch({ type: "REMOVE_POSITION_BLOCK_1", id: id });
     }
   };
 };

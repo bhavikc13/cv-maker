@@ -177,10 +177,10 @@ class SkillsInfo extends Component {
 
 const mapStateToProps = state => {
   return {
-    aoi: state.skillRed.areaOfInterest,
-    pl: state.skillRed.proLanguages,
-    tt: state.skillRed.toolsAndTech,
-    te: state.skillRed.techElectives,
+    aoi: state.skillRed_1.areaOfInterest_1,
+    pl: state.skillRed_1.proLanguages_1,
+    tt: state.skillRed_1.toolsAndTech_1,
+    te: state.skillRed_1.techElectives_1,
     auth: state.firebase.auth
   };
 };
@@ -188,16 +188,16 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     updateAOI: aoi => {
-      dispatch({ type: "UPDATE_AOI", aoi: aoi });
+      dispatch({ type: "UPDATE_AOI_1", aoi: aoi });
     },
     updatePL: pl => {
-      dispatch({ type: "UPDATE_PL", pl: pl });
+      dispatch({ type: "UPDATE_PL_1", pl: pl });
     },
     updateTT: tt => {
-      dispatch({ type: "UPDATE_TT", tt: tt });
+      dispatch({ type: "UPDATE_TT_1", tt: tt });
     },
     updateTE: te => {
-      dispatch({ type: "UPDATE_TE", te: te });
+      dispatch({ type: "UPDATE_TE_1", te: te });
     }
   };
 };

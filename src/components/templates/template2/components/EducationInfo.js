@@ -10,8 +10,7 @@ class EducationInfo extends Component {
       id: id,
       degreeName: "",
       instituteName: "",
-      year: "",
-      score: ""
+      year: ""
     };
     this.props.addDegreeBlock(newBlock);
     firestore
@@ -75,6 +74,32 @@ class EducationInfo extends Component {
         }
       });
   }
+
+  handleChangeYear = (event, id) => {
+    this.props.updateYear(event.target.value, id);
+    let dummyBlock = {
+      id: "dummy",
+      degreeName: "",
+      instituteName: "",
+      year: "",
+      score: ""
+    };
+    this.props.addDegreeBlock(dummyBlock);
+    this.props.removeBlock("dummy");
+    firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
+      .update({
+        updatedAt: new Date()
+      })
+      .then(() => console.log("update date and time"))
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   handleChangeDegreeName = (event, id) => {
     this.props.updateDegreeName(event.target.value, id);
     let dummyBlock = {
@@ -125,56 +150,6 @@ class EducationInfo extends Component {
       });
   };
 
-  handleChangeYear = (event, id) => {
-    this.props.updateYear(event.target.value, id);
-    let dummyBlock = {
-      id: "dummy",
-      degreeName: "",
-      instituteName: "",
-      year: "",
-      score: ""
-    };
-    this.props.addDegreeBlock(dummyBlock);
-    this.props.removeBlock("dummy");
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .update({
-        updatedAt: new Date()
-      })
-      .then(() => console.log("update date and time"))
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  handleChangeScore = (event, id) => {
-    this.props.updateScore(event.target.value, id);
-    let dummyBlock = {
-      id: "dummy",
-      degreeName: "",
-      instituteName: "",
-      year: "",
-      score: ""
-    };
-    this.props.addDegreeBlock(dummyBlock);
-    this.props.removeBlock("dummy");
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .update({
-        updatedAt: new Date()
-      })
-      .then(() => console.log("update date and time"))
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   handleRemoveBlock = id => {
     this.props.removeBlock(id);
     firestore
@@ -190,6 +165,7 @@ class EducationInfo extends Component {
         console.log(err);
       });
   };
+
   render() {
     return (
       <div>
@@ -206,41 +182,20 @@ class EducationInfo extends Component {
                     onClick={() => {
                       this.handleRemoveBlock(value.id);
                     }}
+                    style={{
+                      display: "inline-block",
+                      float: "left",
+                      margin: "5px"
+                    }}
                   >
+                    {" "}
                     -Remove
                   </Button>
                 </Accordion.Toggle>
+
                 <Accordion.Collapse eventKey={index}>
                   <Card.Body>
                     <Form>
-                      <Form.Group controlId="degreeName">
-                        <Form.Label>Degree Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="B.Tech"
-                          onChange={event => {
-                            this.handleChangeDegreeName(event, value.id);
-                          }}
-                          defaultValue={
-                            this.props.degreeBlocks[index].degreeName
-                          }
-                        />
-                      </Form.Group>
-
-                      <Form.Group controlId="formGroupInstituteName">
-                        <Form.Label>College Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Institute name"
-                          onChange={event => {
-                            this.handleChangeInstituteName(event, value.id);
-                          }}
-                          defaultValue={
-                            this.props.degreeBlocks[index].instituteName
-                          }
-                        />
-                      </Form.Group>
-
                       <Form.Group controlId="formGroupYear">
                         <Form.Label>Year</Form.Label>
                         <Form.Control
@@ -253,15 +208,31 @@ class EducationInfo extends Component {
                         />
                       </Form.Group>
 
-                      <Form.Group controlId="formGroupScore">
-                        <Form.Label>CPI/AGGREGATE</Form.Label>
+                      <Form.Group controlId="formGroupDegreeName">
+                        <Form.Label>Degree and College Name</Form.Label>
                         <Form.Control
                           type="text"
-                          placeholder="grade"
+                          placeholder="BTech in Computer Science"
                           onChange={event => {
-                            this.handleChangeScore(event, value.id);
+                            this.handleChangeDegreeName(event, value.id);
                           }}
-                          defaultValue={this.props.degreeBlocks[index].score}
+                          defaultValue={
+                            this.props.degreeBlocks[index].degreeName
+                          }
+                        />
+                      </Form.Group>
+
+                      <Form.Group controlId="formGroupInstituteName">
+                        <Form.Label>Degree and College Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="DA-IICT"
+                          onChange={event => {
+                            this.handleChangeInstituteName(event, value.id);
+                          }}
+                          defaultValue={
+                            this.props.degreeBlocks[index].instituteName
+                          }
                         />
                       </Form.Group>
                     </Form>
@@ -271,11 +242,13 @@ class EducationInfo extends Component {
             );
           })}
         </Accordion>
+
         <Button
           variant="primary"
+          style={{ margin: "5px" }}
           onClick={this.handleAddDegreeBlock}
-          style={{ marginTop: "10px" }}
         >
+          {" "}
           +Add
         </Button>
       </div>
@@ -286,37 +259,34 @@ class EducationInfo extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    degreeBlocks: state.educationRed.degreeBlocks
+    degreeBlocks: state.educationRed_2.degreeBlocks_2
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     addDegreeBlock: newBlock => {
-      dispatch({ type: "ADD_EDUCATION_BLOCK", newBlock: newBlock });
+      dispatch({ type: "ADD_EDUCATION_BLOCK_2", newBlock: newBlock });
+    },
+    updateYear: (year, id) => {
+      dispatch({ type: "UPDATE_EDUCATION_YEAR_2", year: year, id: id });
     },
     updateDegreeName: (degreeName, id) => {
       dispatch({
-        type: "UPDATE_EDUCATION_DEGREE_NAME",
+        type: "UPDATE_EDUCATION_DEGREE_NAME_2",
         degreeName: degreeName,
         id: id
       });
     },
     updateInstituteName: (instituteName, id) => {
       dispatch({
-        type: "UPDATE_EDUCATION_INSTITUTE_NAME",
+        type: "UPDATE_EDUCATION_INSTITUTE_NAME_2",
         instituteName: instituteName,
         id: id
       });
     },
-    updateYear: (year, id) => {
-      dispatch({ type: "UPDATE_EDUCATION_YEAR", year: year, id: id });
-    },
-    updateScore: (score, id) => {
-      dispatch({ type: "UPDATE_EDUCATION_SCORE", score: score, id: id });
-    },
     removeBlock: id => {
-      dispatch({ type: "REMOVE_EDUCATION_BLOCK", id: id });
+      dispatch({ type: "REMOVE_EDUCATION_BLOCK_2", id: id });
     }
   };
 };

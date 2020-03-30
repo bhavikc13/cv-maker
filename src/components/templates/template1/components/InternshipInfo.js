@@ -384,7 +384,7 @@ class InternshipInfo extends Component {
 
 const mapStateToProps = state => {
   return {
-    internshipBlocks: state.internshipRed.internshipBlocks,
+    internshipBlocks: state.internshipRed_1.internshipBlocks_1,
     auth: state.firebase.auth
   };
 };
@@ -392,44 +392,44 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addInternshipBlock: newBlock => {
-      dispatch({ type: "ADD_INTERNSHIP_BLOCK", newBlock: newBlock });
+      dispatch({ type: "ADD_INTERNSHIP_BLOCK_1", newBlock: newBlock });
     },
     updateOrganiztionName: (organizationName, id) => {
       dispatch({
-        type: "UPDATE_INTERNSHIP_ORGANIZATION_NAME",
+        type: "UPDATE_INTERNSHIP_ORGANIZATION_NAME_1",
         organizationName: organizationName,
         id: id
       });
     },
     updateDescription: (description, id) => {
       dispatch({
-        type: "UPDATE_INTERNSHIP_DESCRIPTION",
+        type: "UPDATE_INTERNSHIP_DESCRIPTION_1",
         description: description,
         id: id
       });
     },
     updateSupervisor: (supervisor, id) => {
       dispatch({
-        type: "UPDATE_INTERNSHIP_SUPERVISOR",
+        type: "UPDATE_INTERNSHIP_SUPERVISOR_1",
         supervisor: supervisor,
         id: id
       });
     },
     updateStart: (start, id) => {
-      dispatch({ type: "UPDATE_INTERNSHIP_START", start: start, id: id });
+      dispatch({ type: "UPDATE_INTERNSHIP_START_1", start: start, id: id });
     },
     updateEnd: (end, id) => {
-      dispatch({ type: "UPDATE_INTERNSHIP_END", end: end, id: id });
+      dispatch({ type: "UPDATE_INTERNSHIP_END_1", end: end, id: id });
     },
     updateTeamSize: (teamSize, id) => {
       dispatch({
-        type: "UPDATE_INTERNSHIP_TEAM_SIZE",
+        type: "UPDATE_INTERNSHIP_TEAM_SIZE_1",
         teamSize: teamSize,
         id: id
       });
     },
     removeInternshipBlock: id => {
-      dispatch({ type: "REMOVE_INTERNSHIP_BLOCK", id: id });
+      dispatch({ type: "REMOVE_INTERNSHIP_BLOCK_1", id: id });
     }
   };
 };

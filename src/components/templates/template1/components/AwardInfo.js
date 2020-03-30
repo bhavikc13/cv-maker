@@ -151,24 +151,24 @@ class AwardInfo extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    awardBlocks: state.awardRed.awardBlocks
+    awardBlocks: state.awardRed_1.awardBlocks_1
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     addAwardBlock: newBlock => {
-      dispatch({ type: "ADD_AWARD_BLOCK", newBlock: newBlock });
+      dispatch({ type: "ADD_AWARD_BLOCK_1", newBlock: newBlock });
     },
     updateAward: (information, id) => {
       dispatch({
-        type: "UPDATE_AWARD_INFORMATION",
+        type: "UPDATE_AWARD_INFORMATION_1",
         information: information,
         id: id
       });
     },
     removeAwardBlock: id => {
-      dispatch({ type: "REMOVE_AWARD_BLOCK", id: id });
+      dispatch({ type: "REMOVE_AWARD_BLOCK_1", id: id });
     }
   };
 };
