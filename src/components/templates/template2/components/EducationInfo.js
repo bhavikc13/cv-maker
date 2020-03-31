@@ -67,8 +67,7 @@ class EducationInfo extends Component {
             id: education[i].id,
             degreeName: education[i].degreeName,
             instituteName: education[i].instituteName,
-            year: education[i].year,
-            score: education[i].score
+            year: education[i].year
           };
           this.props.addDegreeBlock(newBlock);
         }
@@ -81,8 +80,7 @@ class EducationInfo extends Component {
       id: "dummy",
       degreeName: "",
       instituteName: "",
-      year: "",
-      score: ""
+      year: ""
     };
     this.props.addDegreeBlock(dummyBlock);
     this.props.removeBlock("dummy");
@@ -106,8 +104,7 @@ class EducationInfo extends Component {
       id: "dummy",
       degreeName: "",
       instituteName: "",
-      year: "",
-      score: ""
+      year: ""
     };
     this.props.addDegreeBlock(dummyBlock);
     this.props.removeBlock("dummy");
@@ -131,8 +128,7 @@ class EducationInfo extends Component {
       id: "dummy",
       degreeName: "",
       instituteName: "",
-      year: "",
-      score: ""
+      year: ""
     };
     this.props.addDegreeBlock(dummyBlock);
     this.props.removeBlock("dummy");

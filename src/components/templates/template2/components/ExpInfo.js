@@ -402,7 +402,9 @@ class ExpInfo extends Component {
                                           </Button>
                                         </Accordion.Toggle>
 
-                                        <Accordion.Collapse eventKey={val}>
+                                        <Accordion.Collapse
+                                          eventKey={val.descId}
+                                        >
                                           <div>
                                             <Card.Body>
                                               <Form.Group controlId="formGroupDescription">
@@ -454,12 +456,12 @@ class ExpInfo extends Component {
                         <Card>
                           <Accordion.Toggle
                             as={Card.Header}
-                            eventKey={index + 20}
+                            eventKey={index + 100}
                           >
                             Key Achievements
                           </Accordion.Toggle>
 
-                          <Accordion.Collapse eventKey={index + 20}>
+                          <Accordion.Collapse eventKey={index + 100}>
                             <div>
                               <Card.Body>
                                 <Accordion defaultActiveKey=" ">
@@ -468,7 +470,7 @@ class ExpInfo extends Component {
                                       <Card key={val.keyAchvId}>
                                         <Accordion.Toggle
                                           as={Card.Header}
-                                          eventKey={ind + 40}
+                                          eventKey={val.keyAchId}
                                         >
                                           Achievement #{ind + 1}
                                           <Button
@@ -486,7 +488,9 @@ class ExpInfo extends Component {
                                           </Button>
                                         </Accordion.Toggle>
 
-                                        <Accordion.Collapse eventKey={ind + 40}>
+                                        <Accordion.Collapse
+                                          eventKey={val.keyAchId}
+                                        >
                                           <div>
                                             <Card.Body>
                                               <Form.Group controlId="formGroupKeyAchv">
