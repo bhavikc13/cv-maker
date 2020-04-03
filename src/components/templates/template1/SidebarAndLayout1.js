@@ -33,6 +33,7 @@ const SidebarAndLayout1 = props => {
         ]
       })
     );
+    props.updateOrderOfBlocks(blocks, props.auth.uid, props.id);
   };
   const findBlock = id => {
     const block = blocks.filter(b => b.id === id)[0];
@@ -42,7 +43,6 @@ const SidebarAndLayout1 = props => {
     };
   };
   const [, drop] = useDrop({ accept: "block" });
-  props.updateOrderOfBlocks(blocks);
   return state.isLoading ? (
     <Loader />
   ) : (
@@ -79,7 +79,6 @@ const SidebarAndLayout1 = props => {
               </Card.Body>
             </Accordion.Collapse>
           </Card>
-
           {blocks.map((block, index) => (
             <Block
               key={block.id}
@@ -92,7 +91,6 @@ const SidebarAndLayout1 = props => {
           ))}
         </Accordion>
       </div>
-
       <div className="template1">
         <Layout1 />
       </div>
@@ -116,10 +114,12 @@ const mapDispatchToProps = dispatch => {
         prevUrl: prevUrl
       });
     },
-    updateOrderOfBlocks: orderOfBlocks => {
+    updateOrderOfBlocks: (orderOfBlocks, uid, cvid) => {
       dispatch({
         type: "UPDATE_ORDER_OF_BLOCKS",
-        orderOfBlocks: orderOfBlocks
+        orderOfBlocks: orderOfBlocks,
+        uid: uid,
+        cvid: cvid
       });
     }
   };

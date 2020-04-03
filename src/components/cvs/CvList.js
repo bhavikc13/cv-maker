@@ -10,6 +10,9 @@ import { Redirect } from "react-router-dom";
 class CvList extends Component {
   state = { isLoading: true };
   componentDidMount() {
+    if (!this.props.auth.uid) {
+      return <Redirect to="/signin" />;
+    }
     let TcvList = this.props.cvList;
     let n = TcvList.length;
     for (let i = 0; i < n; i++) {

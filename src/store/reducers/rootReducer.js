@@ -16,19 +16,20 @@ import imageRed_1 from "./compoReducer-1/imageRed_1";
 
 import imageRed_2 from "./compoReducer-2/imageRed_2";
 import personRed_2 from "./compoReducer-2/personRed_2";
-import descriptionRed_2 from './compoReducer-2/descriptionRed_2'
+import descriptionRed_2 from "./compoReducer-2/descriptionRed_2";
 import expRed_2 from "./compoReducer-2/expRed_2";
 import educationRed_2 from "./compoReducer-2/educationRed_2";
 import awardRed_2 from "./compoReducer-2/awardRed_2";
 import skillRed_2 from "./compoReducer-2/skillRed_2";
-import languageRed_2 from "./compoReducer-2/languageRed_2"
+import languageRed_2 from "./compoReducer-2/languageRed_2";
 import hobbyRed_2 from "./compoReducer-2/hobbyRed_2";
-
 
 import prevUrlReducer from "./prevUrlReducer";
 import orderOfBlocksReducer from "./orderOfBlocksReducer";
+import orderOfEducationBlocksRed from "./orderOfEducationBlocksRed";
 
 const rootReducer = combineReducers({
+  orderOfEducationBlocksRed: orderOfEducationBlocksRed,
   orderOfBlocksRed: orderOfBlocksReducer,
   prevUrlRed: prevUrlReducer,
   auth: authReducer,
@@ -54,7 +55,7 @@ const rootReducer = combineReducers({
   awardRed_2: awardRed_2,
   languageRed_2: languageRed_2,
   hobbyRed_2: hobbyRed_2,
-  imageRed_2: imageRed_2,
+  imageRed_2: imageRed_2
 });
 
 export default rootReducer;

@@ -13,10 +13,13 @@ class CvEditor extends Component {
   _isMounted = false;
   componentDidMount() {
     this._isMounted = true;
+    if (!this.props.auth.uid) {
+      return <Redirect to="/signin" />;
+    }
     let prevUrl = this.props.prevUrl;
-    window.onpopstate = e => {
+    /*window.onpopstate = e => {
       if (prevUrl !== "/cvlist") this.props.history.push("/");
-    };
+    };*/
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -24,8 +27,12 @@ class CvEditor extends Component {
       .doc(this.props.match.params.id)
       .get()
       .then(resp => {
-        if (resp.data().templateId === 1)
-          this.props.updateOrderOfBlocks(resp.data().orderOfBlocks);
+        if (resp.data().templateId === 1) {
+          this.props.loadOrderOfBlocks(resp.data().orderOfBlocks);
+          this.props.loadOrderOfEducationBlocks(
+            resp.data().orderOfEducationBlocks
+          );
+        }
         this.setState({
           title: resp.data().title,
           isLoading: false,
@@ -37,26 +44,6 @@ class CvEditor extends Component {
         this.setState({ isLoading: false });
       });
     this.props.updatePrevUrl(window.location.pathname);
-  }
-  componentDidUpdate() {
-    this._isMounted = true;
-    if (this.props.orderOfBlocks !== null) {
-      firestore
-        .collection("users")
-        .doc(this.props.auth.uid)
-        .collection("cvs")
-        .doc(this.props.match.params.id)
-        .update({
-          updatedAt: new Date(),
-          orderOfBlocks: this.props.orderOfBlocks
-        })
-        .then(() =>
-          console.log("update date and time.\nupdate order of blocks")
-        )
-        .catch(err => {
-          console.log(err);
-        });
-    }
   }
   render() {
     const { auth } = this.props;
@@ -90,7 +77,9 @@ const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
     prevUrl: state.prevUrlRed.prevUrl,
-    orderOfBlocks: state.orderOfBlocksRed.orderOfBlocks
+    orderOfBlocks: state.orderOfBlocksRed.orderOfBlocks,
+    orderOfEducationBlocks:
+      state.orderOfEducationBlocksRed.orderOfEducationBlocks
   };
 };
 
@@ -102,10 +91,32 @@ const mapDispatchToProps = dispatch => {
         prevUrl: prevUrl
       });
     },
-    updateOrderOfBlocks: orderOfBlocks => {
+    updateOrderOfBlocks: (orderOfBlocks, uid, cvid) => {
       dispatch({
         type: "UPDATE_ORDER_OF_BLOCKS",
+        orderOfBlocks: orderOfBlocks,
+        uid: uid,
+        cvid: cvid
+      });
+    },
+    updateOrderOfEducationBlocks: (orderOfEducationBlocks, uid, cvid) => {
+      dispatch({
+        type: "UPDATE_ORDER_OF_EDUCATION_BLOCKS",
+        orderOfEducationBlocks: orderOfEducationBlocks,
+        uid: uid,
+        cvid: cvid
+      });
+    },
+    loadOrderOfBlocks: orderOfBlocks => {
+      dispatch({
+        type: "LOAD_ORDER_OF_BLOCKS",
         orderOfBlocks: orderOfBlocks
+      });
+    },
+    loadOrderOfEducationBlocks: orderOfEducationBlocks => {
+      dispatch({
+        type: "LOAD_ORDER_OF_EDUCATION_BLOCKS",
+        orderOfEducationBlocks: orderOfEducationBlocks
       });
     }
   };

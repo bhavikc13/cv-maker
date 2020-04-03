@@ -13,6 +13,9 @@ class Feedback extends React.Component {
   };
 
   componentDidMount() {
+    if (!this.props.auth.uid) {
+      return <Redirect to="/signin" />;
+    }
     this.setState({ isLoading: false });
   }
 

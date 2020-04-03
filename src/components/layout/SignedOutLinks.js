@@ -7,7 +7,7 @@ class SignedOutLinks extends Component {
   render() {
     return (
       <ul className="navbar-nav ml-auto">
-        <li className="nav-item">
+        {/*<li className="nav-item">
           <Link className="btn btn-outline-secondary" to="/signup">
             Sign Up
           </Link>
@@ -20,7 +20,7 @@ class SignedOutLinks extends Component {
           >
             Sign In
           </Link>
-        </li>
+  </li>*/}
       </ul>
     );
   }

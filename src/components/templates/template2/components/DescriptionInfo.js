@@ -24,6 +24,10 @@ class DescriptionInfo extends Component {
   }
   componentDidMount() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("description")
       .doc(this.props.id)
       .get()

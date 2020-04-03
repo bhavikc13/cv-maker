@@ -2,8 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Accordion, Card, Form, Button } from "react-bootstrap";
 import firestore from "./../../../../firebase/firestore";
+import Loader from "./../../../loader/Loader";
+import EducationInfoComp from "./EducationInfoComp";
 
 class EducationInfo extends Component {
+  state = { isLoading: false };
   handleAddDegreeBlock = e => {
     let id = Date.now();
     let newBlock = {
@@ -13,44 +16,18 @@ class EducationInfo extends Component {
       year: "",
       score: ""
     };
-    this.props.addDegreeBlock(newBlock);
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .update({
-        updatedAt: new Date()
-      })
-      .then(() => console.log("update date and time"))
-      .catch(err => {
-        console.log(err);
-      });
+    this.props.addDegreeBlock(newBlock, this.props.auth.uid, this.props.id);
+    this.props.addOrderOfEducationBlock(
+      {
+        id: id
+      },
+      this.props.auth.uid,
+      this.props.id
+    );
   };
-  componentDidUpdate() {
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .collection("education")
-      .doc(this.props.id)
-      .set({
-        ...this.props.degreeBlocks
-      })
-      .then(() => console.log("update education"))
-      .catch(err => {
-        console.log(err);
-      });
-  }
-  componentWillUnmount() {
-    let TdegreeBlocks = this.props.degreeBlocks;
-    let n = TdegreeBlocks.length;
-    for (let i = 0; i < n; i++) {
-      this.props.removeBlock(TdegreeBlocks[i].id);
-    }
-  }
   componentDidMount() {
+    this.setState({ isLoading: true });
+    this.props.removeAllBlocks();
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -61,21 +38,24 @@ class EducationInfo extends Component {
       .get()
       .then(resp => {
         let education = resp.data();
-        if (!education) return null;
-        let sz = Object.keys(education).length;
-        for (let i = 0; i < sz; i++) {
-          let newBlock = {
-            id: education[i].id,
-            degreeName: education[i].degreeName,
-            instituteName: education[i].instituteName,
-            year: education[i].year,
-            score: education[i].score
-          };
-          this.props.addDegreeBlock(newBlock);
+        if (!education) {
+          this.setState({ isLoading: false });
+          return null;
         }
+        let sz = Object.keys(education).length;
+        let blocks = [];
+        for (let i = 0; i < sz; i++) {
+          blocks.push(education[i]);
+        }
+        this.props.loadAllBlocks(blocks);
+        this.setState({ isLoading: false });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoading: false });
       });
   }
-  handleChangeDegreeName = (event, id) => {
+  /*handleChangeDegreeName = (event, id) => {
     this.props.updateDegreeName(event.target.value, id);
     let dummyBlock = {
       id: "dummy",
@@ -189,11 +169,14 @@ class EducationInfo extends Component {
       .catch(err => {
         console.log(err);
       });
-  };
+  };*/
   render() {
-    return (
+    return this.state.isLoading ? (
+      <Loader />
+    ) : (
       <div>
-        <Accordion defaultActiveKey=" ">
+        <EducationInfoComp cvid={this.props.id} />
+        {/*<Accordion defaultActiveKey=" ">
           {this.props.degreeBlocks.map((value, index) => {
             return (
               <Card key={value.id}>
@@ -270,7 +253,7 @@ class EducationInfo extends Component {
               </Card>
             );
           })}
-        </Accordion>
+        </Accordion>*/}
         <Button
           variant="primary"
           onClick={this.handleAddDegreeBlock}
@@ -286,37 +269,56 @@ class EducationInfo extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    degreeBlocks: state.educationRed_1.degreeBlocks_1
+    degreeBlocks: state.educationRed_1.degreeBlocks_1,
+    orderOfEducationBlocks:
+      state.orderOfEducationBlocksRed.orderOfEducationBlocks
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    addDegreeBlock: newBlock => {
-      dispatch({ type: "ADD_EDUCATION_BLOCK_1", newBlock: newBlock });
-    },
-    updateDegreeName: (degreeName, id) => {
+    addDegreeBlock: (newBlock, uid, cvid) => {
       dispatch({
-        type: "UPDATE_EDUCATION_DEGREE_NAME_1",
-        degreeName: degreeName,
-        id: id
+        type: "ADD_EDUCATION_BLOCK_1",
+        newBlock: newBlock,
+        uid: uid,
+        cvid: cvid
       });
     },
-    updateInstituteName: (instituteName, id) => {
+    updateOrderOfEducationBlocks: (orderOfEducationBlocks, uid, cvid) => {
       dispatch({
-        type: "UPDATE_EDUCATION_INSTITUTE_NAME_1",
-        instituteName: instituteName,
-        id: id
+        type: "UPDATE_ORDER_OF_EDUCATION_BLOCKS",
+        orderOfEducationBlocks: orderOfEducationBlocks,
+        uid: uid,
+        cvid: cvid
       });
     },
-    updateYear: (year, id) => {
-      dispatch({ type: "UPDATE_EDUCATION_YEAR_1", year: year, id: id });
+    addOrderOfEducationBlock: (newBlock, uid, cvid) => {
+      dispatch({
+        type: "ADD_ORDER_OF_EDUCATION_BLOCK",
+        newBlock: newBlock,
+        uid: uid,
+        cvid: cvid
+      });
     },
-    updateScore: (score, id) => {
-      dispatch({ type: "UPDATE_EDUCATION_SCORE_1", score: score, id: id });
+    removeBlock: (id, uid, cvid) => {
+      dispatch({
+        type: "REMOVE_EDUCATION_BLOCK_1",
+        id: id,
+        uid: uid,
+        cvid: cvid
+      });
     },
-    removeBlock: id => {
-      dispatch({ type: "REMOVE_EDUCATION_BLOCK_1", id: id });
+    removeAllBlocks: () => {
+      dispatch({
+        type: "REMOVE_ALL_EDUCATION_BLOCKS_1"
+      });
+    },
+    loadAllBlocks: blocks => {
+      dispatch({
+        type: "LOAD_ALL_EDUCATION_BLOCKS_1",
+        blocks: blocks
+      });
     }
   };
 };

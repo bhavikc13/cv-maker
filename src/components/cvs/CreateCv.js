@@ -35,6 +35,9 @@ class CreateCV extends Component {
     isLoading: true
   };
   componentDidMount() {
+    if (!this.props.auth.uid) {
+      return <Redirect to="/signin" />;
+    }
     this.props.updatePrevUrl(window.location.pathname);
     this.setState({ isLoading: false });
   }
@@ -51,6 +54,7 @@ class CreateCV extends Component {
         .add({
           title: cv.title,
           orderOfBlocks: orderOfBlocks,
+          orderOfEducationBlocks: [],
           updatedAt: new Date(),
           createdAt: new Date(),
           userId: userId,
