@@ -53,21 +53,23 @@ const orderOfEducationBlocksRed = (state = initState, action) => {
       orderOfEducationBlocks: newOrderOfEducationBlocks
     };
   } else if (action.type === "UPDATE_ORDER_OF_EDUCATION_BLOCKS") {
-    firestore
-      .collection("users")
-      .doc(action.uid)
-      .collection("cvs")
-      .doc(action.cvid)
-      .update({
-        updatedAt: new Date(),
-        orderOfEducationBlocks: action.orderOfEducationBlocks
-      })
-      .then(() =>
-        console.log("update date and time.\nupdate order of education blocks")
-      )
-      .catch(err => {
-        console.log(err);
-      });
+    if (state.orderOfEducationBlocks !== action.orderOfEducationBlocks) {
+      firestore
+        .collection("users")
+        .doc(action.uid)
+        .collection("cvs")
+        .doc(action.cvid)
+        .update({
+          updatedAt: new Date(),
+          orderOfEducationBlocks: action.orderOfEducationBlocks
+        })
+        .then(() =>
+          console.log("update date and time.\nupdate order of education blocks")
+        )
+        .catch(err => {
+          console.log(err);
+        });
+    }
     return {
       ...state,
       orderOfEducationBlocks: action.orderOfEducationBlocks

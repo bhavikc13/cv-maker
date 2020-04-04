@@ -9,12 +9,16 @@ const educationRed_1 = (state = initState, action) => {
   //console.log('educationRed',state)
   //console.log(props);
   if (action.type === "ADD_DUMMY_BLOCK_1") {
+    let newDegreeBlocks = [...state.degreeBlocks_1, action.dummyBlock];
     return {
-      degreeBlocks_1: state.degreeBlocks_1
+      degreeBlocks_1: newDegreeBlocks
     };
   } else if (action.type === "REMOVE_DUMMY_BLOCK_1") {
+    let newDegreeBlocks = state.degreeBlocks_1.filter((value, index) => {
+      return value.id !== action.id;
+    });
     return {
-      degreeBlocks_1: state.degreeBlocks_1
+      degreeBlocks_1: newDegreeBlocks
     };
   } else if (action.type === "ADD_EDUCATION_BLOCK_1") {
     let newDegreeBlocks = [...state.degreeBlocks_1, action.newBlock];
