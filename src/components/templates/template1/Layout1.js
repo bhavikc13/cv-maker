@@ -6,20 +6,24 @@ class Layout1 extends Component {
   updateDegreeBlock = () => {
     let newDegreeBlocks = [];
 
-    for (let [index, value] of this.props.degreeBlocks.entries()) {
-      newDegreeBlocks.push(
-        <tr key={index}>
-          <td style={{ textAlign: "left" }}>
-            {" "}
-            <b style={{ fontSize: "18px" }}>{value.degreeName}</b>{" "}
-          </td>
-          <td style={{ textAlign: "left" }}> {value.instituteName} </td>
-          <td style={{ textAlign: "left" }}> {value.year} </td>
-          <td style={{ textAlign: "left" }}> {value.score} </td>
-        </tr>
-      );
+    for (let [ind, val] of this.props.orderOfEducationBlocks.entries()) {
+      for (let [index, value] of this.props.degreeBlocks.entries()) {
+        if (val.id === value.id) {
+          newDegreeBlocks.push(
+            <tr key={index}>
+              <td style={{ textAlign: "left" }}>
+                {" "}
+                <b style={{ fontSize: "18px" }}>{value.degreeName}</b>{" "}
+              </td>
+              <td style={{ textAlign: "left" }}> {value.instituteName} </td>
+              <td style={{ textAlign: "left" }}> {value.year} </td>
+              <td style={{ textAlign: "left" }}> {value.score} </td>
+            </tr>
+          );
+          break;
+        }
+      }
     }
-
     return newDegreeBlocks;
   };
 
@@ -432,6 +436,8 @@ const mapStateToProps = state => {
     address: state.personRed_1.address_1,
 
     degreeBlocks: state.educationRed_1.degreeBlocks_1,
+    orderOfEducationBlocks:
+      state.orderOfEducationBlocksRed.orderOfEducationBlocks,
 
     areaOfInterest: state.skillRed_1.areaOfInterest_1,
     proLanguages: state.skillRed_1.proLanguages_1,

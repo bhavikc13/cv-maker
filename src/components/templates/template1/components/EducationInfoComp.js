@@ -15,6 +15,9 @@ const EducationInfoComp = props => {
   useEffect(() => {
     setBlocks(props.orderOfEducationBlocks);
   }, [props.orderOfEducationBlocks]);
+  useEffect(() => {
+    props.updateOrderOfEducationBlocks(blocks, props.auth.uid, props.cvid);
+  }, [blocks]);
   const moveBlock = (id, atIndex) => {
     const { block, index } = findBlock(id);
     setBlocks(
@@ -25,7 +28,6 @@ const EducationInfoComp = props => {
         ]
       })
     );
-    props.updateOrderOfEducationBlocks(blocks, props.auth.uid, props.cvid);
   };
   const findBlock = id => {
     const block = blocks.filter(b => b.id === id)[0];

@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import "./style/SidebarStyle.css";
 import { useDrop } from "react-dnd";
 import update from "immutability-helper";
@@ -23,6 +23,9 @@ const SidebarAndLayout1 = props => {
   const [state, setState] = useState({ title: "", isLoading: false });
   props.updatePrevUrl(window.location.pathname);
   const [blocks, setBlocks] = useState(props.orderOfBlocks);
+  useEffect(() => {
+    props.updateOrderOfBlocks(blocks, props.auth.uid, props.id);
+  }, [blocks]);
   const moveBlock = (id, atIndex) => {
     const { block, index } = findBlock(id);
     setBlocks(
@@ -33,7 +36,6 @@ const SidebarAndLayout1 = props => {
         ]
       })
     );
-    props.updateOrderOfBlocks(blocks, props.auth.uid, props.id);
   };
   const findBlock = id => {
     const block = blocks.filter(b => b.id === id)[0];

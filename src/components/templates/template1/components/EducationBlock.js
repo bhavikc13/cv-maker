@@ -55,23 +55,27 @@ const EducationBlock = ({
   const opacity = isDragging ? 0 : 1;
   const handleChangeDegreeName = (event, bid) => {
     updateDegreeName(event.target.value, bid, auth.uid, cvid);
-    addDummyBlock();
-    removeDummyBlock();
+    let dummyBlock = {id: 'dummy'};
+    addDummyBlock(dummyBlock);
+    removeDummyBlock('dummy');
   };
   const handleChangeInstituteName = (event, bid) => {
     updateInstituteName(event.target.value, bid, auth.uid, cvid);
-    addDummyBlock();
-    removeDummyBlock();
+    let dummyBlock = {id: 'dummy'};
+    addDummyBlock(dummyBlock);
+    removeDummyBlock('dummy');
   };
   const handleChangeYear = (event, id) => {
     updateYear(event.target.value, id, auth.uid, cvid);
-    addDummyBlock();
-    removeDummyBlock();
+    let dummyBlock = {id: 'dummy'};
+    addDummyBlock(dummyBlock);
+    removeDummyBlock('dummy');
   };
   const handleChangeScore = (event, bid) => {
     updateScore(event.target.value, bid, auth.uid, cvid);
-    addDummyBlock();
-    removeDummyBlock();
+    let dummyBlock = {id: 'dummy'};
+    addDummyBlock(dummyBlock);
+    removeDummyBlock('dummy');
   };
   const handleRemoveBlock = bid => {
     removeBlock(bid, auth.uid, cvid);
@@ -181,14 +185,16 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addDummyBlock: () => {
+    addDummyBlock: (dummyBlock) => {
       dispatch({
-        type: "ADD_DUMMY_BLOCK_1"
+        type: "ADD_DUMMY_BLOCK_1",
+        dummyBlock: dummyBlock
       });
     },
-    removeDummyBlock: () => {
+    removeDummyBlock: (id) => {
       dispatch({
-        type: "REMOVE_DUMMY_BLOCK_1"
+        type: "REMOVE_DUMMY_BLOCK_1",
+        id: id
       });
     },
     addDegreeBlock: (newBlock, uid, cvid) => {
