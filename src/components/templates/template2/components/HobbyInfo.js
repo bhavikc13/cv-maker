@@ -116,6 +116,7 @@ class HobbyInfo extends Component {
                     onChange={event => {
                       this.handleChangeHobby(event, value.id);
                     }}
+                    defaultValue={value.information}
                   />
                 </Form.Group>
               </Form>
