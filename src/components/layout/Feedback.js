@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import firestore from "../../firebase/firestore";
 import Loader from "./../loader/Loader";
+import TextareaAutosize from "react-textarea-autosize";
 
 class Feedback extends React.Component {
   state = {
@@ -60,23 +61,30 @@ class Feedback extends React.Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="container">
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label> Feedback</label>
-            <textarea
-              type="text"
-              className="form-control"
-              id="review"
-              onChange={this.handleChangeFeedback}
-            />
+      <div className="container" style={{ margin: "auto", padding: "50px" }}>
+        <div className="card border-dark">
+          <div className="card-body">
+            <form onSubmit={this.handleSubmit}>
+              <h5 className="card-title text-center">Feedback</h5>
+              <div className="form-group">
+                <TextareaAutosize
+                  type="text"
+                  minRows="5"
+                  className="form-control"
+                  id="review"
+                  onChange={this.handleChangeFeedback}
+                  placeholder="Feedback..."
+                  required
+                />
+              </div>
+              <div className="form-group text-center">
+                <button className="btn btn-primary" type="submit">
+                  Submit
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="form-group">
-            <button className="btn btn-primary" type="submit">
-              Submit
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     );
   }

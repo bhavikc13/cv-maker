@@ -31,6 +31,10 @@ class SkillsInfo extends Component {
   }
   componentDidMount() {
     firestore
+      .collection("users")
+      .doc(this.props.auth.uid)
+      .collection("cvs")
+      .doc(this.props.id)
       .collection("skill")
       .doc(this.props.id)
       .get()

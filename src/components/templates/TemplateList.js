@@ -9,9 +9,10 @@ import { Redirect } from "react-router-dom";
 
 class TemplateList extends Component {
   state = { isLoading: true };
-
-  componentWillUnmount() {}
   componentDidMount() {
+    if (!this.props.auth.uid) {
+      return <Redirect to="/signin" />;
+    }
     this.props.updatePrevUrl(window.location.pathname);
     this.setState({ isLoading: false });
   }

@@ -18,13 +18,10 @@ import Layout1 from "./Layout1";
 import ImageInfo from "./components/ImageInfo";
 import { Link } from "react-router-dom";
 import Block from "./Block";
-import PdfLayout1 from "./PdfLayout1";
+import PdfDownloadButton from "./PdfDownloadButton";
 
 const SidebarAndLayout1 = (props) => {
-  const [state, setState] = useState({
-    title: "",
-    isLoading: false,
-  });
+  const [state, setState] = useState({ title: "", isLoading: false });
   props.updatePrevUrl(window.location.pathname);
   const [blocks, setBlocks] = useState(props.orderOfBlocks);
   useEffect(() => {
@@ -52,59 +49,55 @@ const SidebarAndLayout1 = (props) => {
   return state.isLoading ? (
     <Loader />
   ) : (
-    <div>
-      <h2 className="text-center">{props.title}</h2>
-      <div style={{ position: "relative" }}>
-        <div style={{ position: "absolute" }}>
-          <PdfLayout1 />
-        </div>
-        <div className="screenView1">
-          <div className="sidebar1 sticky-bottom" ref={drop}>
-            <Accordion defaultActiveKey="">
-              <Card>
-                <Accordion.Toggle
-                  as={Card.Header}
-                  eventKey="0"
-                  style={{ paddingLeft: "44px" }}
-                >
-                  Upload Image
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey="0">
-                  <Card.Body>
-                    <ImageInfo id={props.id} />
-                  </Card.Body>
-                </Accordion.Collapse>
-              </Card>
+    <div style={{ position: "relative" }}>
+      <h3 className="text-center">{props.title}</h3>
+      <PdfDownloadButton style={{ position: "absolute" }} />
+      <div className="screenView1">
+        <div className="sidebar1" ref={drop}>
+          <Accordion defaultActiveKey="">
+            <Card>
+              <Accordion.Toggle
+                as={Card.Header}
+                eventKey="0"
+                style={{ paddingLeft: "44px" }}
+              >
+                Upload Image
+              </Accordion.Toggle>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <ImageInfo id={props.id} />
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
 
-              <Card>
-                <Accordion.Toggle
-                  as={Card.Header}
-                  eventKey="1"
-                  style={{ paddingLeft: "44px" }}
-                >
-                  Personal Information
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey="1">
-                  <Card.Body>
-                    <PersonalInfo id={props.id} />
-                  </Card.Body>
-                </Accordion.Collapse>
-              </Card>
-              {blocks.map((block, index) => (
-                <Block
-                  key={block.id}
-                  id={block.id}
-                  cvid={props.id}
-                  moveBlock={moveBlock}
-                  findBlock={findBlock}
-                  eventKey={index + 2}
-                />
-              ))}
-            </Accordion>
-          </div>
-          <div className="template1">
-            <Layout1 />
-          </div>
+            <Card>
+              <Accordion.Toggle
+                as={Card.Header}
+                eventKey="1"
+                style={{ paddingLeft: "44px" }}
+              >
+                Personal Information
+              </Accordion.Toggle>
+              <Accordion.Collapse eventKey="1">
+                <Card.Body>
+                  <PersonalInfo id={props.id} />
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+            {blocks.map((block, index) => (
+              <Block
+                key={block.id}
+                id={block.id}
+                cvid={props.id}
+                moveBlock={moveBlock}
+                findBlock={findBlock}
+                eventKey={index + 2}
+              />
+            ))}
+          </Accordion>
+        </div>
+        <div className="template1">
+          <Layout1 />
         </div>
       </div>
     </div>

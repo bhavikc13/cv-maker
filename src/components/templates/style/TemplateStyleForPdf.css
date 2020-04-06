@@ -11,9 +11,10 @@
   bottom: 0;
   top: 90px; /*navbar-height*/
   overflow-y: auto;
+
   /*position: fixed;
-  left: 29%;
-  right: 0;*/
+    left: 29%;
+    right: 0;*/
 }
 
 .resume-template1 {
@@ -27,8 +28,8 @@
 }
 
 .main img {
-  height: 150px;
-  width: 150px;
+  height: 400px;
+  width: 400px;
 }
 
 .text-right {

@@ -26,7 +26,7 @@ class CvEditor extends Component {
       .collection("cvs")
       .doc(this.props.match.params.id)
       .get()
-      .then(resp => {
+      .then((resp) => {
         if (resp.data().templateId === 1) {
           this.props.loadOrderOfBlocks(resp.data().orderOfBlocks);
           this.props.loadOrderOfEducationBlocks(
@@ -36,10 +36,10 @@ class CvEditor extends Component {
         this.setState({
           title: resp.data().title,
           isLoading: false,
-          templateId: resp.data().templateId
+          templateId: resp.data().templateId,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         this.setState({ isLoading: false });
       });
@@ -73,22 +73,19 @@ class CvEditor extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     prevUrl: state.prevUrlRed.prevUrl,
-    orderOfBlocks: state.orderOfBlocksRed.orderOfBlocks,
-    orderOfEducationBlocks:
-      state.orderOfEducationBlocksRed.orderOfEducationBlocks
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    updatePrevUrl: prevUrl => {
+    updatePrevUrl: (prevUrl) => {
       dispatch({
         type: "UPDATE_PREVURL",
-        prevUrl: prevUrl
+        prevUrl: prevUrl,
       });
     },
     updateOrderOfBlocks: (orderOfBlocks, uid, cvid) => {
@@ -96,7 +93,7 @@ const mapDispatchToProps = dispatch => {
         type: "UPDATE_ORDER_OF_BLOCKS",
         orderOfBlocks: orderOfBlocks,
         uid: uid,
-        cvid: cvid
+        cvid: cvid,
       });
     },
     updateOrderOfEducationBlocks: (orderOfEducationBlocks, uid, cvid) => {
@@ -104,21 +101,21 @@ const mapDispatchToProps = dispatch => {
         type: "UPDATE_ORDER_OF_EDUCATION_BLOCKS",
         orderOfEducationBlocks: orderOfEducationBlocks,
         uid: uid,
-        cvid: cvid
+        cvid: cvid,
       });
     },
-    loadOrderOfBlocks: orderOfBlocks => {
+    loadOrderOfBlocks: (orderOfBlocks) => {
       dispatch({
         type: "LOAD_ORDER_OF_BLOCKS",
-        orderOfBlocks: orderOfBlocks
+        orderOfBlocks: orderOfBlocks,
       });
     },
-    loadOrderOfEducationBlocks: orderOfEducationBlocks => {
+    loadOrderOfEducationBlocks: (orderOfEducationBlocks) => {
       dispatch({
         type: "LOAD_ORDER_OF_EDUCATION_BLOCKS",
-        orderOfEducationBlocks: orderOfEducationBlocks
+        orderOfEducationBlocks: orderOfEducationBlocks,
       });
-    }
+    },
   };
 };
 

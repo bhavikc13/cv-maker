@@ -22,43 +22,45 @@ class Dashboard extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="row">
-        <div
-          className="col-md-6 col-sm-12"
-          key="1"
-          style={{
-            marginTop: "30px"
-          }}
-        >
-          <div>
-            <div
-              className="card border-dark"
-              style={{ minHeight: "300px", margin: "30px" }}
-            >
-              <div className="card-body">
-                <h2 className="card-title">Use existing CVs</h2>
-                <p className="card-text"></p>
-                <Link to="/cvlist" className="stretched-link"></Link>
+      <div className="container-fluid">
+        <div className="row">
+          <div
+            className="col-md-6 col-sm-12"
+            key="1"
+            style={{
+              marginTop: "30px"
+            }}
+          >
+            <div>
+              <div
+                className="card border-dark"
+                style={{ minHeight: "300px", margin: "30px" }}
+              >
+                <div className="card-body">
+                  <h2 className="card-title">Use existing CVs</h2>
+                  <p className="card-text"></p>
+                  <Link to="/cvlist" className="stretched-link"></Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          className="col-md-6 col-sm-12"
-          key="2"
-          style={{
-            marginTop: "30px"
-          }}
-        >
-          <div>
-            <div
-              className="card border-dark"
-              style={{ minHeight: "300px", margin: "30px" }}
-            >
-              <div className="card-body">
-                <h2 className="card-title">Create New Cv</h2>
-                <p className="card-text"></p>
-                <Link to="/templatelist" className="stretched-link"></Link>
+          <div
+            className="col-md-6 col-sm-12"
+            key="2"
+            style={{
+              marginTop: "30px"
+            }}
+          >
+            <div>
+              <div
+                className="card border-dark"
+                style={{ minHeight: "300px", margin: "30px" }}
+              >
+                <div className="card-body">
+                  <h2 className="card-title">Create New Cv</h2>
+                  <p className="card-text"></p>
+                  <Link to="/templatelist" className="stretched-link"></Link>
+                </div>
               </div>
             </div>
           </div>

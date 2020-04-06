@@ -1,19 +1,20 @@
 .screenView1 {
   width: 100%;
+  top: 40px;
   height: 100%;
   bottom: 0px;
   display: flex;
-  overflow: hidden;
-  position: relative;
-  min-width: 0;
+  position: sticky;
 }
 
 .sidebar1 {
-  flex: 3; /*navbar-height*/
+  flex: 3;
+  top: 90px; /*navbar-height*/
+  bottom: 0;
   background: #fff; /*sidebar-background*/
   overflow-y: auto;
   box-shadow: 5px 0 10px rgba(0, 0, 0, 0.05);
-  position: relative;
+
   /*position: fixed;
   right: 80%;
   /*max-width: 100%;
@@ -24,10 +25,10 @@
 
 .template1 {
   flex: 7;
+  bottom: 0;
   overflow-y: auto;
   background-color: #7a7a7a;
-  min-width: 0;
-  position: relative;
+
   /*left: 28%;*/
 }
 

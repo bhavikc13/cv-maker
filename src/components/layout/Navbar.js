@@ -11,7 +11,7 @@ const Navbar = ({ auth, profile }) => {
     <SignedOutLinks />
   );
   return (
-    <nav className="navbar navbar-expand navbar-dark bg-dark">
+    <nav className="navbar navbar-expand navbar-dark bg-dark sticky-top">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           CV Maker
@@ -21,10 +21,10 @@ const Navbar = ({ auth, profile }) => {
     </nav>
   );
 };
-const mapStatesToProps = state => {
+const mapStatesToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    profile: state.firebase.profile
+    profile: state.firebase.profile,
   };
 };
 

@@ -57,6 +57,7 @@ class SignIn extends Component {
                   placeholder="Enter email"
                   id="email"
                   onChange={this.handleChange}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -67,9 +68,10 @@ class SignIn extends Component {
                   placeholder="Password"
                   id="password"
                   onChange={this.handleChange}
+                  required
                 />
               </div>
-              <div className="text-center">
+              <div className="form-group text-center">
                 <div>
                   <button type="submit" className="btn btn-primary">
                     Sign In
@@ -79,10 +81,10 @@ class SignIn extends Component {
                   New user? <Link to="/signup">Sign Up</Link>
                 </div>
               </div>
-              <div className="form-group">
+              <div className="form-group text-center">
                 {authError ? <p>{authError}</p> : null}
               </div>
-              <div className="form-group">
+              <div className="form-group text-center">
                 {this.state.error ? <p>{this.state.error}</p> : null}
               </div>
             </form>

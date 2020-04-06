@@ -15,6 +15,9 @@ class SignUp extends Component {
     error: ""
   };
   componentDidMount() {
+    if (this.props.auth.uid) {
+      return <Redirect to="/" />;
+    }
     this.setState({ isLoading: false });
   }
   handleChange = e => {
@@ -55,59 +58,68 @@ class SignUp extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="container">
-        <form onSubmit={this.handleSubmit}>
-          <h5>Sign Up</h5>
-          <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter first name"
-              id="firstName"
-              onChange={this.handleChange}
-            />
+      <div className="container" style={{ margin: "auto", padding: "50px" }}>
+        <div className="card border-dark">
+          <div className="card-body">
+            <form onSubmit={this.handleSubmit}>
+              <h5 className="card-title text-center">Sign Up</h5>
+              <div className="form-group">
+                {/*<label htmlFor="firstName">First Name</label>*/}
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter first name"
+                  id="firstName"
+                  onChange={this.handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                {/*<label htmlFor="lastName">Last Name</label>*/}
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter last name"
+                  id="lastName"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-group">
+                {/*<label htmlFor="email">Email</label>*/}
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Enter email"
+                  id="email"
+                  onChange={this.handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                {/*<label htmlFor="password">Password</label>*/}
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Password"
+                  id="password"
+                  onChange={this.handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group text-center">
+                <button type="submit" className="btn btn-primary">
+                  Sign Up
+                </button>
+              </div>
+              <div className="form-group text-center">
+                {authError ? <p>{authError}</p> : null}
+              </div>
+              <div className="form-group text-center">
+                {this.state.error ? <p>{this.state.error}</p> : null}
+              </div>
+            </form>
           </div>
-          <div className="form-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter last name"
-              id="lastName"
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Enter email"
-              id="email"
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Password"
-              id="password"
-              onChange={this.handleChange}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Sign Up
-          </button>
-          <div className="form-group">
-            {authError ? <p>{authError}</p> : null}
-          </div>
-          <div className="form-group">
-            {this.state.error ? <p>{this.state.error}</p> : null}
-          </div>
-        </form>
+        </div>
       </div>
     );
   }
