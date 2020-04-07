@@ -5,23 +5,24 @@ import { Redirect } from "react-router-dom";
 import firebase from "./../../firebase/fbConfig";
 import Loader from "./../loader/Loader";
 import { Link } from "react-router-dom";
+import "../style/signinStyle.css";
 
 class SignIn extends Component {
   state = {
     email: "",
     password: "",
     isLoading: true,
-    error: ""
+    error: "",
   };
   componentDidMount() {
     this.setState({ isLoading: false });
   }
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
   };
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.setState({ isLoading: true });
     firebase
@@ -31,7 +32,7 @@ class SignIn extends Component {
         console.log("signin success");
         this.setState({ isLoading: false });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         this.setState({ isLoading: false, error: err.message });
       });
@@ -44,67 +45,84 @@ class SignIn extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="container" style={{ margin: "auto", padding: "50px" }}>
-        <div className="card border-dark">
-          <div className="card-body">
-            <form onSubmit={this.handleSubmit}>
-              <h5 className="card-title text-center">Sign In</h5>
-              <div className="form-group">
-                {/*<label htmlFor="email">Email</label>*/}
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="Enter email"
-                  id="email"
-                  onChange={this.handleChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                {/*<label htmlFor="password">Password</label>*/}
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="Password"
-                  id="password"
-                  onChange={this.handleChange}
-                  required
-                />
-              </div>
-              <div className="form-group text-center">
-                <div>
-                  <button type="submit" className="btn btn-primary">
-                    Sign In
-                  </button>
-                </div>
-                <div style={{ margin: "10px" }}>
-                  New user? <Link to="/signup">Sign Up</Link>
-                </div>
-              </div>
-              <div className="form-group text-center">
-                {authError ? <p>{authError}</p> : null}
-              </div>
-              <div className="form-group text-center">
-                {this.state.error ? <p>{this.state.error}</p> : null}
-              </div>
-            </form>
+      <div className="containerSignIn">
+        <div className="bgsignin"></div>
+
+        <form onSubmit={this.handleSubmit} className="form-conatinerSignIn">
+          <h5 className="form-title title1SignIn">Sign In</h5>
+
+          <div className="form-groupSignIn" style={{ marginTop: "10px" }}>
+            {/*<label htmlFor="email" className="title2SignIn">
+              Email
+    </label>*/}
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Enter email"
+              id="email"
+              onChange={this.handleChange}
+            />
           </div>
-        </div>
+          <div className="form-groupSignIn" style={{ marginTop: "10px" }}>
+            {/*<label htmlFor="password" className="title2SignIn">
+              Password
+  </label>*/}
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Password"
+              id="password"
+              onChange={this.handleChange}
+            />
+          </div>
+
+          <center>
+            <div>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ margin: "10px" }}
+              >
+                Sign In
+              </button>
+            </div>
+            <div style={{ margin: "10px", fontSize: "18px", color: "#fff" }}>
+              New user?
+              <Link to="/signup">
+                <button
+                  className="btn btn-primary btn-sm"
+                  style={{ margin: "5px" }}
+                >
+                  Sign Up
+                </button>
+              </Link>
+            </div>
+          </center>
+
+          <div className="form-group">
+            {authError ? <p style={{ color: "white" }}>{authError}</p> : null}
+          </div>
+          <div className="form-group">
+            {this.state.error ? (
+              <p style={{ color: "white" }}>{this.state.error}</p>
+            ) : null}
+          </div>
+        </form>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     authError: state.auth.authError,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: creds => dispatch(signIn(creds))
+    signIn: (creds) => dispatch(signIn(creds)),
   };
 };
 

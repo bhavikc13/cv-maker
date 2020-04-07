@@ -3,8 +3,8 @@ import "./../css/loader.css";
 
 const Loader = () => {
   return (
-    <div className="text-center">
-      <div className="spinner-border text-primary loader" role="status">
+    <div>
+      <div className="spinner-border text-primary loader">
         <span className="sr-only">Loading...</span>
       </div>
     </div>

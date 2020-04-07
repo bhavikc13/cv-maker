@@ -108,15 +108,11 @@ class Layout1 extends Component {
 
     for (let [index, value] of this.props.positionBlocks.entries()) {
       newPositionBlocks.push(
-        <ul
-          key={index}
-          className="list"
-          style={{ padding: "0px", margin: "0px", textAlign: "left" }}
-        >
-          <li>
+        <tr key={index}>
+          <td style={{ padding: "0px", margin: "0px", textAlign: "left" }}>
             {index + 1}. {value.information}
-          </li>
-        </ul>
+          </td>
+        </tr>
       );
     }
 
@@ -128,15 +124,11 @@ class Layout1 extends Component {
 
     for (let [index, value] of this.props.awardBlocks.entries()) {
       newAwardBlocks.push(
-        <ul
-          key={index}
-          className="list"
-          style={{ padding: "0px", margin: "0px", textAlign: "left" }}
-        >
-          <li>
+        <tr key={index}>
+          <td style={{ padding: "0px", margin: "0px", textAlign: "left" }}>
             {index + 1}. {value.information}
-          </li>
-        </ul>
+          </td>
+        </tr>
       );
     }
 
@@ -148,15 +140,11 @@ class Layout1 extends Component {
 
     for (let [index, value] of this.props.hobbyBlocks.entries()) {
       newHobbyBlocks.push(
-        <ul
-          key={index}
-          className="list"
-          style={{ padding: "0px", margin: "0px", textAlign: "left" }}
-        >
-          <li>
+        <tr key={index}>
+          <td style={{ padding: "0px", margin: "0px", textAlign: "left" }}>
             {index + 1}. {value.information}
-          </li>
-        </ul>
+          </td>
+        </tr>
       );
     }
 

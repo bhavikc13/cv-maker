@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import firestore from "../../firebase/firestore";
 import Loader from "./../loader/Loader";
-import TextareaAutosize from "react-textarea-autosize";
+import "../style/feedbackStyle.css";
 
 class Feedback extends React.Component {
   state = {
     review: "",
-    reviewError: "",
-    isLoading: true
+    error: "",
+    isValid: false,
+    isLoading: true,
   };
 
   componentDidMount() {
@@ -20,7 +21,7 @@ class Feedback extends React.Component {
     this.setState({ isLoading: false });
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.setState({ isLoading: true });
     let fd = this.state,
@@ -32,26 +33,42 @@ class Feedback extends React.Component {
       .add({
         review: fd.review,
         createdAt: new Date(),
-        userId: userId
+        userId: userId,
       })
-      .then(resp => {
+      .then((resp) => {
         console.log("feedback added");
         this.setState({ isLoading: false });
         this.props.history.push(this.props.location.prevUrl);
-        //alert(`Feedback submitted successfully! \n `);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         this.setState({ isLoading: false });
-        //alert(`Feedback cannot be submitted due to some error! \n `);
       });
   };
 
-  handleChangeFeedback = e => {
-    this.setState({
-      [e.target.id]: e.target.value
-    });
+  handleChangeFeedback = (e) => {
+    this.setState(
+      {
+        [e.target.id]: e.target.value,
+      } /*,
+      () => {
+        this.validateField(this.state.review);
+      }*/
+    );
+    /*this.setState({[name]: value}, 
+      () => { this.validateField(name, value) });*/
   };
+
+  validateField(value) {
+    let isValid = this.state.isValid;
+    let error = "";
+    isValid = value.length > 0;
+    isValid ? (error = " ") : (error = "Feedback field is empty");
+    this.setState({
+      isValid: isValid,
+      error: error,
+    });
+  }
 
   render() {
     const { auth } = this.props;
@@ -61,38 +78,50 @@ class Feedback extends React.Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="container" style={{ margin: "auto", padding: "50px" }}>
-        <div className="card border-dark">
-          <div className="card-body">
-            <form onSubmit={this.handleSubmit}>
-              <h5 className="card-title text-center">Feedback</h5>
-              <div className="form-group">
-                <TextareaAutosize
-                  type="text"
-                  minRows="5"
-                  className="form-control"
-                  id="review"
-                  onChange={this.handleChangeFeedback}
-                  placeholder="Feedback..."
-                  required
-                />
-              </div>
-              <div className="form-group text-center">
-                <button className="btn btn-primary" type="submit">
-                  Submit
-                </button>
-              </div>
-            </form>
+      <div className="containerFeedback">
+        <div className="bgfeedback"></div>
+
+        <form onSubmit={this.handleSubmit} className="form-conatinerFeedback">
+          <div className="form-groupFeedback">
+            <center>
+              <label className="title1Feedback form-title">Feedback</label>
+              <textarea
+                type="text"
+                rows="4"
+                className="form-control"
+                placeholder="Feedback..."
+                id="review"
+                onChange={this.handleChangeFeedback}
+                /*onFocus={() => this.state.error}*/
+                required
+              />
+            </center>
+            <div className="text-danger">{this.state.error}</div>
+            {/* {
+              <span className='error'>error</span>}*/}
           </div>
-        </div>
+
+          <div className="form-groupFeedback">
+            <center>
+              <button
+                className="btn btn-primary"
+                type="submit"
+                /*disabled={!this.state.isValid}*/
+                style={{ margin: "10px" }}
+              >
+                Submit
+              </button>
+            </center>
+          </div>
+        </form>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
   };
 };
 

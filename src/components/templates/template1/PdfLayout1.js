@@ -420,15 +420,15 @@ class PdfLayout1 extends Component {
   };
   render() {
     return (
-      <div>
+      <React.Fragment>
         <button
           className="btn btn-primary float-right btn-sm"
-          after
-          style={{ margin: "5px", marginTop: "-45px" }}
+          onClick={this.exportPDF}
+          style={{ margin: "10px" }}
         >
           Download As PDF
         </button>
-        <div>
+        <div style={{ position: "absolute", top: "100px" }}>
           <PDFExport
             keepTogether="table"
             paperSize="A4"
@@ -484,12 +484,11 @@ class PdfLayout1 extends Component {
                   </tr>
                 </thead>
               </table>
-
               {this.sectionOrderDisplay()}
             </div>
           </PDFExport>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

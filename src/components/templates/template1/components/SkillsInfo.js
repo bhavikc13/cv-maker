@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Card } from "react-bootstrap";
 import firestore from "./../../../../firebase/firestore";
+import "./CompStyle.css";
 
 class SkillsInfo extends Component {
   componentDidUpdate() {
@@ -16,10 +17,10 @@ class SkillsInfo extends Component {
         areaOfInterest: this.props.aoi,
         proLanguages: this.props.pl,
         toolsAndTech: this.props.tt,
-        techElectives: this.props.te
+        techElectives: this.props.te,
       })
       .then(() => console.log("update skill"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
@@ -38,7 +39,7 @@ class SkillsInfo extends Component {
       .collection("skill")
       .doc(this.props.id)
       .get()
-      .then(resp => {
+      .then((resp) => {
         let skill = resp.data();
         if (!skill) return null;
         this.props.updateAOI(skill.areaOfInterest);
@@ -47,7 +48,7 @@ class SkillsInfo extends Component {
         this.props.updateTE(skill.techElectives);
       });
   }
-  handleChangeAOI = event => {
+  handleChangeAOI = (event) => {
     this.props.updateAOI(event.target.value);
     firestore
       .collection("users")
@@ -55,15 +56,15 @@ class SkillsInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  handleChangePL = event => {
+  handleChangePL = (event) => {
     this.props.updatePL(event.target.value);
     firestore
       .collection("users")
@@ -71,15 +72,15 @@ class SkillsInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  handleChangeTT = event => {
+  handleChangeTT = (event) => {
     this.props.updateTT(event.target.value);
     firestore
       .collection("users")
@@ -87,15 +88,15 @@ class SkillsInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  handleChangeTE = event => {
+  handleChangeTE = (event) => {
     this.props.updateTE(event.target.value);
     firestore
       .collection("users")
@@ -103,23 +104,32 @@ class SkillsInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   render() {
+    const bgcolor = {
+      backgroundColor: "#202020",
+      margin: "10px 0px",
+      color: "white",
+      border: "none",
+    };
+
     return (
       <div>
         <Form>
-          <Card body border="primary" style={{ margin: "10px 0px" }}>
+          <Card body style={bgcolor}>
             <Form.Group controlId="formGroupAOI">
               {/*Area of Interest*/}
               <Form.Label>Expertise Area/Area(s) of Interest</Form.Label>
               <Form.Control
+                className="inputStyle"
+                style={bgcolor}
                 as="textarea"
                 rows="3"
                 placeholder="Web Development, Machine Learning..."
@@ -129,12 +139,14 @@ class SkillsInfo extends Component {
             </Form.Group>
           </Card>
 
-          <Card body border="primary" style={{ margin: "10px 0px" }}>
+          <Card body style={bgcolor}>
             <Form.Group controlId="formGroupPL">
               {" "}
               {/* Programming Languages */}
               <Form.Label>Programming Language(s)</Form.Label>
               <Form.Control
+                className="inputStyle"
+                style={bgcolor}
                 as="textarea"
                 rows="3"
                 placeholder="C++, Python..."
@@ -144,12 +156,14 @@ class SkillsInfo extends Component {
             </Form.Group>
           </Card>
 
-          <Card body border="primary" style={{ margin: "10px 0px" }}>
+          <Card body style={bgcolor}>
             <Form.Group controlId="formGroupTT">
               {" "}
               {/* Tools and Technologies */}
               <Form.Label>Tools and Technologies</Form.Label>
               <Form.Control
+                className="inputStyle"
+                style={bgcolor}
                 as="textarea"
                 rows="3"
                 placeholder="React JS, Redux, Firebase..."
@@ -159,12 +173,14 @@ class SkillsInfo extends Component {
             </Form.Group>
           </Card>
 
-          <Card body border="primary" style={{ margin: "10px 0px" }}>
+          <Card body style={bgcolor}>
             <Form.Group controlId="formGroupTE">
               {" "}
               {/* Technical Electives */}
               <Form.Label>Technical Electives</Form.Label>
               <Form.Control
+                className="inputStyle"
+                style={bgcolor}
                 as="textarea"
                 rows="3"
                 placeholder="Software Engineering, Operating System..."
@@ -179,30 +195,30 @@ class SkillsInfo extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     aoi: state.skillRed_1.areaOfInterest_1,
     pl: state.skillRed_1.proLanguages_1,
     tt: state.skillRed_1.toolsAndTech_1,
     te: state.skillRed_1.techElectives_1,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    updateAOI: aoi => {
+    updateAOI: (aoi) => {
       dispatch({ type: "UPDATE_AOI_1", aoi: aoi });
     },
-    updatePL: pl => {
+    updatePL: (pl) => {
       dispatch({ type: "UPDATE_PL_1", pl: pl });
     },
-    updateTT: tt => {
+    updateTT: (tt) => {
       dispatch({ type: "UPDATE_TT_1", tt: tt });
     },
-    updateTE: te => {
+    updateTE: (te) => {
       dispatch({ type: "UPDATE_TE_1", te: te });
-    }
+    },
   };
 };
 

@@ -1,0 +1,123 @@
+.screenViewTempList {
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;
+    background: url('../AddImage/templateListBG2.jpg') no-repeat;
+    background-position: center;
+    background-repeat: repeat-y;
+    background-size: cover;
+    filter: blur(0px);
+}
+
+.container-fluid .rowTempList{
+    height: 100%;
+}
+
+.bgTempList {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;
+    background: url('../AddImage/dashboardBG.jpg') no-repeat;
+    background-position: center;
+    background-repeat: repeat-y;
+    background-size: cover;
+    filter: blur(4px);
+    
+}
+
+.cardBodyTempList{
+    padding: 2rem 0;
+    max-width: 400px;
+}
+
+
+.card-textTempList{
+    grid-area: text;
+    margin: 25px;
+    
+}
+
+.containerTempList{
+    align-items: center;
+    left: "50%";
+}
+
+.card-stats{
+    grid-area: stats;
+}
+
+.cardHover {
+    background: transparent!important;
+    backdrop-filter: blur(100px)!important;
+}
+
+.cardHover:hover{
+    /*box-shadow: 5px 10px 20px 1px rgba(81, 77, 77, 0.5) !important;*/
+    box-shadow: inset 100px 100px 100px 100px rgba(255, 255, 255, 0.1) !important;
+}
+
+
+.titleTempList{
+    margin: 15px;
+    color: white;
+    text-align: center;
+    font-size: x-large;
+}
+
+.textTempList{
+    font-size:0.9rem;
+    padding:0.4rem 1.9rem;
+    color: white;
+    margin: 10px;
+    min-height: 80px;
+}
+
+.imageTempList {
+    max-width: 400px;
+    height: 460px;
+    padding: 20px;
+}
+
+.imageTempList:hover{
+    filter: brightness(100%);
+    padding: 10px;
+}
+
+.cardButtonTempList {
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    left: 36%;
+    margin: 10px;
+}
+
+
+.overflowTempList{
+    overflow:hidden;
+}
+
+@media only screen and (max-width: 768px) {
+    .cardBodyTempList {
+        max-width: 400px ;
+    }
+
+    .colTempList {
+        max-width: 400px;
+    }
+
+    .rowTempList {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .titleTempList {
+        font-size: large;
+    }
+
+    .imageTempList {
+        height: auto;
+        max-height: 450px;
+    }
+    
+}

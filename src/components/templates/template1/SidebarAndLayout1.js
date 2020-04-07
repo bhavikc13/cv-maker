@@ -49,19 +49,24 @@ const SidebarAndLayout1 = (props) => {
     };
   };
   const [, drop] = useDrop({ accept: "block" });
+  const styles = {
+    backgroundColor: "#202020",
+  };
+  const color = {
+    color: "#fff",
+  };
   return state.isLoading ? (
     <Loader />
   ) : (
     <div>
-      <h2 className="text-center">{props.title}</h2>
+      <PdfLayout1 />
+      <h3 className="text-center cvtitle">{props.title}</h3>
       <div style={{ position: "relative" }}>
-        <div style={{ position: "absolute" }}>
-          <PdfLayout1 />
-        </div>
+        <div style={{ position: "absolute" }}></div>
         <div className="screenView1">
-          <div className="sidebar1 sticky-bottom" ref={drop}>
+          <div className="sidebar1" ref={drop} style={color}>
             <Accordion defaultActiveKey="">
-              <Card>
+              <Card className="bgcolor" style={styles}>
                 <Accordion.Toggle
                   as={Card.Header}
                   eventKey="0"
@@ -76,7 +81,7 @@ const SidebarAndLayout1 = (props) => {
                 </Accordion.Collapse>
               </Card>
 
-              <Card>
+              <Card className="bgcolor" style={styles}>
                 <Accordion.Toggle
                   as={Card.Header}
                   eventKey="1"

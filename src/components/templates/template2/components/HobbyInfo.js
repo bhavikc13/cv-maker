@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Card, Button } from "react-bootstrap";
 import firestore from "./../../../../firebase/firestore";
+import "./compoStyle/componentsStyle.css";
 
 class HobbyInfo extends Component {
   handleAddHobbyBlock = () => {
@@ -14,10 +15,10 @@ class HobbyInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -30,10 +31,10 @@ class HobbyInfo extends Component {
       .collection("hobby")
       .doc(this.props.id)
       .set({
-        ...this.props.hobbyBlocks
+        ...this.props.hobbyBlocks,
       })
       .then(() => console.log("update hobby"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
@@ -53,14 +54,14 @@ class HobbyInfo extends Component {
       .collection("hobby")
       .doc(this.props.id)
       .get()
-      .then(resp => {
+      .then((resp) => {
         let hobby = resp.data();
         if (!hobby) return null;
         let sz = Object.keys(hobby).length;
         for (let i = 0; i < sz; i++) {
           let newBlock = {
             id: hobby[i].id,
-            information: hobby[i].information
+            information: hobby[i].information,
           };
           this.props.addHobbyBlock(newBlock);
         }
@@ -77,15 +78,15 @@ class HobbyInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  handleRemoveHobbyBlock = id => {
+  handleRemoveHobbyBlock = (id) => {
     this.props.removeHobbyBlock(id);
     firestore
       .collection("users")
@@ -93,27 +94,37 @@ class HobbyInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
   render() {
+    const bgcolor = {
+      backgroundColor: "#202020",
+      margin: "10px 0px",
+      color: "white",
+      border: "none",
+      boxShadow: "inset 0 -1px 2px #303030",
+    };
+    const accordStyle = {};
     return (
       <div>
         {this.props.hobbyBlocks.map((value, index) => {
           return (
-            <Card body border="primary" style={{ margin: "10px" }} key={index}>
+            <Card body style={bgcolor} key={index}>
               <Form>
                 <Form.Group controlId="formGroupPos">
                   {" "}
                   {/*Area of Interest*/}
                   <Form.Control
+                    className="inputStyle"
+                    style={bgcolor}
                     type="text"
                     placeholder="Member of X committee from January 2020 to May 2020..."
-                    onChange={event => {
+                    onChange={(event) => {
                       this.handleChangeHobby(event, value.id);
                     }}
                     defaultValue={value.information}
@@ -121,14 +132,15 @@ class HobbyInfo extends Component {
                 </Form.Group>
               </Form>
               <Button
-                variant="danger"
+                className="remove"
                 onClick={() => {
                   this.handleRemoveHobbyBlock(value.id);
                 }}
                 style={{
                   display: "inline-block",
                   float: "left",
-                  margin: "5px"
+                  margin: "5px",
+                  border: "none",
                 }}
               >
                 {" "}
@@ -137,7 +149,7 @@ class HobbyInfo extends Component {
             </Card>
           );
         })}
-        <Button variant="primary" onClick={this.handleAddHobbyBlock}>
+        <Button className="add" onClick={this.handleAddHobbyBlock}>
           {" "}
           +Add{" "}
         </Button>
@@ -146,28 +158,28 @@ class HobbyInfo extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     hobbyBlocks: state.hobbyRed_2.hobbyBlocks_2,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    addHobbyBlock: newBlock => {
+    addHobbyBlock: (newBlock) => {
       dispatch({ type: "ADD_HOBBY_BLOCK_2", newBlock: newBlock });
     },
     updateHobby: (information, id) => {
       dispatch({
         type: "UPDATE_HOBBY_INFORMATION_2",
         information: information,
-        id: id
+        id: id,
       });
     },
-    removeHobbyBlock: id => {
+    removeHobbyBlock: (id) => {
       dispatch({ type: "REMOVE_HOBBY_BLOCK_2", id: id });
-    }
+    },
   };
 };
 

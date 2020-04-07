@@ -17,9 +17,9 @@ class CvEditor extends Component {
       return <Redirect to="/signin" />;
     }
     let prevUrl = this.props.prevUrl;
-    /*window.onpopstate = e => {
+    window.onpopstate = (e) => {
       if (prevUrl !== "/cvlist") this.props.history.push("/");
-    };*/
+    };
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -53,7 +53,7 @@ class CvEditor extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="container-fluid">
+      <div className="container-fluid" style={{ padding: "0", margin: "0" }}>
         {this.state.templateId === 1 ? (
           <SidebarAndLayout1
             id={this.props.match.params.id}
