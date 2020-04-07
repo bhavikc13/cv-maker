@@ -145,7 +145,7 @@ const EducationBlock = ({
                     </Form.Group>
 
                     <Form.Group controlId="formGroupInstituteName">
-                      <Form.Label>College Name</Form.Label>
+                      <Form.Label>Institute Name</Form.Label>
                       <Form.Control
                         className="inputStyle"
                         style={bgcolor}
