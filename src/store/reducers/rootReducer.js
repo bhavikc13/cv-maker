@@ -55,7 +55,7 @@ const rootReducer = combineReducers({
   awardRed_2: awardRed_2,
   languageRed_2: languageRed_2,
   hobbyRed_2: hobbyRed_2,
-  imageRed_2: imageRed_2
+  imageRed_2: imageRed_2,
 });
 
 export default rootReducer;
