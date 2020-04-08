@@ -123,7 +123,7 @@ class HobbyInfo extends Component {
                     className="inputStyle"
                     style={bgcolor}
                     type="text"
-                    placeholder="Member of X committee from January 2020 to May 2020..."
+                    placeholder="Interest or Hobby"
                     onChange={(event) => {
                       this.handleChangeHobby(event, value.id);
                     }}
