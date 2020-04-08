@@ -53,8 +53,6 @@ class CvList extends Component {
             });
         } else {
           this.setState({ isLoading: false });
-          alert("No saved CV yet!");
-          this.props.history.push("/");
         }
       })
       .catch(err => {
@@ -214,6 +212,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(CvList);*/
 
 import { Link } from "react-router-dom";
 import firestore from "./../../firebase/firestore";
+import storage from "./../../firebase/storage";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Container, Row, Col, Card, Button, Modal } from "react-bootstrap";
@@ -259,6 +258,7 @@ class CvList extends Component {
                   title: cv.title,
                   userId: cv.userId,
                   updatedAt: cv.updatedAt,
+                  imageUploaded: cv.imageUploaded,
                 };
                 this.props.addCv(newCv);
                 this.setState({ isLoading: false });
@@ -270,6 +270,8 @@ class CvList extends Component {
             });
         } else {
           this.setState({ isLoading: false });
+          alert("No saved CV yet!");
+          this.props.history.push("/");
         }
       })
       .catch((err) => {
@@ -280,6 +282,12 @@ class CvList extends Component {
 
   handleRemoveCv = (id) => {
     this.setState({ isLoading: true });
+    let imageUploaded = false;
+    for (let i = 0; i < this.props.cvList.length; i++) {
+      if (this.props.cvList[i].id === id) {
+        imageUploaded = this.props.cvList[i].imageUploaded;
+      }
+    }
     this.props.removeCv(id);
     let TcvList = this.props.cvList;
     let n = TcvList.length;
@@ -294,6 +302,19 @@ class CvList extends Component {
       .delete()
       .then(() => {
         console.log("cv deleted");
+        if (imageUploaded) {
+          let deleteRef = storage
+            .ref()
+            .child("profileImages/" + id)
+            .delete();
+          deleteRef
+            .then(() => {
+              console.log("image deleted");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
         firestore
           .collection("users")
           .doc(this.props.auth.uid)
@@ -328,6 +349,8 @@ class CvList extends Component {
                 });
             } else {
               this.setState({ isLoading: false });
+              alert("No saved CV yet!");
+              this.props.history.push("/");
             }
           })
           .catch((err) => {
