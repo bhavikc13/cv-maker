@@ -6,7 +6,7 @@ import Loader from "./../loader/Loader";
 import { Link } from "react-router-dom";
 import { dashboardBG } from "../AddImage/dashboardBG.jpg";
 import "../style/dashboardStyle.css";
-import dashboardBG2 from "../AddImage/dashboardBG2.jpeg";
+import image from "../AddImage/dashboardBG2.jpeg";
 
 class Dashboard extends Component {
   state = { isLoading: true };
@@ -18,60 +18,6 @@ class Dashboard extends Component {
     this.setState({ isLoading: false });
   }
   render() {
-    const DashWrapper = {
-      marginTop: "125px",
-      marginLeft: "260px",
-    };
-
-    const Left = {
-      marginLeft: "400px",
-    };
-
-    const Right = {
-      width: "45%",
-    };
-
-    const PrimaryButton = {
-      padding: "10px",
-      fontSize: "15px",
-      textAlign: "center",
-      width: "175px",
-      height: "45px",
-      color: "white",
-      borderRadius: "100px",
-      position: "relative",
-      background: "linear-gradient(to right, #007bff 0%, #33CCFF 100%)",
-    };
-
-    const Button = {
-      position: "relative",
-      padding: "10px",
-      justifyContent: "center",
-      alignItems: "center",
-      fontSize: "15px",
-      textAlign: "center",
-      width: "175px",
-      height: "45px",
-      margin: "15px 0",
-      color: "white",
-      borderRadius: "100px",
-      borderColor: "blue",
-      background: "linear-gradient(to right, #007bff 0%, #33CCFF 100%)",
-    };
-
-    const ImageDash = {
-      width: "40%",
-      height: "80%",
-      position: "absolute",
-      top: "20px",
-      bottom: "0",
-      right: "5%",
-      margin: "auto",
-      boxShadow: "0 2px 25px 2px rgba(0, 0, 0, 0.2)",
-      borderRadius: "3px",
-      background: "white",
-    };
-
     const styles = {
       gridArea: "text",
       margin: "25px",
@@ -143,46 +89,52 @@ class Dashboard extends Component {
         
       </div>
       </div>*/
-
-      <div style={DashWrapper}>
-        <div style={{ Left }}>
-          <div
-            style={{
-              fontSize: "40px",
-              fontWeight: "bold",
-              color: "white",
-              paddingBottom: "30px",
-            }}
-          >
-            <span style={{ fontSize: "40px", fontWeight: "bold" }}> CV </span>
-            <span
-              style={{ fontSize: "40px", fontWeight: "bold", color: "#33CCFF" }}
+      <div>
+        <div className="DashWrapper">
+          <div className="Left">
+            <div
+              style={{
+                fontSize: "40px",
+                fontWeight: "bold",
+                color: "white",
+                paddingBottom: "30px",
+              }}
             >
-              {" "}
-              Maker{" "}
-            </span>
-          </div>
-
-          <div style={PrimaryButton}>
-            Create New CV
-            {/*<p style={styles}></p>
-            <Link to={{pathname: "../templates/TemplateList"}} className="stretched-link"></Link>*/}
-            <div>
-              <p className="styles"></p>
-              <Link to="/templatelist" className="stretched-link styles"></Link>
+              <span style={{ fontSize: "40px", fontWeight: "bold" }}> CV </span>
+              <span
+                style={{
+                  fontSize: "40px",
+                  fontWeight: "bold",
+                  color: "#33CCFF",
+                }}
+              >
+                {" "}
+                Maker{" "}
+              </span>
             </div>
-          </div>
 
-          <div style={Button}>
-            Use Existing
-            <div>
-              <p className="styles"></p>
-              <Link to="/cvlist" className="stretched-link styles"></Link>
+            <div className="PrimaryButton">
+              Create New CV
+              <div>
+                <p className="styles"></p>
+                <Link
+                  to="/templatelist"
+                  className="stretched-link styles"
+                ></Link>
+              </div>
+            </div>
+
+            <div className="PrimaryButton">
+              Use Existing
+              <div>
+                <p className="styles"></p>
+                <Link to="/cvlist" className="stretched-link styles"></Link>
+              </div>
             </div>
           </div>
         </div>
-        <div style={Right}>
-          <img src={dashboardBG2} style={ImageDash} className="imgDash" />
+        <div className="Right">
+          <img src={image} className="Image imgDash"></img>
         </div>
       </div>
     );
