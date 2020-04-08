@@ -27,9 +27,11 @@ import hobbyRed_2 from "./compoReducer-2/hobbyRed_2";
 import prevUrlReducer from "./prevUrlReducer";
 import orderOfBlocksReducer from "./orderOfBlocksReducer";
 import orderOfEducationBlocksRed from "./orderOfEducationBlocksRed";
+import orderOfInternshipBlocksRed from "./orderOfInternshipBlocksRed";
 
 const rootReducer = combineReducers({
   orderOfEducationBlocksRed: orderOfEducationBlocksRed,
+  orderOfInternshipBlocksRed: orderOfInternshipBlocksRed,
   orderOfBlocksRed: orderOfBlocksReducer,
   prevUrlRed: prevUrlReducer,
   auth: authReducer,
