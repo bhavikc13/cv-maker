@@ -53,6 +53,8 @@ class CvList extends Component {
             });
         } else {
           this.setState({ isLoading: false });
+          alert("No saved CV yet!");
+          this.props.history.push("/");
         }
       })
       .catch(err => {
