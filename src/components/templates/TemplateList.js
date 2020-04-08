@@ -41,7 +41,9 @@ class TemplateList extends Component {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <img src={template1BG} alt="template1"/>
+        <center>
+          <img src={template1BG} alt="template1"/>
+        </center>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={()=>{this.setModal1Show(false)}}>Close</Button>
