@@ -1,5 +1,5 @@
 const initState = {
-        name_2: 'Name', 
+        name_2: '', 
         currentPosition_2: '',
         email_2: '', 
         dob_2: '', 
