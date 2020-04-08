@@ -6,17 +6,17 @@ import { connect } from "react-redux";
 import firestore from "./../../../../firebase/firestore";
 import Loader from "./../../../loader/Loader";
 import { Link } from "react-router-dom";
-import EducationBlock from "./EducationBlock";
+import InternshipBlock from "./InternshipBlock";
 
-const EducationInfoComp = (props) => {
+const InternshipInfoComp = (props) => {
   const [state, setState] = useState({ title: "", isLoading: false });
   props.updatePrevUrl(window.location.pathname);
-  const [blocks, setBlocks] = useState(props.orderOfEducationBlocks);
+  const [blocks, setBlocks] = useState(props.orderOfInternshipBlocks);
   useEffect(() => {
-    setBlocks(props.orderOfEducationBlocks);
-  }, [props.orderOfEducationBlocks]);
+    setBlocks(props.orderOfInternshipBlocks);
+  }, [props.orderOfInternshipBlocks]);
   useEffect(() => {
-    props.updateOrderOfEducationBlocks(blocks, props.auth.uid, props.cvid);
+    props.updateOrderOfInternshipBlocks(blocks, props.auth.uid, props.cvid);
   }, [blocks]);
   const moveBlock = (id, atIndex) => {
     const { block, index } = findBlock(id);
@@ -36,13 +36,13 @@ const EducationInfoComp = (props) => {
       index: blocks.indexOf(block),
     };
   };
-  const [, drop] = useDrop({ accept: "educationBlock" });
+  const [, drop] = useDrop({ accept: "internshipBlock" });
 
   return (
     <div ref={drop}>
       <Accordion>
         {blocks.map((block, index) => (
-          <EducationBlock
+          <InternshipBlock
             key={block.id}
             id={block.id}
             moveBlock={moveBlock}
@@ -61,8 +61,8 @@ const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     prevUrl: state.prevUrlRed.prevUrl,
-    orderOfEducationBlocks:
-      state.orderOfEducationBlocksRed.orderOfEducationBlocks,
+    orderOfInternshipBlocks:
+      state.orderOfInternshipBlocksRed.orderOfInternshipBlocks,
     orderOfBlocks: state.orderOfBlocksRed.orderOfBlocks,
   };
 };
@@ -75,10 +75,10 @@ const mapDispatchToProps = (dispatch) => {
         prevUrl: prevUrl,
       });
     },
-    updateOrderOfEducationBlocks: (orderOfEducationBlocks, uid, cvid) => {
+    updateOrderOfInternshipBlocks: (orderOfInternshipBlocks, uid, cvid) => {
       dispatch({
-        type: "UPDATE_ORDER_OF_EDUCATION_BLOCKS",
-        orderOfEducationBlocks: orderOfEducationBlocks,
+        type: "UPDATE_ORDER_OF_INTERNSHIP_BLOCKS",
+        orderOfInternshipBlocks: orderOfInternshipBlocks,
         uid: uid,
         cvid: cvid,
       });
@@ -86,4 +86,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EducationInfoComp);
+export default connect(mapStateToProps, mapDispatchToProps)(InternshipInfoComp);

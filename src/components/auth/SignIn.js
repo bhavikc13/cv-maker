@@ -48,7 +48,11 @@ class SignIn extends Component {
       <div className="containerSignIn">
         <div className="bgsignin"></div>
 
-        <form onSubmit={this.handleSubmit} className="form-conatinerSignIn">
+        <form
+          onSubmit={this.handleSubmit}
+          className="form-conatinerSignIn"
+          style={{ borderRadius: "25px" }}
+        >
           <h5 className="form-title title1SignIn">Sign In</h5>
 
           <div className="form-groupSignIn" style={{ marginTop: "10px" }}>
@@ -61,6 +65,7 @@ class SignIn extends Component {
               placeholder="Enter email"
               id="email"
               onChange={this.handleChange}
+              required
             />
           </div>
           <div className="form-groupSignIn" style={{ marginTop: "10px" }}>
@@ -73,6 +78,7 @@ class SignIn extends Component {
               placeholder="Password"
               id="password"
               onChange={this.handleChange}
+              required
             />
           </div>
 
@@ -99,10 +105,10 @@ class SignIn extends Component {
             </div>
           </center>
 
-          <div className="form-group">
+          <div className="form-group text-center">
             {authError ? <p style={{ color: "white" }}>{authError}</p> : null}
           </div>
-          <div className="form-group">
+          <div className="form-group text-center">
             {this.state.error ? (
               <p style={{ color: "white" }}>{this.state.error}</p>
             ) : null}

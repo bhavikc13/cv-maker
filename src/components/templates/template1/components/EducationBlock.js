@@ -18,7 +18,7 @@ const EducationBlock = ({
   updateOrderOfEducationBlocks,
   updateScore,
   updateYear,
-  removeBlock,
+  removeEducationBlock,
   addDegreeBlock,
   removeOrderOfEducationBlock,
   cvid,
@@ -31,7 +31,7 @@ const EducationBlock = ({
   }, [degreeBlocks]);*/
   const originalIndex = findBlock(id).index;
   const [{ isDragging }, drag, preview] = useDrag({
-    item: { type: "block", id, originalIndex },
+    item: { type: "educationBlock", id, originalIndex },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -44,7 +44,7 @@ const EducationBlock = ({
     },
   });
   const [, drop] = useDrop({
-    accept: "block",
+    accept: "educationBlock",
     canDrop: () => false,
     hover({ id: draggedId }) {
       if (draggedId !== id) {
@@ -79,7 +79,7 @@ const EducationBlock = ({
     removeDummyBlock("dummy");
   };
   const handleRemoveBlock = (bid) => {
-    removeBlock(bid, auth.uid, cvid);
+    removeEducationBlock(bid, auth.uid, cvid);
     removeOrderOfEducationBlock(id, auth.uid, cvid);
   };
   const accordStyle = {
@@ -277,7 +277,7 @@ const mapDispatchToProps = (dispatch) => {
         cvid: cvid,
       });
     },
-    removeBlock: (id, uid, cvid) => {
+    removeEducationBlock: (id, uid, cvid) => {
       dispatch({
         type: "REMOVE_EDUCATION_BLOCK_1",
         id: id,

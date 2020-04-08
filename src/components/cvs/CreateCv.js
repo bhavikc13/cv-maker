@@ -86,6 +86,7 @@ class CreateCV extends Component {
                       title: cv.title,
                       orderOfBlocks: orderOfBlocks,
                       orderOfEducationBlocks: [],
+                      orderOfInternshipBlocks: [],
                       updatedAt: new Date(),
                       createdAt: new Date(),
                       userId: userId,
@@ -131,7 +132,54 @@ class CreateCV extends Component {
               this.setState({ isLoading: false });
             });
         } else {
-          this.setState({ isLoading: false });
+          if (this.props.location.templateId === 1) {
+            firestore
+              .collection("users")
+              .doc(userId)
+              .collection("cvs")
+              .add({
+                title: cv.title,
+                orderOfBlocks: orderOfBlocks,
+                orderOfEducationBlocks: [],
+                orderOfInternshipBlocks: [],
+                updatedAt: new Date(),
+                createdAt: new Date(),
+                userId: userId,
+                imageUploaded: false,
+                templateId: this.props.location.templateId,
+              })
+              .then((resp) => {
+                console.log("cv added");
+                this.setState({ isLoading: false });
+                this.props.history.push("/" + resp.id);
+              })
+              .catch((err) => {
+                console.log(err);
+                this.setState({ isLoading: false });
+              });
+          } else if (this.props.location.templateId === 2) {
+            firestore
+              .collection("users")
+              .doc(userId)
+              .collection("cvs")
+              .add({
+                title: cv.title,
+                updatedAt: new Date(),
+                createdAt: new Date(),
+                userId: userId,
+                imageUploaded: false,
+                templateId: this.props.location.templateId,
+              })
+              .then((resp) => {
+                console.log("cv added");
+                this.setState({ isLoading: false });
+                this.props.history.push("/" + resp.id);
+              })
+              .catch((err) => {
+                console.log(err);
+                this.setState({ isLoading: false });
+              });
+          }
         }
       })
       .catch((err) => {
@@ -154,7 +202,11 @@ class CreateCV extends Component {
     ) : (
       <div className="containerTitle">
         <div className="bgtitle"></div>
-        <form onSubmit={this.handleAddCv} className="form-conatinerTitle">
+        <form
+          onSubmit={this.handleAddCv}
+          className="form-conatinerTitle"
+          style={{ borderRadius: "25px" }}
+        >
           <div className="form-groupTitle">
             <center>
               <label className="title2Title form-title">CV Title</label>
@@ -164,7 +216,7 @@ class CreateCV extends Component {
                 id="title"
                 onChange={this.handleChangeCvTitle}
                 required
-                placeholder="Feedback..."
+                placeholder="CV Title..."
               />
             </center>
           </div>

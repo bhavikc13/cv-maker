@@ -55,7 +55,11 @@ class SignUp extends Component {
     ) : (
       <div className="conatinerSignUp">
         <div className="bgsignup"></div>
-        <form onSubmit={this.handleSubmit} className="form-conatinerSignUp">
+        <form
+          onSubmit={this.handleSubmit}
+          className="form-conatinerSignUp"
+          style={{ borderRadius: "25px" }}
+        >
           <h5 className="title1SignUp form-title">Sign Up</h5>
           <div className="form-groupSignUp" style={{ marginTop: "10px" }}>
             {/*<label htmlFor="firstName" className="title2SignUp">
@@ -67,6 +71,7 @@ class SignUp extends Component {
               placeholder="Enter first name"
               id="firstName"
               onChange={this.handleChange}
+              required
             />
           </div>
           <div className="form-groupSignUp" style={{ marginTop: "10px" }}>
@@ -91,6 +96,7 @@ class SignUp extends Component {
               placeholder="Enter email"
               id="email"
               onChange={this.handleChange}
+              required
             />
           </div>
           <div className="form-groupSignUp" style={{ marginTop: "10px" }}>
@@ -103,6 +109,7 @@ class SignUp extends Component {
               placeholder="Password"
               id="password"
               onChange={this.handleChange}
+              required
             />
           </div>
           <center style={{ margin: "10px" }}>
@@ -110,12 +117,12 @@ class SignUp extends Component {
               Sign Up
             </button>
           </center>
-          <div className="form-groupSignUp">
-            {authError ? <p style={{ color: "red" }}>{authError}</p> : null}
+          <div className="form-groupSignUp text-center">
+            {authError ? <p style={{ color: "white" }}>{authError}</p> : null}
           </div>
-          <div className="form-groupSignUp">
+          <div className="form-groupSignUp text-center">
             {this.state.error ? (
-              <p style={{ color: "red" }}>{this.state.error}</p>
+              <p style={{ color: "white" }}>{this.state.error}</p>
             ) : null}
           </div>
         </form>

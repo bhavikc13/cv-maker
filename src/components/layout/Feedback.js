@@ -81,7 +81,11 @@ class Feedback extends React.Component {
       <div className="containerFeedback">
         <div className="bgfeedback"></div>
 
-        <form onSubmit={this.handleSubmit} className="form-conatinerFeedback">
+        <form
+          onSubmit={this.handleSubmit}
+          className="form-conatinerFeedback"
+          style={{ borderRadius: "25px" }}
+        >
           <div className="form-groupFeedback">
             <center>
               <label className="title1Feedback form-title">Feedback</label>

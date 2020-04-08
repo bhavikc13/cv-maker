@@ -30,38 +30,43 @@ class Layout1 extends Component {
   updateInternshipBlock = () => {
     let newInternshipBlocks = [];
 
-    for (let [index, value] of this.props.internshipBlocks.entries()) {
-      newInternshipBlocks.push(
-        <tr key={index}>
-          <td
-            className="w-20"
-            style={{ textAlignVertical: "top", textAlign: "left" }}
-          >
-            <p>
-              <b style={{ fontSize: "18px" }}>{value.organizationName}</b>
-            </p>
-          </td>
-          <td className="w-60" style={{ textAlignVertical: "top" }}>
-            <p style={{ fontSize: "18px" }}>{value.description}</p>
+    for (let [ind, val] of this.props.orderOfInternshipBlocks.entries()) {
+      for (let [index, value] of this.props.internshipBlocks.entries()) {
+        if (val.id === value.id) {
+          newInternshipBlocks.push(
+            <tr key={index}>
+              <td
+                className="w-20"
+                style={{ textAlignVertical: "top", textAlign: "left" }}
+              >
+                <p>
+                  <b style={{ fontSize: "18px" }}>{value.organizationName}</b>
+                </p>
+              </td>
+              <td className="w-60" style={{ textAlignVertical: "top" }}>
+                <p style={{ fontSize: "18px" }}>{value.description}</p>
 
-            <p style={{ textAlign: "left", fontSize: "18px" }}>
-              <i style={{ fontSize: "18px" }}>
-                <b style={{ fontSize: "18px" }}>Guide:</b> {value.supervisor}
-              </i>
-            </p>
-          </td>
+                <p style={{ textAlign: "left", fontSize: "18px" }}>
+                  <i style={{ fontSize: "18px" }}>
+                    <b style={{ fontSize: "18px" }}>Guide:</b>{" "}
+                    {value.supervisor}
+                  </i>
+                </p>
+              </td>
 
-          <td
-            className="w-20"
-            style={{ textAlignVertical: "top", textAlign: "right" }}
-          >
-            <p style={{ fontSize: "18px" }}>
-              ( {value.start} - {value.end} )
-            </p>
-            <p style={{ fontSize: "18px" }}>Team Size - {value.teamSize}</p>
-          </td>
-        </tr>
-      );
+              <td
+                className="w-20"
+                style={{ textAlignVertical: "top", textAlign: "right" }}
+              >
+                <p style={{ fontSize: "18px" }}>
+                  ( {value.start} - {value.end} )
+                </p>
+                <p style={{ fontSize: "18px" }}>Team Size - {value.teamSize}</p>
+              </td>
+            </tr>
+          );
+        }
+      }
     }
 
     return newInternshipBlocks;
@@ -441,6 +446,8 @@ const mapStateToProps = (state) => {
     techElectives: state.skillRed_1.techElectives_1,
 
     internshipBlocks: state.internshipRed_1.internshipBlocks_1,
+    orderOfInternshipBlocks:
+      state.orderOfInternshipBlocksRed.orderOfInternshipBlocks,
 
     projectBlocks: state.projectRed_1.projectBlocks_1,
 

@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Accordion, Card, Form, Button } from "react-bootstrap";
 import firestore from "./../../../../firebase/firestore";
+import InternshipInfoComp from "./InternshipInfoComp";
+import Loader from "./../../../loader/Loader";
 import "./CompStyle.css";
 
 class InternshipInfo extends Component {
-  handleAddInternshipBlock = event => {
+  state = { isLoading: false };
+  handleAddInternshipBlock = (event) => {
     let tid = Date.now();
     let newBlock = {
       id: tid,
@@ -14,46 +17,20 @@ class InternshipInfo extends Component {
       supervisor: "",
       start: "",
       end: "",
-      teamSize: ""
+      teamSize: "",
     };
-    this.props.addInternshipBlock(newBlock);
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .update({
-        updatedAt: new Date()
-      })
-      .then(() => console.log("update date and time"))
-      .catch(err => {
-        console.log(err);
-      });
+    this.props.addInternshipBlock(newBlock, this.props.auth.uid, this.props.id);
+    this.props.addOrderOfInternshipBlock(
+      {
+        id: tid,
+      },
+      this.props.auth.uid,
+      this.props.id
+    );
   };
-  componentDidUpdate() {
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .collection("internship")
-      .doc(this.props.id)
-      .set({
-        ...this.props.internshipBlocks
-      })
-      .then(() => console.log("update internship"))
-      .catch(err => {
-        console.log(err);
-      });
-  }
-  componentWillUnmount() {
-    let TinternshipBlocks = this.props.internshipBlocks;
-    let n = TinternshipBlocks.length;
-    for (let i = 0; i < n; i++) {
-      this.props.removeInternshipBlock(TinternshipBlocks[i].id);
-    }
-  }
   componentDidMount() {
+    this.setState({ isLoading: true });
+    this.props.removeAllBlocks();
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -62,25 +39,26 @@ class InternshipInfo extends Component {
       .collection("internship")
       .doc(this.props.id)
       .get()
-      .then(resp => {
+      .then((resp) => {
         let internship = resp.data();
-        if (!internship) return null;
-        let sz = Object.keys(internship).length;
-        for (let i = 0; i < sz; i++) {
-          let newBlock = {
-            id: internship[i].id,
-            organizationName: internship[i].organizationName,
-            description: internship[i].description,
-            supervisor: internship[i].supervisor,
-            start: internship[i].start,
-            end: internship[i].end,
-            teamSize: internship[i].teamSize
-          };
-          this.props.addInternshipBlock(newBlock);
+        if (!internship) {
+          this.setState({ isLoading: false });
+          return null;
         }
+        let sz = Object.keys(internship).length;
+        let blocks = [];
+        for (let i = 0; i < sz; i++) {
+          blocks.push(internship[i]);
+        }
+        this.props.loadAllBlocks(blocks);
+        this.setState({ isLoading: false });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({ isLoading: false });
       });
   }
-  handleChangeOrganizationName = (event, id) => {
+  /*handleChangeOrganizationName = (event, id) => {
     this.props.updateOrganiztionName(event.target.value, id);
     let dummyBlock = {
       id: "dummy",
@@ -256,23 +234,25 @@ class InternshipInfo extends Component {
       .catch(err => {
         console.log(err);
       });
-  };
+  };*/
 
   render() {
-
     const bgcolor = {
-      backgroundColor:"#202020",
+      backgroundColor: "#202020",
       margin: "10px 0px",
-      color:"white",
-      border: "none"
-    }
+      color: "white",
+      border: "none",
+    };
     const accordStyle = {
-     boxShadow: "inset 0 -1px 2px #303030"
-    }
+      boxShadow: "inset 0 -1px 2px #303030",
+    };
 
-    return (
+    return this.state.isLoading ? (
+      <Loader />
+    ) : (
       <div>
-        <Accordion defaultActiveKey=" ">
+        <InternshipInfoComp cvid={this.props.id} />
+        {/*<Accordion >
           {this.props.internshipBlocks.map((value, index) => {
             return (
               <Card key={value.id} style={bgcolor}>
@@ -380,8 +360,7 @@ class InternshipInfo extends Component {
               </Card>
             );
           })}
-        </Accordion>
-
+        </Accordion>*/}
         <Button
           className="add"
           onClick={this.handleAddInternshipBlock}
@@ -394,55 +373,114 @@ class InternshipInfo extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     internshipBlocks: state.internshipRed_1.internshipBlocks_1,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    orderOfInternshipBlocks:
+      state.orderOfInternshipBlocksRed.orderOfInternshipBlocks,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    addInternshipBlock: newBlock => {
-      dispatch({ type: "ADD_INTERNSHIP_BLOCK_1", newBlock: newBlock });
+    addInternshipBlock: (newBlock, uid, cvid) => {
+      dispatch({
+        type: "ADD_INTERNSHIP_BLOCK_1",
+        newBlock: newBlock,
+        uid: uid,
+        cvid: cvid,
+      });
     },
-    updateOrganiztionName: (organizationName, id) => {
+    updateOrganiztionName: (organizationName, id, uid, cvid) => {
       dispatch({
         type: "UPDATE_INTERNSHIP_ORGANIZATION_NAME_1",
         organizationName: organizationName,
-        id: id
+        id: id,
+        uid: uid,
+        cvid: cvid,
       });
     },
-    updateDescription: (description, id) => {
+    updateDescription: (description, id, uid, cvid) => {
       dispatch({
         type: "UPDATE_INTERNSHIP_DESCRIPTION_1",
         description: description,
-        id: id
+        id: id,
+        uid: uid,
+        cvid: cvid,
       });
     },
-    updateSupervisor: (supervisor, id) => {
+    updateSupervisor: (supervisor, id, uid, cvid) => {
       dispatch({
         type: "UPDATE_INTERNSHIP_SUPERVISOR_1",
         supervisor: supervisor,
-        id: id
+        id: id,
+        uid: uid,
+        cvid: cvid,
       });
     },
-    updateStart: (start, id) => {
-      dispatch({ type: "UPDATE_INTERNSHIP_START_1", start: start, id: id });
+    updateStart: (start, id, uid, cvid) => {
+      dispatch({
+        type: "UPDATE_INTERNSHIP_START_1",
+        start: start,
+        id: id,
+        uid: uid,
+        cvid: cvid,
+      });
     },
-    updateEnd: (end, id) => {
-      dispatch({ type: "UPDATE_INTERNSHIP_END_1", end: end, id: id });
+    updateEnd: (end, id, uid, cvid) => {
+      dispatch({
+        type: "UPDATE_INTERNSHIP_END_1",
+        end: end,
+        id: id,
+        uid: uid,
+        cvid: cvid,
+      });
     },
-    updateTeamSize: (teamSize, id) => {
+    updateTeamSize: (teamSize, id, uid, cvid) => {
       dispatch({
         type: "UPDATE_INTERNSHIP_TEAM_SIZE_1",
         teamSize: teamSize,
-        id: id
+        id: id,
+        uid: uid,
+        cvid: cvid,
       });
     },
-    removeInternshipBlock: id => {
-      dispatch({ type: "REMOVE_INTERNSHIP_BLOCK_1", id: id });
-    }
+    removeInternshipBlock: (id, uid, cvid) => {
+      dispatch({
+        type: "REMOVE_INTERNSHIP_BLOCK_1",
+        id: id,
+        uid: uid,
+        cvid: cvid,
+      });
+    },
+    updateOrderOfInternshipBlocks: (orderOfInternshipBlocks, uid, cvid) => {
+      dispatch({
+        type: "UPDATE_ORDER_OF_INTERNSHIP_BLOCKS",
+        orderOfInternshipBlocks: orderOfInternshipBlocks,
+        uid: uid,
+        cvid: cvid,
+      });
+    },
+    addOrderOfInternshipBlock: (newBlock, uid, cvid) => {
+      dispatch({
+        type: "ADD_ORDER_OF_INTERNSHIP_BLOCK",
+        newBlock: newBlock,
+        uid: uid,
+        cvid: cvid,
+      });
+    },
+    removeAllBlocks: () => {
+      dispatch({
+        type: "REMOVE_ALL_INTERNSHIP_BLOCKS_1",
+      });
+    },
+    loadAllBlocks: (blocks) => {
+      dispatch({
+        type: "LOAD_ALL_INTERNSHIP_BLOCKS_1",
+        blocks: blocks,
+      });
+    },
   };
 };
 

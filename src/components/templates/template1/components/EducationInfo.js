@@ -8,19 +8,19 @@ import "./CompStyle.css";
 
 class EducationInfo extends Component {
   state = { isLoading: false };
-  handleAddDegreeBlock = e => {
+  handleAddDegreeBlock = (e) => {
     let id = Date.now();
     let newBlock = {
       id: id,
       degreeName: "",
       instituteName: "",
       year: "",
-      score: ""
+      score: "",
     };
     this.props.addDegreeBlock(newBlock, this.props.auth.uid, this.props.id);
     this.props.addOrderOfEducationBlock(
       {
-        id: id
+        id: id,
       },
       this.props.auth.uid,
       this.props.id
@@ -37,7 +37,7 @@ class EducationInfo extends Component {
       .collection("education")
       .doc(this.props.id)
       .get()
-      .then(resp => {
+      .then((resp) => {
         let education = resp.data();
         if (!education) {
           this.setState({ isLoading: false });
@@ -51,7 +51,7 @@ class EducationInfo extends Component {
         this.props.loadAllBlocks(blocks);
         this.setState({ isLoading: false });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         this.setState({ isLoading: false });
       });
@@ -267,23 +267,23 @@ class EducationInfo extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     degreeBlocks: state.educationRed_1.degreeBlocks_1,
     orderOfEducationBlocks:
-      state.orderOfEducationBlocksRed.orderOfEducationBlocks
+      state.orderOfEducationBlocksRed.orderOfEducationBlocks,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     addDegreeBlock: (newBlock, uid, cvid) => {
       dispatch({
         type: "ADD_EDUCATION_BLOCK_1",
         newBlock: newBlock,
         uid: uid,
-        cvid: cvid
+        cvid: cvid,
       });
     },
     updateOrderOfEducationBlocks: (orderOfEducationBlocks, uid, cvid) => {
@@ -291,7 +291,7 @@ const mapDispatchToProps = dispatch => {
         type: "UPDATE_ORDER_OF_EDUCATION_BLOCKS",
         orderOfEducationBlocks: orderOfEducationBlocks,
         uid: uid,
-        cvid: cvid
+        cvid: cvid,
       });
     },
     addOrderOfEducationBlock: (newBlock, uid, cvid) => {
@@ -299,28 +299,28 @@ const mapDispatchToProps = dispatch => {
         type: "ADD_ORDER_OF_EDUCATION_BLOCK",
         newBlock: newBlock,
         uid: uid,
-        cvid: cvid
+        cvid: cvid,
       });
     },
-    removeBlock: (id, uid, cvid) => {
+    removeEducationBlock: (id, uid, cvid) => {
       dispatch({
         type: "REMOVE_EDUCATION_BLOCK_1",
         id: id,
         uid: uid,
-        cvid: cvid
+        cvid: cvid,
       });
     },
     removeAllBlocks: () => {
       dispatch({
-        type: "REMOVE_ALL_EDUCATION_BLOCKS_1"
+        type: "REMOVE_ALL_EDUCATION_BLOCKS_1",
       });
     },
-    loadAllBlocks: blocks => {
+    loadAllBlocks: (blocks) => {
       dispatch({
         type: "LOAD_ALL_EDUCATION_BLOCKS_1",
-        blocks: blocks
+        blocks: blocks,
       });
-    }
+    },
   };
 };
 

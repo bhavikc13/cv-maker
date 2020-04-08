@@ -32,6 +32,9 @@ class CvEditor extends Component {
           this.props.loadOrderOfEducationBlocks(
             resp.data().orderOfEducationBlocks
           );
+          this.props.loadOrderOfInternshipBlocks(
+            resp.data().orderOfInternshipBlocks
+          );
         }
         this.setState({
           title: resp.data().title,
@@ -114,6 +117,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: "LOAD_ORDER_OF_EDUCATION_BLOCKS",
         orderOfEducationBlocks: orderOfEducationBlocks,
+      });
+    },
+    loadOrderOfInternshipBlocks: (orderOfInternshipBlocks) => {
+      dispatch({
+        type: "LOAD_ORDER_OF_INTERNSHIP_BLOCKS",
+        orderOfInternshipBlocks: orderOfInternshipBlocks,
       });
     },
   };

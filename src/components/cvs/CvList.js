@@ -409,7 +409,6 @@ class CvList extends Component {
                           zIndex: "3",
                         }}
                       >
-                        {" "}
                         Remove
                       </Button>
                     </div>
