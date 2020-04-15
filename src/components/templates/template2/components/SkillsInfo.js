@@ -126,12 +126,16 @@ class SkillsInfo extends Component {
   render() {
     const bgcolor = {
       backgroundColor:"#202020",
-      margin: "10px 0px",
       color:"white",
       border: "none"
     }
     const accordStyle = {
      boxShadow: "inset 0 -1px 2px #303030"
+    }
+    const cardBodyBg={
+      backgroundColor:"#282828",
+      color:"white",
+      border: "none",
     }
     return (
       <div>
@@ -160,11 +164,11 @@ class SkillsInfo extends Component {
                 </Accordion.Toggle>
 
                 <Accordion.Collapse eventKey={index}>
-                  <Card.Body>
+                  <Card.Body style={cardBodyBg}>
                     <Form>
                       <Form.Group controlId="formGroupDegreeName">
                         <Form.Label>Skill Name</Form.Label>
-                        <Form.Control className="inputStyle" style={bgcolor}
+                        <Form.Control className="inputStyle" style={cardBodyBg}
                           type="text"
                           placeholder="Leadership"
                           onChange={event => {
@@ -177,7 +181,7 @@ class SkillsInfo extends Component {
                       <Form.Group controlId="formGroupSkillLevel">
                         <Form.Label>Skill Level - (Range: 1-5)</Form.Label>
 
-                        <Form.Control className="inputStyle" style={bgcolor}
+                        <Form.Control className="inputStyle" style={cardBodyBg}
                           type="range"
                           min="1"
                           max="5"

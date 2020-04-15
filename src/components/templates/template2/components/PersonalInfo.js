@@ -176,12 +176,17 @@ class PersonalInfo extends Component {
       border:"none",
       
     }
+    const cardBodyBg={
+      backgroundColor:"#282828",
+      color:"white",
+      border: "none",
+    }
     return (
       <div>
-        <Form style={bgcolor}>
+        <Form style={cardBodyBg}>
           <Form.Group controlId="formGroupFullName">
             <Form.Label>Name</Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control className="inputStyle" style={cardBodyBg}
               type="text"
               placeholder="Full Name"
               onChange={this.handleChangeName}
@@ -191,7 +196,7 @@ class PersonalInfo extends Component {
 
           <Form.Group controlId="formGroupCurPos">
             <Form.Label>Current Position</Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control className="inputStyle" style={cardBodyBg}
               type="text"
               placeholder="Software Devlopment Engineer"
               onChange={this.handleChangeCurPos}
@@ -201,7 +206,7 @@ class PersonalInfo extends Component {
 
           <Form.Group controlId="formGroupAddress">
             <Form.Label>Address</Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control className="inputStyle" style={cardBodyBg}
               as="textarea"
               rows="3"
               placeholder="Address"
@@ -212,7 +217,7 @@ class PersonalInfo extends Component {
 
           <Form.Group controlId="formGroupDOB">
             <Form.Label>Date of Birth</Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control className="inputStyle" style={cardBodyBg}
               type="text"
               placeholder="April 15, 2020"
               onChange={this.handleChangeDOB}
@@ -222,7 +227,7 @@ class PersonalInfo extends Component {
 
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email</Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control className="inputStyle" style={cardBodyBg}
               type="email"
               placeholder="Email"
               onChange={this.handleChangeEmail}
@@ -232,7 +237,7 @@ class PersonalInfo extends Component {
 
           <Form.Group controlId="formGroupPhone">
             <Form.Label>Contact No.</Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control className="inputStyle" style={cardBodyBg}
               type="text"
               placeholder="+91 1234567890"
               onChange={this.handleChangePhoneNo}
@@ -242,7 +247,7 @@ class PersonalInfo extends Component {
 
           <Form.Group controlId="formGroupLink">
             <Form.Label>LinkedIn: </Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control className="inputStyle" style={cardBodyBg}
               type="text"
               placeholder="linkedin.com/in/name"
               onChange={this.handleChangeLink}

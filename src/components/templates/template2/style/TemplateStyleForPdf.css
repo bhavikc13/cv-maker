@@ -4,27 +4,6 @@
   margin: 0px;
 }
 
-.resume-render-wrapper2 {
-  /*left: 450px; /*sidebar-width*/
-  flex: 1;
-  background-color: #303030;
-  bottom: 0;
-  top: 90px; /*navbar-height*/
-  overflow-y: auto;
-
-  /*position: fixed;
-  left: 29%;
-  right: 0;*/
-
-  /*position: fixed;
-    left: 28%;
-    right: 0;
-    top: 90px;       /*navbar-height
-    bottom: 0;
-    overflow-y: auto;
-    display: none;*/
-}
-
 .resume-template2 {
   flex: 1;
   font-family: "Calibri", sans-serif;
@@ -86,6 +65,9 @@ table {
 .w-90 {
   width: 90%;
 }
+.w-95 {
+  width: 95%;
+}
 
 .w-100 {
   width: 100%;
@@ -101,6 +83,7 @@ table {
   text-transform: uppercase;
   margin-bottom: 10px;
   text-align: left;
+  word-break: break-all;
 }
 
 .intro p {
@@ -108,12 +91,16 @@ table {
   margin-top: 15px;
   margin-bottom: 15px;
   text-align: left;
+  word-break: break-all;
+}
+.b {
+  word-break: break-all;
 }
 
 .section-header {
   font-weight: bold;
   border-bottom: solid 3px #666666;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .section {
@@ -123,15 +110,21 @@ table {
 .section th {
   text-align: left;
   padding: 10px;
+  word-break: break-all;
+}
+.tr {
+  word-break: break-all;
 }
 
 .section td {
   padding: 10px;
+  word-break: break-all;
 }
 
 .list li {
   list-style-type: disc;
   margin-bottom: 0px;
+  word-break: break-all;
 }
 
 .body1 {
@@ -142,8 +135,8 @@ table {
   text-align: left;
 }
 .heading {
-  word-break: break-all;
   top: 5px;
+  word-break: break-all;
 }
 
 .bodyImg {
@@ -182,17 +175,18 @@ table {
 .outer .leftSide {
   flex: 6;
   margin: 5px;
+  word-break: break-all;
 }
 
 .outer .rightSide {
-  flex: 2;
   margin: 5px;
-
+  flex: 2;
   background-color: whitesmoke;
   color: black;
   padding: 20px;
   font-family: Arial;
   text-align: left;
+  word-break: break-all;
 }
 
 .timeRange {
@@ -200,6 +194,7 @@ table {
   text-align: left;
   font-weight: bold;
   /*font-size: 16px;*/
+  word-break: break-all;
 }
 
 .posTitle {

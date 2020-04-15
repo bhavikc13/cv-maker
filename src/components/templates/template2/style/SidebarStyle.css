@@ -4,6 +4,7 @@
   bottom: 0px;
   display: flex;
   overflow: hidden;
+  position: relative;
 }
 
 .sidebar2 {
@@ -20,7 +21,6 @@
   min-width: 0%;
   width: 100%;
   height: 88%;*/
-  
 }
 
 .template2 {
@@ -35,15 +35,15 @@
 /* &:hover {
     background: hsl(0, 0%, 96%); /*white-ter: hsl(0, 0%, 96%)
 }
-*/  
-.cvtitle{
+*/
+.cvtitle {
   background-color: #202020;
-  color:white;
-  width:100%;
+  color: white;
+  width: 100%;
   margin: 0;
   font-weight: 400;
-  padding:5px;
-  left:0;
+  padding: 5px;
+  left: 0;
   border-style: solid;
   border-width: thin;
   border-color: #3c4c51;
@@ -54,10 +54,10 @@
 }
 
 .bgcolor:hover {
-  color: #33CCFF !important;
+  color: #33ccff !important;
   cursor: pointer;
 }
- 
+
 @media only screen and (max-width: 1000px) {
   .screenView2 {
     flex-direction: column;
@@ -69,5 +69,4 @@
   .template2 {
     flex: 1;
   }
-  
 }

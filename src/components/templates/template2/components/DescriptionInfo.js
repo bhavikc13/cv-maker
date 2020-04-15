@@ -60,13 +60,18 @@ class DescriptionInfo extends Component {
       color: "white",
       border: "none",
     };
+    const cardBodyBg = {
+      backgroundColor: "#282828",
+      color: "white",
+      border: "none",
+    };
     return (
       <div>
         <Form>
           <Form.Group controlId="formGroupDescription">
             <Form.Label>Your Description..</Form.Label>
             <Form.Control
-              style={bgcolor}
+              style={cardBodyBg}
               className="inputStyle"
               as="textarea"
               rows="3"

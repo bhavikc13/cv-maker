@@ -166,12 +166,16 @@ class EducationInfo extends Component {
   render() {
     const bgcolor = {
       backgroundColor:"#202020",
-      margin: "10px 0px",
       color:"white",
       border: "none"
     }
     const accordStyle = {
      boxShadow: "inset 0 -1px 2px #303030"
+    }
+    const cardBodyBg={
+      backgroundColor:"#282828",
+      color:"white",
+      border: "none",
     }
     return (
       <div>
@@ -201,11 +205,11 @@ class EducationInfo extends Component {
                 </Accordion.Toggle>
 
                 <Accordion.Collapse eventKey={index}>
-                  <Card.Body>
+                  <Card.Body style={cardBodyBg}>
                     <Form>
                       <Form.Group controlId="formGroupYear">
                         <Form.Label>Year</Form.Label>
-                        <Form.Control className="inputStyle" style={bgcolor}
+                        <Form.Control className="inputStyle" style={cardBodyBg}
                           type="text"
                           placeholder="2017-2021"
                           onChange={event => {
@@ -217,7 +221,7 @@ class EducationInfo extends Component {
 
                       <Form.Group controlId="formGroupDegreeName">
                         <Form.Label>Degree and College Name</Form.Label>
-                        <Form.Control className="inputStyle" style={bgcolor}
+                        <Form.Control className="inputStyle" style={cardBodyBg}
                           type="text" 
                           placeholder="BTech in Computer Science"
                           onChange={event => {
@@ -231,7 +235,7 @@ class EducationInfo extends Component {
 
                       <Form.Group controlId="formGroupInstituteName">
                         <Form.Label>Degree and College Name</Form.Label>
-                        <Form.Control className="inputStyle" style={bgcolor}
+                        <Form.Control className="inputStyle" style={cardBodyBg}
                           type="text"
                           placeholder="DA-IICT"
                           onChange={event => {

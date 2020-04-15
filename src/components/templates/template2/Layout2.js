@@ -5,7 +5,7 @@ import "./style/TemplateStyle.css";
 import { Container, Row, Col } from "react-bootstrap";
 
 class Layout2 extends Component {
-  updateExpDescriptionBlocks = descBlocks => {
+  updateExpDescriptionBlocks = (descBlocks) => {
     let newDescBlocks = [];
 
     for (let [index, value] of descBlocks.entries()) {
@@ -23,7 +23,7 @@ class Layout2 extends Component {
     return newDescBlocks;
   };
 
-  updateExpKeyAchvBlocks = keyAchvBlocks => {
+  updateExpKeyAchvBlocks = (keyAchvBlocks) => {
     let newKeyAchvBlocks = [];
 
     for (let [index, value] of keyAchvBlocks.entries()) {
@@ -48,7 +48,9 @@ class Layout2 extends Component {
       newExpBlocks.push(
         <Row key={index}>
           <Col sm={2} className="timeRange">
-            <h6 className="date">{value.start} - {value.end}</h6>
+            <h6 className="date">
+              {value.start} - {value.end}
+            </h6>
           </Col>
 
           <Col sm={10}>
@@ -85,7 +87,7 @@ class Layout2 extends Component {
       newDegreeBlocks.push(
         <Row key={index}>
           <Col sm={2} className="timeRange">
-          <h6 className="date">{value.year}</h6>
+            <h6 className="date">{value.year}</h6>
           </Col>
 
           <Col sm={10} style={{ textAlign: "left" }}>
@@ -108,7 +110,7 @@ class Layout2 extends Component {
       newAwardBlocks.push(
         <Row key={index}>
           <Col sm={2} className="timeRange">
-          <h6 className="text1">{value.year}</h6>
+            <h6 className="text1">{value.year}</h6>
           </Col>
 
           <Col sm={10} style={{ textAlign: "left" }}>
@@ -228,7 +230,7 @@ class Layout2 extends Component {
       <div>
         <div className="resume-render-wrapper2">
           <div className="resume-template2">
-            <table className="main" style={{ marignBottom: "20px" }}>
+            <table className="main w-100" style={{ marignBottom: "20px" }}>
               <thead>
                 <tr>
                   <td
@@ -244,10 +246,8 @@ class Layout2 extends Component {
                       this.props.image === null ? "body1" : "bodyImg w-100"
                     }
                   >
-                    <h3 className="heading">{this.props.fullName}</h3>
-                    <p>
-                      <b className="posTitle">{this.props.curPos}</b>
-                    </p>
+                    <h3 className="heading w-95">{this.props.fullName}</h3>
+                    <h6 className="posTitle w-95">{this.props.curPos}</h6>
                   </td>
                 </tr>
               </thead>
@@ -256,7 +256,7 @@ class Layout2 extends Component {
             <div className="outer">
               <div className="leftSide">
                 <table className="section text-left">
-                <h6 className="text1">{this.props.description}</h6>
+                  <h6 className="text1">{this.props.description}</h6>
                 </table>
 
                 <table
@@ -310,7 +310,9 @@ class Layout2 extends Component {
                 <table className="section">
                   <thead>
                     <tr className="section-header">
-                      <h4 className="heading2" style={{fontWeight:"bold"}}>Personal Info</h4>
+                      <h4 className="heading2" style={{ fontWeight: "bold" }}>
+                        Personal Info
+                      </h4>
                     </tr>
                   </thead>
 
@@ -350,7 +352,9 @@ class Layout2 extends Component {
                 >
                   <thead>
                     <tr className="section-header">
-                      <h4 className="heading2" style={{fontWeight:"bold"}}>Skills</h4>
+                      <h4 className="heading2" style={{ fontWeight: "bold" }}>
+                        Skills
+                      </h4>
                     </tr>
                   </thead>
 
@@ -364,7 +368,9 @@ class Layout2 extends Component {
                 >
                   <thead>
                     <tr className="section-header">
-                      <h4 className="heading2" style={{fontWeight:"bold"}}>Languages</h4>
+                      <h4 className="heading2" style={{ fontWeight: "bold" }}>
+                        Languages
+                      </h4>
                     </tr>
                   </thead>
 
@@ -378,7 +384,9 @@ class Layout2 extends Component {
                 >
                   <thead>
                     <tr className="section-header">
-                      <h4 className="heading2" style={{fontWeight:"bold"}}>Interests</h4>
+                      <h4 className="heading2" style={{ fontWeight: "bold" }}>
+                        Interests
+                      </h4>
                     </tr>
                   </thead>
 
@@ -393,7 +401,7 @@ class Layout2 extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     image: state.imageRed_2.img_2,
 
@@ -417,7 +425,7 @@ const mapStateToProps = state => {
 
     languageBlocks: state.languageRed_2.languageBlocks_2,
 
-    hobbyBlocks: state.hobbyRed_2.hobbyBlocks_2
+    hobbyBlocks: state.hobbyRed_2.hobbyBlocks_2,
   };
 };
 

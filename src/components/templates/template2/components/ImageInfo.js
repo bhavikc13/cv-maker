@@ -253,7 +253,7 @@ class ImageInfo extends Component {
 
   render() {
     const card = {
-      backgroundColor:"#202020",
+      backgroundColor:"#282828",
       margin: "10px 0px",
       color:"white"
     }
