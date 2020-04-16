@@ -35,6 +35,13 @@ class CvEditor extends Component {
           this.props.loadOrderOfInternshipBlocks(
             resp.data().orderOfInternshipBlocks
           );
+          this.props.loadOrderOfProjectBlocks(resp.data().orderOfProjectBlocks);
+          this.props.loadOrderOfPositionBlocks(
+            resp.data().orderOfPositionBlocks
+          );
+          this.props.loadOrderOfAwardBlocks(resp.data().orderOfAwardBlocks);
+          this.props.loadOrderOfHobbyBlocks(resp.data().orderOfHobbyBlocks);
+          this.props.loadOrderOfSkillBlocks(resp.data().orderOfSkillBlocks);
         }
         this.setState({
           title: resp.data().title,
@@ -123,6 +130,36 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: "LOAD_ORDER_OF_INTERNSHIP_BLOCKS",
         orderOfInternshipBlocks: orderOfInternshipBlocks,
+      });
+    },
+    loadOrderOfProjectBlocks: (orderOfProjectBlocks) => {
+      dispatch({
+        type: "LOAD_ORDER_OF_PROJECT_BLOCKS",
+        orderOfProjectBlocks: orderOfProjectBlocks,
+      });
+    },
+    loadOrderOfPositionBlocks: (orderOfPositionBlocks) => {
+      dispatch({
+        type: "LOAD_ORDER_OF_POSITION_BLOCKS",
+        orderOfPositionBlocks: orderOfPositionBlocks,
+      });
+    },
+    loadOrderOfAwardBlocks: (orderOfAwardBlocks) => {
+      dispatch({
+        type: "LOAD_ORDER_OF_AWARD_BLOCKS",
+        orderOfAwardBlocks: orderOfAwardBlocks,
+      });
+    },
+    loadOrderOfHobbyBlocks: (orderOfHobbyBlocks) => {
+      dispatch({
+        type: "LOAD_ORDER_OF_HOBBY_BLOCKS",
+        orderOfHobbyBlocks: orderOfHobbyBlocks,
+      });
+    },
+    loadOrderOfSkillBlocks: (orderOfSkillBlocks) => {
+      dispatch({
+        type: "LOAD_ORDER_OF_SKILL_BLOCKS",
+        orderOfSkillBlocks: orderOfSkillBlocks,
       });
     },
   };

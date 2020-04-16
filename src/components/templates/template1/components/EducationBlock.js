@@ -18,12 +18,12 @@ const EducationBlock = ({
   updateOrderOfEducationBlocks,
   updateScore,
   updateYear,
-  removeEducationBlock,
+  removeBlock,
   addDegreeBlock,
   removeOrderOfEducationBlock,
   cvid,
   addDummyBlock,
-  removeDummyBlock,
+  removeDummyBlock
 }) => {
   const [state, setState] = useState({ ok: false });
   /*useEffect(() => {
@@ -31,9 +31,9 @@ const EducationBlock = ({
   }, [degreeBlocks]);*/
   const originalIndex = findBlock(id).index;
   const [{ isDragging }, drag, preview] = useDrag({
-    item: { type: "educationBlock", id, originalIndex },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
+    item: { type: "block", id, originalIndex },
+    collect: monitor => ({
+      isDragging: monitor.isDragging()
     }),
     end: (dropResult, monitor) => {
       const { id: droppedId, originalIndex } = monitor.getItem();
@@ -41,73 +41,74 @@ const EducationBlock = ({
       if (!didDrop) {
         moveBlock(droppedId, originalIndex);
       }
-    },
+    }
   });
   const [, drop] = useDrop({
-    accept: "educationBlock",
+    accept: "block",
     canDrop: () => false,
     hover({ id: draggedId }) {
       if (draggedId !== id) {
         const { index: overIndex } = findBlock(id);
         moveBlock(draggedId, overIndex);
       }
-    },
+    }
   });
   const opacity = isDragging ? 0 : 1;
   const handleChangeDegreeName = (event, bid) => {
     updateDegreeName(event.target.value, bid, auth.uid, cvid);
-    let dummyBlock = { id: "dummy" };
+    let dummyBlock = {id: 'dummy'};
     addDummyBlock(dummyBlock);
-    removeDummyBlock("dummy");
+    removeDummyBlock('dummy');
   };
   const handleChangeInstituteName = (event, bid) => {
     updateInstituteName(event.target.value, bid, auth.uid, cvid);
-    let dummyBlock = { id: "dummy" };
+    let dummyBlock = {id: 'dummy'};
     addDummyBlock(dummyBlock);
-    removeDummyBlock("dummy");
+    removeDummyBlock('dummy');
   };
   const handleChangeYear = (event, id) => {
     updateYear(event.target.value, id, auth.uid, cvid);
-    let dummyBlock = { id: "dummy" };
+    let dummyBlock = {id: 'dummy'};
     addDummyBlock(dummyBlock);
-    removeDummyBlock("dummy");
+    removeDummyBlock('dummy');
   };
   const handleChangeScore = (event, bid) => {
     updateScore(event.target.value, bid, auth.uid, cvid);
-    let dummyBlock = { id: "dummy" };
+    let dummyBlock = {id: 'dummy'};
     addDummyBlock(dummyBlock);
-    removeDummyBlock("dummy");
+    removeDummyBlock('dummy');
   };
-  const handleRemoveBlock = (bid) => {
-    removeEducationBlock(bid, auth.uid, cvid);
+  const handleRemoveBlock = bid => {
+    removeBlock(bid, auth.uid, cvid);
     removeOrderOfEducationBlock(id, auth.uid, cvid);
   };
   const accordStyle = {
-    boxShadow: "inset 0 -1px 2px #303030",
-  };
-  const bgcolor = {
-    backgroundColor: "#202020",
-    margin: "10px 0px",
-    color: "white",
+    boxShadow: "inset 0 -1px 2px #303030"
+   }
+   const bgcolor = {
+    backgroundColor:"#202020",
+    color:"white",
+    border: "none"
+  }
+  const cardBodyBg={
+    backgroundColor:"#282828",
+    color:"white",
     border: "none",
-  };
+    
+  }
   return (
     <React.Fragment>
       {degreeBlocks
-        .filter((e) => e.id === id)
-        .map((value) => {
+        .filter(e => e.id === id)
+        .map(value => {
           return (
             <Card key={id} ref={preview} style={bgcolor}>
-              <Accordion.Toggle
-                as={Card.Header}
-                eventKey={eventKey}
-                style={accordStyle}
-              >
+              <Accordion.Toggle as={Card.Header} eventKey={eventKey} style={accordStyle}>
                 Degree #{index}
                 <Button
-                  className="float-right"
+                  className="float-right remove"
                   size="sm"
-                  variant="danger"
+                  style={{border:"none"}}
                   onClick={() => {
                     handleRemoveBlock(value.id);
                   }}
@@ -115,29 +116,27 @@ const EducationBlock = ({
                   -Remove
                 </Button>
                 <p
-                  ref={(node) => drag(drop(node))}
+                  ref={node => drag(drop(node))}
                   className="float-left"
                   style={{
                     paddingLeft: "10px",
                     paddingRight: "10px",
                     margin: "0px",
-                    cursor: "move",
+                    cursor: "move"
                   }}
                 >
                   ::
                 </p>
               </Accordion.Toggle>
               <Accordion.Collapse eventKey={eventKey}>
-                <Card.Body>
+                <Card.Body style={cardBodyBg}>
                   <Form>
                     <Form.Group controlId="degreeName">
                       <Form.Label>Degree Name</Form.Label>
-                      <Form.Control
-                        className="inputStyle"
-                        style={bgcolor}
+                      <Form.Control className="inputStyle" style={cardBodyBg}
                         type="text"
                         placeholder="B.Tech"
-                        onChange={(event) => {
+                        onChange={event => {
                           handleChangeDegreeName(event, value.id);
                         }}
                         defaultValue={value.degreeName}
@@ -145,13 +144,11 @@ const EducationBlock = ({
                     </Form.Group>
 
                     <Form.Group controlId="formGroupInstituteName">
-                      <Form.Label>Institute Name</Form.Label>
-                      <Form.Control
-                        className="inputStyle"
-                        style={bgcolor}
+                      <Form.Label>College Name</Form.Label>
+                      <Form.Control className="inputStyle" style={cardBodyBg}
                         type="text"
                         placeholder="Institute name"
-                        onChange={(event) => {
+                        onChange={event => {
                           handleChangeInstituteName(event, value.id);
                         }}
                         defaultValue={value.instituteName}
@@ -160,12 +157,10 @@ const EducationBlock = ({
 
                     <Form.Group controlId="formGroupYear">
                       <Form.Label>Year</Form.Label>
-                      <Form.Control
-                        className="inputStyle"
-                        style={bgcolor}
+                      <Form.Control className="inputStyle" style={cardBodyBg}
                         type="text"
                         placeholder="2017-2021"
-                        onChange={(event) => {
+                        onChange={event => {
                           handleChangeYear(event, value.id);
                         }}
                         defaultValue={value.year}
@@ -174,12 +169,10 @@ const EducationBlock = ({
 
                     <Form.Group controlId="formGroupScore">
                       <Form.Label>CPI/AGGREGATE</Form.Label>
-                      <Form.Control
-                        className="inputStyle"
-                        style={bgcolor}
+                      <Form.Control className="inputStyle" style={cardBodyBg}
                         type="text"
                         placeholder="grade"
-                        onChange={(event) => {
+                        onChange={event => {
                           handleChangeScore(event, value.id);
                         }}
                         defaultValue={value.score}
@@ -195,28 +188,28 @@ const EducationBlock = ({
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
     prevUrl: state.prevUrlRed.prevUrl,
     orderOfEducationBlocks:
       state.orderOfEducationBlocksRed.orderOfEducationBlocks,
-    degreeBlocks: state.educationRed_1.degreeBlocks_1,
+    degreeBlocks: state.educationRed_1.degreeBlocks_1
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     addDummyBlock: (dummyBlock) => {
       dispatch({
         type: "ADD_DUMMY_BLOCK_1",
-        dummyBlock: dummyBlock,
+        dummyBlock: dummyBlock
       });
     },
     removeDummyBlock: (id) => {
       dispatch({
         type: "REMOVE_DUMMY_BLOCK_1",
-        id: id,
+        id: id
       });
     },
     addDegreeBlock: (newBlock, uid, cvid) => {
@@ -224,13 +217,13 @@ const mapDispatchToProps = (dispatch) => {
         type: "ADD_EDUCATION_BLOCK_1",
         newBlock: newBlock,
         uid: uid,
-        cvid: cvid,
+        cvid: cvid
       });
     },
-    updatePrevUrl: (prevUrl) => {
+    updatePrevUrl: prevUrl => {
       dispatch({
         type: "UPDATE_PREVURL",
-        prevUrl: prevUrl,
+        prevUrl: prevUrl
       });
     },
     updateOrderOfEducationBlocks: (orderOfEducationBlocks, uid, cvid) => {
@@ -238,7 +231,7 @@ const mapDispatchToProps = (dispatch) => {
         type: "UPDATE_ORDER_OF_EDUCATION_BLOCKS",
         orderOfEducationBlocks: orderOfEducationBlocks,
         uid: uid,
-        cvid: cvid,
+        cvid: cvid
       });
     },
     updateDegreeName: (degreeName, id, uid, cvid) => {
@@ -247,7 +240,7 @@ const mapDispatchToProps = (dispatch) => {
         degreeName: degreeName,
         id: id,
         uid: uid,
-        cvid: cvid,
+        cvid: cvid
       });
     },
     updateInstituteName: (instituteName, id, uid, cvid) => {
@@ -256,7 +249,7 @@ const mapDispatchToProps = (dispatch) => {
         instituteName: instituteName,
         id: id,
         uid: uid,
-        cvid: cvid,
+        cvid: cvid
       });
     },
     updateYear: (year, id, uid, cvid) => {
@@ -265,7 +258,7 @@ const mapDispatchToProps = (dispatch) => {
         year: year,
         id: id,
         uid: uid,
-        cvid: cvid,
+        cvid: cvid
       });
     },
     updateScore: (score, id, uid, cvid) => {
@@ -274,15 +267,15 @@ const mapDispatchToProps = (dispatch) => {
         score: score,
         id: id,
         uid: uid,
-        cvid: cvid,
+        cvid: cvid
       });
     },
-    removeEducationBlock: (id, uid, cvid) => {
+    removeBlock: (id, uid, cvid) => {
       dispatch({
         type: "REMOVE_EDUCATION_BLOCK_1",
         id: id,
         uid: uid,
-        cvid: cvid,
+        cvid: cvid
       });
     },
     removeOrderOfEducationBlock: (id, uid, cvid) => {
@@ -290,9 +283,9 @@ const mapDispatchToProps = (dispatch) => {
         type: "REMOVE_ORDER_OF_EDUCATION_BLOCK",
         id: id,
         uid: uid,
-        cvid: cvid,
+        cvid: cvid
       });
-    },
+    }
   };
 };
 

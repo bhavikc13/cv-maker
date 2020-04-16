@@ -133,7 +133,7 @@ class PersonalInfo extends Component {
 
   render() {
     const bgcolor = {
-      backgroundColor:"#202020",
+      backgroundColor:"#282828",
       color:"white",
       border:"none"
     }

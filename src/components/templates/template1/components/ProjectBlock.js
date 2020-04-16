@@ -5,34 +5,34 @@ import { connect } from "react-redux";
 import Loader from "./../../../loader/Loader";
 import "./CompStyle.css";
 
-const InternshipBlock = ({
+const ProjectBlock = ({
   id,
   auth,
   index,
   moveBlock,
   findBlock,
   eventKey,
-  updateOrderOfInternshipBlocks,
-  removeInternshipBlock,
-  removeOrderOfInternshipBlock,
+  updateOrderOfProjectBlocks,
+  removeProjectBlock,
+  removeOrderOfProjectBlock,
   cvid,
   updateDescription,
   updateEnd,
-  updateOrganiztionName,
+  updateProjectName,
   updateStart,
   updateSupervisor,
   updateTeamSize,
   addDummyBlock,
   removeDummyBlock,
-  internshipBlocks,
+  projectBlocks,
 }) => {
   const [state, setState] = useState({ ok: false });
   /*useEffect(() => {
-    if (internshipBlocks !== undefined) setState({ isLoading: false });
-  }, [internshipBlocks]);*/
+    if (ProjectBlocks !== undefined) setState({ isLoading: false });
+  }, [ProjectBlocks]);*/
   const originalIndex = findBlock(id).index;
   const [{ isDragging }, drag, preview] = useDrag({
-    item: { type: "internshipBlock", id, originalIndex },
+    item: { type: "projectBlock", id, originalIndex },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -45,7 +45,7 @@ const InternshipBlock = ({
     },
   });
   const [, drop] = useDrop({
-    accept: "internshipBlock",
+    accept: "projectBlock",
     canDrop: () => false,
     hover({ id: draggedId }) {
       if (draggedId !== id) {
@@ -55,8 +55,8 @@ const InternshipBlock = ({
     },
   });
   const opacity = isDragging ? 0 : 1;
-  const handleChangeOrganizationName = (event, bid) => {
-    updateOrganiztionName(event.target.value, bid, auth.uid, cvid);
+  const handleChangeProjectName = (event, bid) => {
+    updateProjectName(event.target.value, bid, auth.uid, cvid);
     let dummyBlock = { id: "dummy" };
     addDummyBlock(dummyBlock);
     removeDummyBlock("dummy");
@@ -96,27 +96,27 @@ const InternshipBlock = ({
     addDummyBlock(dummyBlock);
     removeDummyBlock("dummy");
   };
-  const handleRemoveInternshipBlock = (bid) => {
-    removeInternshipBlock(bid, auth.uid, cvid);
-    removeOrderOfInternshipBlock(id, auth.uid, cvid);
+
+  const handleRemoveProjectBlock = (bid) => {
+    removeProjectBlock(bid, auth.uid, cvid);
+    removeOrderOfProjectBlock(id, auth.uid, cvid);
   };
   const accordStyle = {
-    boxShadow: "inset 0 -1px 2px #303030"
-   }
-   const bgcolor = {
-    backgroundColor:"#202020",
-    color:"white",
-    border: "none"
-  }
-  const cardBodyBg={
-    backgroundColor:"#282828",
-    color:"white",
+    boxShadow: "inset 0 -1px 2px #303030",
+  };
+  const bgcolor = {
+    backgroundColor: "#202020",
+    color: "white",
     border: "none",
-    
-  }
+  };
+  const cardBodyBg = {
+    backgroundColor: "#282828",
+    color: "white",
+    border: "none",
+  };
   return (
     <React.Fragment>
-      {internshipBlocks
+      {projectBlocks
         .filter((e) => e.id === id)
         .map((value) => {
           return (
@@ -126,13 +126,13 @@ const InternshipBlock = ({
                 eventKey={index}
                 style={accordStyle}
               >
-                Internship #{index}
+                Project #{index}
                 <Button
                   className="float-right remove"
                   size="sm"
                   style={{ border: "none" }}
                   onClick={() => {
-                    handleRemoveInternshipBlock(value.id);
+                    handleRemoveProjectBlock(value.id);
                   }}
                 >
                   -Remove
@@ -152,18 +152,18 @@ const InternshipBlock = ({
               </Accordion.Toggle>
               <Accordion.Collapse eventKey={index}>
                 <Card.Body style={cardBodyBg}>
-                  <Form >
-                    <Form.Group controlId="formGroupOrganizationName">
-                      <Form.Label>Organization/Institute Name</Form.Label>
+                  <Form>
+                    <Form.Group controlId="projectName">
+                      <Form.Label>Project Name</Form.Label>
                       <Form.Control
                         className="inputStyle"
                         style={cardBodyBg}
                         type="text"
-                        placeholder="Microsoft/DA-IICT"
+                        placeholder="Project Title"
                         onChange={(event) => {
-                          handleChangeOrganizationName(event, value.id);
+                          handleChangeProjectName(event, value.id);
                         }}
-                        defaultValue={value.organizationName}
+                        defaultValue={value.projectName}
                       />
                     </Form.Group>
 
@@ -174,7 +174,7 @@ const InternshipBlock = ({
                         style={cardBodyBg}
                         as="textarea"
                         row="2"
-                        placeholder="Description about internship..."
+                        placeholder="Description about project..."
                         onChange={(event) => {
                           handleChangeDescription(event, value.id);
                         }}
@@ -183,12 +183,12 @@ const InternshipBlock = ({
                     </Form.Group>
 
                     <Form.Group controlId="formGroupScore">
-                      <Form.Label>Guide/Supervisor</Form.Label>
+                      <Form.Label>Guide</Form.Label>
                       <Form.Control
                         className="inputStyle"
                         style={cardBodyBg}
                         type="text"
-                        placeholder="Prof./Mr./Mrs./Ms. X"
+                        placeholder="Prof. X"
                         onChange={(event) => {
                           handleChangeSupervisor(event, value.id);
                         }}
@@ -251,9 +251,8 @@ const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     prevUrl: state.prevUrlRed.prevUrl,
-    orderOfInternshipBlocks:
-      state.orderOfInternshipBlocksRed.orderOfInternshipBlocks,
-    internshipBlocks: state.internshipRed_1.internshipBlocks_1,
+    orderOfProjectBlocks: state.orderOfProjectBlocksRed.orderOfProjectBlocks,
+    projectBlocks: state.projectRed_1.projectBlocks_1,
   };
 };
 
@@ -271,9 +270,9 @@ const mapDispatchToProps = (dispatch) => {
         id: id,
       });
     },
-    addInternshipBlock: (newBlock, uid, cvid) => {
+    addProjectBlock: (newBlock, uid, cvid) => {
       dispatch({
-        type: "ADD_INTERNSHIP_BLOCK_1",
+        type: "ADD_PROJECT_BLOCK_1",
         newBlock: newBlock,
         uid: uid,
         cvid: cvid,
@@ -285,18 +284,18 @@ const mapDispatchToProps = (dispatch) => {
         prevUrl: prevUrl,
       });
     },
-    updateOrderOfInternshipBlocks: (orderOfInternshipBlocks, uid, cvid) => {
+    updateOrderOfProjectBlocks: (orderOfProjectBlocks, uid, cvid) => {
       dispatch({
-        type: "UPDATE_ORDER_OF_INTERNSHIP_BLOCKS",
-        orderOfInternshipBlocks: orderOfInternshipBlocks,
+        type: "UPDATE_ORDER_OF_PROJECT_BLOCKS",
+        orderOfProjectBlocks: orderOfProjectBlocks,
         uid: uid,
         cvid: cvid,
       });
     },
-    updateOrganiztionName: (organizationName, id, uid, cvid) => {
+    updateProjectName: (projectName, id, uid, cvid) => {
       dispatch({
-        type: "UPDATE_INTERNSHIP_ORGANIZATION_NAME_1",
-        organizationName: organizationName,
+        type: "UPDATE_PROJECT_NAME_1",
+        projectName: projectName,
         id: id,
         uid: uid,
         cvid: cvid,
@@ -304,7 +303,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateDescription: (description, id, uid, cvid) => {
       dispatch({
-        type: "UPDATE_INTERNSHIP_DESCRIPTION_1",
+        type: "UPDATE_PROJECT_DESCRIPTION_1",
         description: description,
         id: id,
         uid: uid,
@@ -313,7 +312,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateSupervisor: (supervisor, id, uid, cvid) => {
       dispatch({
-        type: "UPDATE_INTERNSHIP_SUPERVISOR_1",
+        type: "UPDATE_PROJECT_SUPERVISOR_1",
         supervisor: supervisor,
         id: id,
         uid: uid,
@@ -322,7 +321,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateStart: (start, id, uid, cvid) => {
       dispatch({
-        type: "UPDATE_INTERNSHIP_START_1",
+        type: "UPDATE_PROJECT_START_1",
         start: start,
         id: id,
         uid: uid,
@@ -331,7 +330,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateEnd: (end, id, uid, cvid) => {
       dispatch({
-        type: "UPDATE_INTERNSHIP_END_1",
+        type: "UPDATE_PROJECT_END_1",
         end: end,
         id: id,
         uid: uid,
@@ -340,24 +339,24 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateTeamSize: (teamSize, id, uid, cvid) => {
       dispatch({
-        type: "UPDATE_INTERNSHIP_TEAM_SIZE_1",
+        type: "UPDATE_PROJECT_TEAM_SIZE_1",
         teamSize: teamSize,
         id: id,
         uid: uid,
         cvid: cvid,
       });
     },
-    removeInternshipBlock: (id, uid, cvid) => {
+    removeProjectBlock: (id, uid, cvid) => {
       dispatch({
-        type: "REMOVE_INTERNSHIP_BLOCK_1",
+        type: "REMOVE_PROJECT_BLOCK_1",
         id: id,
         uid: uid,
         cvid: cvid,
       });
     },
-    removeOrderOfInternshipBlock: (id, uid, cvid) => {
+    removeOrderOfProjectBlock: (id, uid, cvid) => {
       dispatch({
-        type: "REMOVE_ORDER_OF_INTERNSHIP_BLOCK",
+        type: "REMOVE_ORDER_OF_PROJECT_BLOCK",
         id: id,
         uid: uid,
         cvid: cvid,
@@ -366,4 +365,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(InternshipBlock);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectBlock);

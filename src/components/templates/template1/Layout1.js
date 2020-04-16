@@ -27,6 +27,74 @@ class Layout1 extends Component {
     return newDegreeBlocks;
   };
 
+  updateSkillBlock = () => {
+    let newSkillBlocks = [];
+
+    for (let [ind, val] of this.props.orderOfSkillBlocks.entries()) {
+      if (val.id === 1) {
+        newSkillBlocks.push(
+          <tr
+            key={val.id}
+            className={this.props.areaOfInterest.length > 0 ? "" : "hide"}
+          >
+            <td className="w-30">
+              <b style={{ fontSize: "18px" }}>
+                Expertise Area/Area(s) of Interest
+              </b>
+            </td>
+
+            <td className="w-70" style={{ textAlign: "left" }}>
+              {this.props.areaOfInterest}
+            </td>
+          </tr>
+        );
+      } else if (val.id === 2) {
+        newSkillBlocks.push(
+          <tr
+            key={val.id}
+            className={this.props.proLanguages.length > 0 ? "" : "hide"}
+          >
+            <td className="w-30">
+              <b style={{ fontSize: "18px" }}>Programming Language(s)</b>
+            </td>
+            <td className="w-70" style={{ textAlign: "left" }}>
+              {this.props.proLanguages}
+            </td>
+          </tr>
+        );
+      } else if (val.id === 3) {
+        newSkillBlocks.push(
+          <tr
+            key={val.id}
+            className={this.props.toolsAndTech.length > 0 ? "" : "hide"}
+          >
+            <td className="w-30">
+              <b style={{ fontSize: "18px" }}>Tools and Technologies</b>
+            </td>
+            <td className="w-70" style={{ textAlign: "left" }}>
+              {this.props.toolsAndTech}
+            </td>
+          </tr>
+        );
+      } else if (val.id === 4) {
+        newSkillBlocks.push(
+          <tr
+            key={val.id}
+            className={this.props.techElectives.length > 0 ? "" : "hide"}
+          >
+            <td className="w-30">
+              <b style={{ fontSize: "18px" }}>Technical Electives</b>
+            </td>
+            <td className="w-70" style={{ textAlign: "left" }}>
+              {this.props.techElectives}
+            </td>
+          </tr>
+        );
+      }
+    }
+    return newSkillBlocks;
+  };
+
   updateInternshipBlock = () => {
     let newInternshipBlocks = [];
 
@@ -75,34 +143,39 @@ class Layout1 extends Component {
   updateProjectBlock = () => {
     let newProjectBlocks = [];
 
-    for (let [index, value] of this.props.projectBlocks.entries()) {
-      newProjectBlocks.push(
-        <tr key={index}>
-          <td
-            className="w-80"
-            style={{ textAlignVertical: "top", textAlign: "left" }}
-          >
-            <p>
-              <b style={{ fontSize: "18px" }}>{value.projectName}</b>
-            </p>
-            <p style={{ fontSize: "18px" }}>{value.description}</p>
-            <p>
-              <i style={{ fontSize: "18px" }}>
-                <b style={{ fontSize: "18px" }}>Guide:</b> {value.supervisor}
-              </i>
-            </p>
-          </td>
-          <td
-            className="w-20"
-            style={{ textAlignVertical: "top", textAlign: "right" }}
-          >
-            <p style={{ fontSize: "18px" }}>
-              ( {value.start} - {value.end} )
-            </p>
-            <p style={{ fontSize: "18px" }}>Team Size - {value.teamSize}</p>
-          </td>
-        </tr>
-      );
+    for (let [ind, val] of this.props.orderOfProjectBlocks.entries()) {
+      for (let [index, value] of this.props.projectBlocks.entries()) {
+        if (val.id === value.id) {
+          newProjectBlocks.push(
+            <tr key={index}>
+              <td
+                className="w-80"
+                style={{ textAlignVertical: "top", textAlign: "left" }}
+              >
+                <p>
+                  <b style={{ fontSize: "18px" }}>{value.projectName}</b>
+                </p>
+                <p style={{ fontSize: "18px" }}>{value.description}</p>
+                <p>
+                  <i style={{ fontSize: "18px" }}>
+                    <b style={{ fontSize: "18px" }}>Guide:</b>{" "}
+                    {value.supervisor}
+                  </i>
+                </p>
+              </td>
+              <td
+                className="w-20"
+                style={{ textAlignVertical: "top", textAlign: "right" }}
+              >
+                <p style={{ fontSize: "18px" }}>
+                  ( {value.start} - {value.end} )
+                </p>
+                <p style={{ fontSize: "18px" }}>Team Size - {value.teamSize}</p>
+              </td>
+            </tr>
+          );
+        }
+      }
     }
 
     return newProjectBlocks;
@@ -111,14 +184,18 @@ class Layout1 extends Component {
   updatePositionBlock = () => {
     let newPositionBlocks = [];
 
-    for (let [index, value] of this.props.positionBlocks.entries()) {
-      newPositionBlocks.push(
-        <tr key={index}>
-          <td style={{ padding: "0px", margin: "0px", textAlign: "left" }}>
-            {index + 1}. {value.information}
-          </td>
-        </tr>
-      );
+    for (let [ind, val] of this.props.orderOfPositionBlocks.entries()) {
+      for (let [index, value] of this.props.positionBlocks.entries()) {
+        if (val.id === value.id) {
+          newPositionBlocks.push(
+            <tr key={index}>
+              <td style={{ padding: "0px", margin: "0px", textAlign: "left" }}>
+                {ind + 1}. {value.information}
+              </td>
+            </tr>
+          );
+        }
+      }
     }
 
     return newPositionBlocks;
@@ -127,14 +204,18 @@ class Layout1 extends Component {
   updateAwardBlock = () => {
     let newAwardBlocks = [];
 
-    for (let [index, value] of this.props.awardBlocks.entries()) {
-      newAwardBlocks.push(
-        <tr key={index}>
-          <td style={{ padding: "0px", margin: "0px", textAlign: "left" }}>
-            {index + 1}. {value.information}
-          </td>
-        </tr>
-      );
+    for (let [ind, val] of this.props.orderOfAwardBlocks.entries()) {
+      for (let [index, value] of this.props.awardBlocks.entries()) {
+        if (val.id === value.id) {
+          newAwardBlocks.push(
+            <tr key={index}>
+              <td style={{ padding: "0px", margin: "0px", textAlign: "left" }}>
+                {ind + 1}. {value.information}
+              </td>
+            </tr>
+          );
+        }
+      }
     }
 
     return newAwardBlocks;
@@ -143,14 +224,18 @@ class Layout1 extends Component {
   updateHobbyBlock = () => {
     let newHobbyBlocks = [];
 
-    for (let [index, value] of this.props.hobbyBlocks.entries()) {
-      newHobbyBlocks.push(
-        <tr key={index}>
-          <td style={{ padding: "0px", margin: "0px", textAlign: "left" }}>
-            {index + 1}. {value.information}
-          </td>
-        </tr>
-      );
+    for (let [ind, val] of this.props.orderOfHobbyBlocks.entries()) {
+      for (let [index, value] of this.props.hobbyBlocks.entries()) {
+        if (val.id === value.id) {
+          newHobbyBlocks.push(
+            <tr key={index}>
+              <td style={{ padding: "0px", margin: "0px", textAlign: "left" }}>
+                {ind + 1}. {value.information}
+              </td>
+            </tr>
+          );
+        }
+      }
     }
 
     return newHobbyBlocks;
@@ -159,6 +244,7 @@ class Layout1 extends Component {
   educationSection = () => {
     return (
       <table
+        key="education"
         className={
           this.props.degreeBlocks.length > 0 ? "w-100 section" : "hide"
         }
@@ -187,6 +273,7 @@ class Layout1 extends Component {
   skillSection = () => {
     return (
       <table
+        key="skill"
         className={
           this.props.areaOfInterest !== "" ||
           this.props.proLanguages !== "" ||
@@ -204,46 +291,7 @@ class Layout1 extends Component {
           </tr>
         </thead>
 
-        <tbody>
-          <tr className={this.props.areaOfInterest.length > 0 ? "" : "hide"}>
-            <td className="w-30">
-              <b style={{ fontSize: "18px" }}>
-                Expertise Area/Area(s) of Interest
-              </b>
-            </td>
-
-            <td className="w-70" style={{ textAlign: "left" }}>
-              {this.props.areaOfInterest}
-            </td>
-          </tr>
-
-          <tr className={this.props.proLanguages.length > 0 ? "" : "hide"}>
-            <td className="w-30">
-              <b style={{ fontSize: "18px" }}>Programming Language(s)</b>
-            </td>
-            <td className="w-70" style={{ textAlign: "left" }}>
-              {this.props.proLanguages}
-            </td>
-          </tr>
-
-          <tr className={this.props.toolsAndTech.length > 0 ? "" : "hide"}>
-            <td className="w-30">
-              <b style={{ fontSize: "18px" }}>Tools and Technologies</b>
-            </td>
-            <td className="w-70" style={{ textAlign: "left" }}>
-              {this.props.toolsAndTech}
-            </td>
-          </tr>
-
-          <tr className={this.props.techElectives.length > 0 ? "" : "hide"}>
-            <td className="w-30">
-              <b style={{ fontSize: "18px" }}>Technical Electives</b>
-            </td>
-            <td className="w-70" style={{ textAlign: "left" }}>
-              {this.props.techElectives}
-            </td>
-          </tr>
-        </tbody>
+        <tbody>{this.updateSkillBlock()}</tbody>
       </table>
     );
   };
@@ -251,6 +299,7 @@ class Layout1 extends Component {
   internshipSection = () => {
     return (
       <table
+        key="internship"
         className={
           this.props.internshipBlocks.length > 0 ? "w-100 section" : "hide"
         }
@@ -271,6 +320,7 @@ class Layout1 extends Component {
   projectSection = () => {
     return (
       <table
+        key="project"
         className={
           this.props.projectBlocks.length > 0 ? "w-100 section" : "hide"
         }
@@ -291,6 +341,7 @@ class Layout1 extends Component {
   responsibilitySection = () => {
     return (
       <table
+        key="position"
         className={
           this.props.positionBlocks.length > 0 ? "w-100 section" : "hide"
         }
@@ -311,6 +362,7 @@ class Layout1 extends Component {
   awardSection = () => {
     return (
       <table
+        key="award"
         className={this.props.awardBlocks.length > 0 ? "w-100 section" : "hide"}
       >
         <thead>
@@ -329,6 +381,7 @@ class Layout1 extends Component {
   hobbySection = () => {
     return (
       <table
+        key="hobby"
         className={this.props.hobbyBlocks.length > 0 ? "w-100 section" : "hide"}
       >
         <thead>
@@ -444,18 +497,23 @@ const mapStateToProps = (state) => {
     proLanguages: state.skillRed_1.proLanguages_1,
     toolsAndTech: state.skillRed_1.toolsAndTech_1,
     techElectives: state.skillRed_1.techElectives_1,
+    orderOfSkillBlocks: state.orderOfSkillBlocksRed.orderOfSkillBlocks,
 
     internshipBlocks: state.internshipRed_1.internshipBlocks_1,
     orderOfInternshipBlocks:
       state.orderOfInternshipBlocksRed.orderOfInternshipBlocks,
 
     projectBlocks: state.projectRed_1.projectBlocks_1,
+    orderOfProjectBlocks: state.orderOfProjectBlocksRed.orderOfProjectBlocks,
 
     positionBlocks: state.positionRed_1.positionBlocks_1,
+    orderOfPositionBlocks: state.orderOfPositionBlocksRed.orderOfPositionBlocks,
 
     awardBlocks: state.awardRed_1.awardBlocks_1,
+    orderOfAwardBlocks: state.orderOfAwardBlocksRed.orderOfAwardBlocks,
 
     hobbyBlocks: state.hobbyRed_1.hobbyBlocks_1,
+    orderOfHobbyBlocks: state.orderOfHobbyBlocksRed.orderOfHobbyBlocks,
 
     orderOfBlocks: state.orderOfBlocksRed.orderOfBlocks,
   };

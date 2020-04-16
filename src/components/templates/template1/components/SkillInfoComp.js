@@ -6,17 +6,17 @@ import { connect } from "react-redux";
 import firestore from "./../../../../firebase/firestore";
 import Loader from "./../../../loader/Loader";
 import { Link } from "react-router-dom";
-import EducationBlock from "./EducationBlock";
+import SkillBlock from "./SkillBlock";
 
-const EducationInfoComp = props => {
+const SkillInfoComp = (props) => {
   const [state, setState] = useState({ title: "", isLoading: false });
   props.updatePrevUrl(window.location.pathname);
-  const [blocks, setBlocks] = useState(props.orderOfEducationBlocks);
+  const [blocks, setBlocks] = useState(props.orderOfSkillBlocks);
+  /*useEffect(() => {
+    setBlocks(props.orderOfSkillBlocks);
+  }, [props.orderOfSkillBlocks]);*/
   useEffect(() => {
-    setBlocks(props.orderOfEducationBlocks);
-  }, [props.orderOfEducationBlocks]);
-  useEffect(() => {
-    props.updateOrderOfEducationBlocks(blocks, props.auth.uid, props.cvid);
+    props.updateOrderOfSkillBlocks(blocks, props.auth.uid, props.cvid);
   }, [blocks]);
   const moveBlock = (id, atIndex) => {
     const { block, index } = findBlock(id);
@@ -24,25 +24,25 @@ const EducationInfoComp = props => {
       update(blocks, {
         $splice: [
           [index, 1],
-          [atIndex, 0, block]
-        ]
+          [atIndex, 0, block],
+        ],
       })
     );
   };
-  const findBlock = id => {
-    const block = blocks.filter(b => b.id === id)[0];
+  const findBlock = (id) => {
+    const block = blocks.filter((b) => b.id === id)[0];
     return {
       block,
-      index: blocks.indexOf(block)
+      index: blocks.indexOf(block),
     };
   };
-  const [, drop] = useDrop({ accept: "block" });
-  
+  const [, drop] = useDrop({ accept: "skillBlock" });
+
   return (
     <div ref={drop}>
-      <Accordion defaultActiveKey="" >
+      <Accordion>
         {blocks.map((block, index) => (
-          <EducationBlock
+          <SkillBlock
             key={block.id}
             id={block.id}
             moveBlock={moveBlock}
@@ -57,33 +57,32 @@ const EducationInfoComp = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     prevUrl: state.prevUrlRed.prevUrl,
-    orderOfEducationBlocks:
-      state.orderOfEducationBlocksRed.orderOfEducationBlocks,
-    orderOfBlocks: state.orderOfBlocksRed.orderOfBlocks
+    orderOfSkillBlocks: state.orderOfSkillBlocksRed.orderOfSkillBlocks,
+    orderOfBlocks: state.orderOfBlocksRed.orderOfBlocks,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    updatePrevUrl: prevUrl => {
+    updatePrevUrl: (prevUrl) => {
       dispatch({
         type: "UPDATE_PREVURL",
-        prevUrl: prevUrl
+        prevUrl: prevUrl,
       });
     },
-    updateOrderOfEducationBlocks: (orderOfEducationBlocks, uid, cvid) => {
+    updateOrderOfSkillBlocks: (orderOfSkillBlocks, uid, cvid) => {
       dispatch({
-        type: "UPDATE_ORDER_OF_EDUCATION_BLOCKS",
-        orderOfEducationBlocks: orderOfEducationBlocks,
+        type: "UPDATE_ORDER_OF_SKILL_BLOCKS",
+        orderOfSkillBlocks: orderOfSkillBlocks,
         uid: uid,
-        cvid: cvid
+        cvid: cvid,
       });
-    }
+    },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EducationInfoComp);
+export default connect(mapStateToProps, mapDispatchToProps)(SkillInfoComp);

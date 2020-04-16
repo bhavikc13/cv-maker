@@ -3,34 +3,14 @@ import { connect } from "react-redux";
 import { Form, Card } from "react-bootstrap";
 import firestore from "./../../../../firebase/firestore";
 import "./CompStyle.css";
+import Loader from "./../../../loader/Loader";
+import SkillInfoComp from "./SkillInfoComp";
 
 class SkillsInfo extends Component {
-  componentDidUpdate() {
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .collection("skill")
-      .doc(this.props.id)
-      .set({
-        areaOfInterest: this.props.aoi,
-        proLanguages: this.props.pl,
-        toolsAndTech: this.props.tt,
-        techElectives: this.props.te,
-      })
-      .then(() => console.log("update skill"))
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  componentWillUnmount() {
-    this.props.updateAOI("");
-    this.props.updatePL("");
-    this.props.updateTT("");
-    this.props.updateTE("");
-  }
+  state = { isLoading: false };
   componentDidMount() {
+    this.setState({ isLoading: true });
+    this.props.removeAllBlocks();
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -41,14 +21,20 @@ class SkillsInfo extends Component {
       .get()
       .then((resp) => {
         let skill = resp.data();
-        if (!skill) return null;
-        this.props.updateAOI(skill.areaOfInterest);
-        this.props.updatePL(skill.proLanguages);
-        this.props.updateTT(skill.toolsAndTech);
-        this.props.updateTE(skill.techElectives);
+        if (!skill) {
+          this.setState({ isLoading: false });
+          return null;
+        }
+        this.props.loadAllBlocks(
+          skill.areaOfInterest,
+          skill.proLanguages,
+          skill.toolsAndTech,
+          skill.techElectives
+        );
+        this.setState({ isLoading: false });
       });
   }
-  handleChangeAOI = (event) => {
+  /*handleChangeAOI = event => {
     this.props.updateAOI(event.target.value);
     firestore
       .collection("users")
@@ -56,15 +42,15 @@ class SkillsInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date(),
+        updatedAt: new Date()
       })
       .then(() => console.log("update date and time"))
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
 
-  handleChangePL = (event) => {
+  handleChangePL = event => {
     this.props.updatePL(event.target.value);
     firestore
       .collection("users")
@@ -72,15 +58,15 @@ class SkillsInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date(),
+        updatedAt: new Date()
       })
       .then(() => console.log("update date and time"))
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
 
-  handleChangeTT = (event) => {
+  handleChangeTT = event => {
     this.props.updateTT(event.target.value);
     firestore
       .collection("users")
@@ -88,15 +74,15 @@ class SkillsInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date(),
+        updatedAt: new Date()
       })
       .then(() => console.log("update date and time"))
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
 
-  handleChangeTE = (event) => {
+  handleChangeTE = event => {
     this.props.updateTE(event.target.value);
     firestore
       .collection("users")
@@ -104,14 +90,13 @@ class SkillsInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date(),
+        updatedAt: new Date()
       })
       .then(() => console.log("update date and time"))
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
-  };
-
+  };*/
   render() {
     const bgcolor = {
       backgroundColor: "#202020",
@@ -120,16 +105,17 @@ class SkillsInfo extends Component {
       border: "none",
     };
 
-    return (
+    return this.state.isLoading ? (
+      <Loader />
+    ) : (
       <div>
-        <Form>
-          <Card body style={bgcolor}>
+        <SkillInfoComp cvid={this.props.id} />
+        {/*<Form >
+          <Card body  style={bgcolor} >
             <Form.Group controlId="formGroupAOI">
-              {/*Area of Interest*/}
+              
               <Form.Label>Expertise Area/Area(s) of Interest</Form.Label>
-              <Form.Control
-                className="inputStyle"
-                style={bgcolor}
+              <Form.Control className="inputStyle" style={bgcolor}
                 as="textarea"
                 rows="3"
                 placeholder="Web Development, Machine Learning..."
@@ -142,11 +128,9 @@ class SkillsInfo extends Component {
           <Card body style={bgcolor}>
             <Form.Group controlId="formGroupPL">
               {" "}
-              {/* Programming Languages */}
+              
               <Form.Label>Programming Language(s)</Form.Label>
-              <Form.Control
-                className="inputStyle"
-                style={bgcolor}
+              <Form.Control className="inputStyle" style={bgcolor}
                 as="textarea"
                 rows="3"
                 placeholder="C++, Python..."
@@ -159,11 +143,9 @@ class SkillsInfo extends Component {
           <Card body style={bgcolor}>
             <Form.Group controlId="formGroupTT">
               {" "}
-              {/* Tools and Technologies */}
+              
               <Form.Label>Tools and Technologies</Form.Label>
-              <Form.Control
-                className="inputStyle"
-                style={bgcolor}
+              <Form.Control className="inputStyle" style={bgcolor}
                 as="textarea"
                 rows="3"
                 placeholder="React JS, Redux, Firebase..."
@@ -176,11 +158,9 @@ class SkillsInfo extends Component {
           <Card body style={bgcolor}>
             <Form.Group controlId="formGroupTE">
               {" "}
-              {/* Technical Electives */}
+              
               <Form.Label>Technical Electives</Form.Label>
-              <Form.Control
-                className="inputStyle"
-                style={bgcolor}
+              <Form.Control className="inputStyle" style={bgcolor}
                 as="textarea"
                 rows="3"
                 placeholder="Software Engineering, Operating System..."
@@ -189,7 +169,7 @@ class SkillsInfo extends Component {
               />
             </Form.Group>
           </Card>
-        </Form>
+        </Form>*/}
       </div>
     );
   }
@@ -207,17 +187,31 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateAOI: (aoi) => {
-      dispatch({ type: "UPDATE_AOI_1", aoi: aoi });
+    updateAOI: (aoi, uid, cvid) => {
+      dispatch({ type: "UPDATE_AOI_1", aoi: aoi, uid: uid, cvid: cvid });
     },
-    updatePL: (pl) => {
-      dispatch({ type: "UPDATE_PL_1", pl: pl });
+    updatePL: (pl, uid, cvid) => {
+      dispatch({ type: "UPDATE_PL_1", pl: pl, uid: uid, cvid: cvid });
     },
-    updateTT: (tt) => {
-      dispatch({ type: "UPDATE_TT_1", tt: tt });
+    updateTT: (tt, uid, cvid) => {
+      dispatch({ type: "UPDATE_TT_1", tt: tt, uid: uid, cvid: cvid });
     },
-    updateTE: (te) => {
-      dispatch({ type: "UPDATE_TE_1", te: te });
+    updateTE: (te, uid, cvid) => {
+      dispatch({ type: "UPDATE_TE_1", te: te, uid: uid, cvid: cvid });
+    },
+    removeAllBlocks: () => {
+      dispatch({
+        type: "REMOVE_ALL_SKILL_BLOCKS_1",
+      });
+    },
+    loadAllBlocks: (aoi, pl, tt, te) => {
+      dispatch({
+        type: "LOAD_ALL_SKILL_BLOCKS_1",
+        aoi: aoi,
+        pl: pl,
+        tt: tt,
+        te: te,
+      });
     },
   };
 };

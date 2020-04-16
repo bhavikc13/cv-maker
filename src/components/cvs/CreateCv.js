@@ -29,6 +29,20 @@ const orderOfBlocks = [
     id: 7,
   },
 ];
+const orderOfSkillBlocks = [
+  {
+    id: 1,
+  },
+  {
+    id: 2,
+  },
+  {
+    id: 3,
+  },
+  {
+    id: 4,
+  },
+];
 
 class CreateCV extends Component {
   state = {
@@ -87,6 +101,11 @@ class CreateCV extends Component {
                       orderOfBlocks: orderOfBlocks,
                       orderOfEducationBlocks: [],
                       orderOfInternshipBlocks: [],
+                      orderOfProjectBlocks: [],
+                      orderOfPositionBlocks: [],
+                      orderOfAwardBlocks: [],
+                      orderOfHobbyBlocks: [],
+                      orderOfSkillBlocks: orderOfSkillBlocks,
                       updatedAt: new Date(),
                       createdAt: new Date(),
                       userId: userId,
@@ -142,6 +161,11 @@ class CreateCV extends Component {
                 orderOfBlocks: orderOfBlocks,
                 orderOfEducationBlocks: [],
                 orderOfInternshipBlocks: [],
+                orderOfProjectBlocks: [],
+                orderOfPositionBlocks: [],
+                orderOfAwardBlocks: [],
+                orderOfHobbyBlocks: [],
+                orderOfSkillBlocks: orderOfSkillBlocks,
                 updatedAt: new Date(),
                 createdAt: new Date(),
                 userId: userId,

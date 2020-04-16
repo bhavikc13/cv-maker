@@ -41,6 +41,9 @@ const Block = ({ cvid, id, moveBlock, findBlock, eventKey }) => {
     backgroundColor : "#202020"
     
   }
+  const cardBodyBg= {
+    backgroundColor: "#282828"
+  }
   return (
     <Card ref={preview} className="bgcolor" style={card}>
       <Accordion.Toggle as={Card.Header} eventKey={eventKey}>
@@ -65,7 +68,7 @@ const Block = ({ cvid, id, moveBlock, findBlock, eventKey }) => {
         </p>
       </Accordion.Toggle>
       <Accordion.Collapse eventKey={eventKey}>
-        <Card.Body>
+        <Card.Body style={cardBodyBg}>
           {id === 1 ? <EducationInfo id={cvid} /> : null}
           {id === 2 ? <SkillsInfo id={cvid} /> : null}
           {id === 3 ? <InternshipInfo id={cvid} /> : null}

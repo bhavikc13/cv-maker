@@ -54,6 +54,10 @@ const SidebarAndLayout1 = (props) => {
   };
   const color = {
     color: "#fff",
+    backgroundColor: "#202020",
+  };
+  const cardBodyBg = {
+    backgroundColor: "#282828",
   };
   return state.isLoading ? (
     <Loader />
@@ -62,7 +66,6 @@ const SidebarAndLayout1 = (props) => {
       <PdfLayout1 />
       <h3 className="text-center cvtitle">{props.title}</h3>
       <div style={{ position: "relative" }}>
-        <div style={{ position: "absolute" }}></div>
         <div className="screenView1">
           <div className="sidebar1" ref={drop} style={color}>
             <Accordion defaultActiveKey="">
@@ -75,7 +78,7 @@ const SidebarAndLayout1 = (props) => {
                   Upload Image
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="0">
-                  <Card.Body>
+                  <Card.Body style={{ backgroundColor: "#303030" }}>
                     <ImageInfo id={props.id} />
                   </Card.Body>
                 </Accordion.Collapse>
@@ -90,7 +93,7 @@ const SidebarAndLayout1 = (props) => {
                   Personal Information
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="1">
-                  <Card.Body>
+                  <Card.Body style={cardBodyBg}>
                     <PersonalInfo id={props.id} />
                   </Card.Body>
                 </Accordion.Collapse>

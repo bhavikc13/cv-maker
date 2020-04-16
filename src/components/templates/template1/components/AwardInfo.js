@@ -3,49 +3,26 @@ import { connect } from "react-redux";
 import { Form, Card, Button } from "react-bootstrap";
 import firestore from "./../../../../firebase/firestore";
 import "./CompStyle.css";
+import Loader from "./../../../loader/Loader";
+import AwardInfoComp from "./AwardInfoComp";
 
 class AwardInfo extends Component {
+  state = { isLoading: false };
   handleAddAwardBlock = () => {
     let tid = Date.now();
     let newBlock = { id: tid, information: "" };
-    this.props.addAwardBlock(newBlock);
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .update({
-        updatedAt: new Date()
-      })
-      .then(console.log("update date and time"))
-      .catch(err => {
-        console.log(err);
-      });
+    this.props.addAwardBlock(newBlock, this.props.auth.uid, this.props.id);
+    this.props.addOrderOfAwardBlock(
+      {
+        id: tid,
+      },
+      this.props.auth.uid,
+      this.props.id
+    );
   };
-  componentDidUpdate() {
-    firestore
-      .collection("users")
-      .doc(this.props.auth.uid)
-      .collection("cvs")
-      .doc(this.props.id)
-      .collection("award")
-      .doc(this.props.id)
-      .set({
-        ...this.props.awardBlocks
-      })
-      .then(() => console.log("update award"))
-      .catch(err => {
-        console.log(err);
-      });
-  }
-  componentWillUnmount() {
-    let TawardBlocks = this.props.awardBlocks;
-    let n = TawardBlocks.length;
-    for (let i = 0; i < n; i++) {
-      this.props.removeAwardBlock(TawardBlocks[i].id);
-    }
-  }
   componentDidMount() {
+    this.setState({ isLoading: true });
+    this.props.removeAllBlocks();
     firestore
       .collection("users")
       .doc(this.props.auth.uid)
@@ -54,21 +31,23 @@ class AwardInfo extends Component {
       .collection("award")
       .doc(this.props.id)
       .get()
-      .then(resp => {
+      .then((resp) => {
         let award = resp.data();
-        if (!award) return null;
-        let sz = Object.keys(award).length;
-        for (let i = 0; i < sz; i++) {
-          let newBlock = {
-            id: award[i].id,
-            information: award[i].information
-          };
-          this.props.addAwardBlock(newBlock);
+        if (!award) {
+          this.setState({ isLoading: false });
+          return null;
         }
-      })
-      .catch(err => console.log(err));
+        let sz = Object.keys(award).length;
+        let blocks = [];
+        for (let i = 0; i < sz; i++) {
+          blocks.push(award[i]);
+        }
+        this.props.loadAllBlocks(blocks);
+        this.setState({ isLoading: false });
+      });
   }
-  handleChangeAward = (event, id) => {
+
+  /*handleChangeAward = (event, id) => {
     this.props.updateAward(event.target.value, id);
     let dummyBlock = { id: "dummy", information: "" };
     this.props.addAwardBlock(dummyBlock);
@@ -101,36 +80,39 @@ class AwardInfo extends Component {
       .catch(err => {
         console.log(err);
       });
-  };
+  };*/
 
   render() {
     const bgcolor = {
       backgroundColor: "#202020",
       color: "white",
-      border:"none",
-    }
+      border: "none",
+    };
     const cardStyle = {
       boxShadow: "inset 0 0px 4px #303030",
       backgroundColor: "#202020",
       color: "white",
-      margin: "10px" 
-    }
-    return (
+      margin: "10px",
+    };
+
+    return this.state.isLoading ? (
+      <Loader />
+    ) : (
       <div>
-        {this.props.awardBlocks.map((value, index) => {
+        <AwardInfoComp cvid={this.props.id} />
+        {/*{this.props.AwardBlocks.map((value, index) => {
           return (
             <Card body style={cardStyle} key={index}>
               <Form>
                 <Form.Group controlId="formGroupPos">
                   {" "}
-                  {/*Area of Interest*/}
                   <Form.Control className="inputStyle" style={bgcolor}
                     type="text"
                     placeholder="Member of X committee from January 2020 to May 2020..."
                     onChange={event => {
                       this.handleChangeAward(event, value.id);
                     }}
-                    defaultValue={this.props.awardBlocks[index].information}
+                    defaultValue={this.props.AwardBlocks[index].information}
                   />
                 </Form.Group>
               </Form>
@@ -151,9 +133,12 @@ class AwardInfo extends Component {
               </Button>
             </Card>
           );
-        })}
-        <Button className="add"
-         onClick={this.handleAddAwardBlock}>
+        })}*/}
+        <Button
+          className="add"
+          onClick={this.handleAddAwardBlock}
+          style={{ marginTop: "10px" }}
+        >
           {" "}
           +Add{" "}
         </Button>
@@ -162,28 +147,68 @@ class AwardInfo extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
+    awardBlocks: state.awardRed_1.awardBlocks_1,
     auth: state.firebase.auth,
-    awardBlocks: state.awardRed_1.awardBlocks_1
+    orderOfAwardBlocks: state.orderOfAwardBlocksRed.orderOfAwardBlocks,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    addAwardBlock: newBlock => {
-      dispatch({ type: "ADD_AWARD_BLOCK_1", newBlock: newBlock });
+    addAwardBlock: (newBlock, uid, cvid) => {
+      dispatch({
+        type: "ADD_AWARD_BLOCK_1",
+        newBlock: newBlock,
+        uid: uid,
+        cvid: cvid,
+      });
     },
-    updateAward: (information, id) => {
+    updateAward: (information, id, uid, cvid) => {
       dispatch({
         type: "UPDATE_AWARD_INFORMATION_1",
         information: information,
-        id: id
+        id: id,
+        uid: uid,
+        cvid: cvid,
       });
     },
-    removeAwardBlock: id => {
-      dispatch({ type: "REMOVE_AWARD_BLOCK_1", id: id });
-    }
+    removeAwardBlock: (id, uid, cvid) => {
+      dispatch({
+        type: "REMOVE_AWARD_BLOCK_1",
+        id: id,
+        uid: uid,
+        cvid: cvid,
+      });
+    },
+    updateOrderOfAwardBlocks: (orderOfAwardBlocks, uid, cvid) => {
+      dispatch({
+        type: "UPDATE_ORDER_OF_AWARD_BLOCKS",
+        orderOfAwardBlocks: orderOfAwardBlocks,
+        uid: uid,
+        cvid: cvid,
+      });
+    },
+    addOrderOfAwardBlock: (newBlock, uid, cvid) => {
+      dispatch({
+        type: "ADD_ORDER_OF_AWARD_BLOCK",
+        newBlock: newBlock,
+        uid: uid,
+        cvid: cvid,
+      });
+    },
+    removeAllBlocks: () => {
+      dispatch({
+        type: "REMOVE_ALL_AWARD_BLOCKS_1",
+      });
+    },
+    loadAllBlocks: (blocks) => {
+      dispatch({
+        type: "LOAD_ALL_AWARD_BLOCKS_1",
+        blocks: blocks,
+      });
+    },
   };
 };
 
