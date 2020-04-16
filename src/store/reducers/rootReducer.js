@@ -28,8 +28,18 @@ import prevUrlReducer from "./prevUrlReducer";
 import orderOfBlocksReducer from "./orderOfBlocksReducer";
 import orderOfEducationBlocksRed from "./orderOfEducationBlocksRed";
 import orderOfInternshipBlocksRed from "./orderOfInternshipBlocksRed";
+import orderOfProjectBlocksRed from "./orderOfProjectBlocksRed";
+import orderOfPositionBlocksRed from "./orderOfPositionBlocksRed";
+import orderOfAwardBlocksRed from "./orderOfAwardBlocksRed";
+import orderOfHobbyBlocksRed from "./orderOfHobbyBlocksRed";
+import orderOfSkillBlocksRed from "./orderOfSkillBlocksRed";
 
 const rootReducer = combineReducers({
+  orderOfSkillBlocksRed: orderOfSkillBlocksRed,
+  orderOfHobbyBlocksRed: orderOfHobbyBlocksRed,
+  orderOfAwardBlocksRed: orderOfAwardBlocksRed,
+  orderOfPositionBlocksRed: orderOfPositionBlocksRed,
+  orderOfProjectBlocksRed: orderOfProjectBlocksRed,
   orderOfEducationBlocksRed: orderOfEducationBlocksRed,
   orderOfInternshipBlocksRed: orderOfInternshipBlocksRed,
   orderOfBlocksRed: orderOfBlocksReducer,
