@@ -224,7 +224,7 @@ class CreateCV extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="containerTitle">
+      <div className="containerTitle" data-testid="createCvTestId">
         <div className="bgtitle"></div>
         <form
           onSubmit={this.handleAddCv}

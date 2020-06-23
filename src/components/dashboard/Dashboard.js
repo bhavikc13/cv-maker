@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import CvList from "../cvs/CvList";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import Loader from "./../loader/Loader";
-import { Link } from "react-router-dom";
 import { dashboardBG } from "../AddImage/dashboardBG.jpg";
 import "../style/dashboardStyle.css";
 import image from "../AddImage/dashboardBG2.jpeg";
@@ -17,6 +16,7 @@ class Dashboard extends Component {
     this.props.updatePrevUrl(window.location.pathname);
     this.setState({ isLoading: false });
   }
+
   render() {
     const styles = {
       gridArea: "text",
@@ -54,7 +54,7 @@ class Dashboard extends Component {
                     <Link to="/cvlist" className="stretched-link"></Link>
                   </div>
                 </div>
-              </div>
+              </div>z
         </div>
             
           
@@ -90,7 +90,7 @@ class Dashboard extends Component {
       </div>
       </div>*/
       <div>
-        <div className="DashWrapper">
+        <div data-testid="dashboardTestId" className="DashWrapper">
           <div className="Left">
             <div
               style={{
@@ -113,24 +113,22 @@ class Dashboard extends Component {
               </span>
             </div>
 
-            <div className="PrimaryButton">
+            <div  className="PrimaryButton">
               Create New CV
-              <div>
-                <p className="styles"></p>
-                <Link
-                  to="/templatelist"
-                  className="stretched-link styles"
-                ></Link>
-              </div>
+              <Link to="/templatelist"
+                    className="stretched-link"
+                    data-testid="createNewCVLinkTestId" 
+              />
             </div>
 
-            <div className="PrimaryButton">
+            <div  className="PrimaryButton">
               Use Existing
-              <div>
-                <p className="styles"></p>
-                <Link to="/cvlist" className="stretched-link styles"></Link>
-              </div>
+              <Link to="/cvlist"
+                    className="stretched-link"
+                    data-testid="useExistingCVLinkTestId" 
+              /> 
             </div>
+
           </div>
         </div>
         <div className="Right">

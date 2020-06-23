@@ -6,6 +6,9 @@ import firebase from "./../../firebase/fbConfig";
 import Loader from "./../loader/Loader";
 import { Link } from "react-router-dom";
 import "../style/signinStyle.css";
+import { faEye as eyeSolid } from "@fortawesome/free-solid-svg-icons";
+import { faEye as eyeRegular } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class SignIn extends Component {
   state = {
@@ -13,6 +16,7 @@ class SignIn extends Component {
     password: "",
     isLoading: true,
     error: "",
+    showPassword: false,
   };
   componentDidMount() {
     this.setState({ isLoading: false });
@@ -37,6 +41,18 @@ class SignIn extends Component {
         this.setState({ isLoading: false, error: err.message });
       });
   };
+  handleShowPassword = (e) => {
+    if (this.state.showPassword === false) {
+      this.setState({
+        showPassword: true,
+      });
+    } else {
+      this.setState({
+        showPassword: false,
+      });
+    }
+  };
+
   render() {
     const { authError, auth } = this.props;
     if (auth.uid) {
@@ -45,7 +61,7 @@ class SignIn extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="containerSignIn">
+      <div className="containerSignIn" data-testid="signInTestId">
         <div className="bgsignin"></div>
 
         <form
@@ -55,11 +71,12 @@ class SignIn extends Component {
         >
           <h5 className="form-title title1SignIn">Sign In</h5>
 
-          <div className="form-groupSignIn" style={{ marginTop: "10px" }}>
+          <div className="form-groupSignIn" style={{ margin: "15px" }}>
             {/*<label htmlFor="email" className="title2SignIn">
               Email
     </label>*/}
             <input
+              data-testid="emailInputId"
               type="email"
               className="form-control"
               placeholder="Enter email"
@@ -68,23 +85,39 @@ class SignIn extends Component {
               required
             />
           </div>
-          <div className="form-groupSignIn" style={{ marginTop: "10px" }}>
+          <div className="form-groupSignIn" style={{ margin: "15px" }}>
             {/*<label htmlFor="password" className="title2SignIn">
               Password
   </label>*/}
             <input
-              type="password"
+              data-testid="passwordInputId"
+              type={this.state.showPassword ? "text" : "password"}
               className="form-control"
               placeholder="Password"
               id="password"
               onChange={this.handleChange}
               required
             />
+            {this.state.showPassword === true ? (
+              <FontAwesomeIcon
+                className="showPassword float-right"
+                icon={eyeRegular}
+                onClick={this.handleShowPassword}
+              />
+            ) : null}
+            {this.state.showPassword === false ? (
+              <FontAwesomeIcon
+                className="showPassword float-right"
+                icon={eyeSolid}
+                onClick={this.handleShowPassword}
+              />
+            ) : null}
           </div>
 
           <center>
             <div>
               <button
+                data-testid="signInButtonTestId"
                 type="submit"
                 className="btn btn-primary"
                 style={{ margin: "10px" }}
@@ -92,26 +125,29 @@ class SignIn extends Component {
                 Sign In
               </button>
             </div>
-            <div style={{ margin: "10px", fontSize: "18px", color: "#fff" }}>
-              New user?
-              <Link to="/signup">
-                <button
-                  className="btn btn-primary btn-sm"
-                  style={{ margin: "5px" }}
-                >
-                  Sign Up
-                </button>
-              </Link>
-            </div>
+            {
+              <div style={{ margin: "10px", fontSize: "18px", color: "#fff" }}>
+                New user?
+                <Link to="/signup">
+                  <button
+                    className="btn btn-primary btn-sm"
+                    style={{ margin: "5px" }}
+                    data-testid="signUpButtonTestId"
+                  >
+                    Sign Up
+                  </button>
+                </Link>
+              </div>
+            }
           </center>
 
           <div className="form-group text-center">
             {authError ? <p style={{ color: "white" }}>{authError}</p> : null}
           </div>
           <div className="form-group text-center">
-            {this.state.error ? (
-              <p style={{ color: "white" }}>{this.state.error}</p>
-            ) : null}
+            <p style={{ color: "white" }} data-testid="errorTestId">
+              {this.state.error}
+            </p>
           </div>
         </form>
       </div>
@@ -121,8 +157,8 @@ class SignIn extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    authError: state.auth.authError,
     auth: state.firebase.auth,
+    authError: state.auth.authError,
   };
 };
 

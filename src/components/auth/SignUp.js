@@ -5,6 +5,9 @@ import firebase from "./../../firebase/fbConfig";
 import firestore from "./../../firebase/firestore";
 import Loader from "./../loader/Loader";
 import "../style/signupStyle.css";
+import { faEye as eyeSolid } from "@fortawesome/free-solid-svg-icons";
+import { faEye as eyeRegular } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class SignUp extends Component {
   state = {
@@ -14,6 +17,7 @@ class SignUp extends Component {
     lastName: "",
     isLoading: true,
     error: "",
+    showPassword: false,
   };
   componentDidMount() {
     this.setState({ isLoading: false });
@@ -45,6 +49,17 @@ class SignUp extends Component {
         this.setState({ isLoading: false, error: err.message });
       });
   };
+  handleShowPassword = (e) => {
+    if (this.state.showPassword === false) {
+      this.setState({
+        showPassword: true,
+      });
+    } else {
+      this.setState({
+        showPassword: false,
+      });
+    }
+  };
   render() {
     const { authError, auth } = this.props;
     if (auth.uid) {
@@ -53,7 +68,7 @@ class SignUp extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="conatinerSignUp">
+      <div className="conatinerSignUp" data-testid="signUpTestId">
         <div className="bgsignup"></div>
         <form
           onSubmit={this.handleSubmit}
@@ -66,6 +81,7 @@ class SignUp extends Component {
               First Name
     </label>*/}
             <input
+              data-testid="firstNameInputId"
               type="text"
               className="form-control"
               placeholder="Enter first name"
@@ -79,6 +95,7 @@ class SignUp extends Component {
               Last Name
   </label>*/}
             <input
+              data-testid="lastNameInputId"
               type="text"
               className="form-control"
               placeholder="Enter last name"
@@ -91,6 +108,7 @@ class SignUp extends Component {
               Email
 </label>*/}
             <input
+              data-testid="emailInputId"
               type="email"
               className="form-control"
               placeholder="Enter email"
@@ -104,16 +122,35 @@ class SignUp extends Component {
               Password
 </label>*/}
             <input
-              type="password"
+              data-testid="passwordInputId"
+              type={this.state.showPassword ? "text" : "password"}
               className="form-control"
               placeholder="Password"
               id="password"
               onChange={this.handleChange}
               required
             />
+            {this.state.showPassword === true ? (
+              <FontAwesomeIcon
+                className="showPassword float-right"
+                icon={eyeRegular}
+                onClick={this.handleShowPassword}
+              />
+            ) : null}
+            {this.state.showPassword === false ? (
+              <FontAwesomeIcon
+                className="showPassword float-right"
+                icon={eyeSolid}
+                onClick={this.handleShowPassword}
+              />
+            ) : null}
           </div>
           <center style={{ margin: "10px" }}>
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              data-testid="signUpButtonTestId"
+            >
               Sign Up
             </button>
           </center>
@@ -121,9 +158,9 @@ class SignUp extends Component {
             {authError ? <p style={{ color: "white" }}>{authError}</p> : null}
           </div>
           <div className="form-groupSignUp text-center">
-            {this.state.error ? (
-              <p style={{ color: "white" }}>{this.state.error}</p>
-            ) : null}
+            <p style={{ color: "white" }} data-testid="errorTestId">
+              {this.state.error}
+            </p>
           </div>
         </form>
       </div>

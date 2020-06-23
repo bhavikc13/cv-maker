@@ -382,7 +382,10 @@ class CvList extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="container-fuild justify-content-md-center">
+      <div
+        className="container-fuild justify-content-md-center"
+        data-testid="cvListTestId"
+      >
         {this.props.cvList
           .filter((cv) => cv.userId === this.props.auth.uid)
           .map((cv) => {
@@ -412,7 +415,11 @@ class CvList extends Component {
                     >
                       {cv.title}
                     </Card.Title>
-                    <Link to={"/" + cv.id} className="stretched-link" />
+                    <Link
+                      to={"/" + cv.id}
+                      className="stretched-link"
+                      data-testid={cv.title}
+                    />
 
                     {/*<Button
                     variant="primary"
@@ -433,6 +440,7 @@ class CvList extends Component {
                           position: "relative",
                           zIndex: "3",
                         }}
+                        data-testid={"remove" + cv.title + "TestId"}
                       >
                         Remove
                       </Button>

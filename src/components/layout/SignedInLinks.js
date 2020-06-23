@@ -8,12 +8,12 @@ import { OverlayTrigger, Popover } from "react-bootstrap";
 class SignedInLinks extends Component {
   state = {
     isLoading: true,
-    error: ""
+    error: "",
   };
   componentDidMount() {
     this.setState({ isLoading: false });
   }
-  handleSignOut = e => {
+  handleSignOut = (e) => {
     this.setState({ isLoading: true });
     firebase
       .auth()
@@ -22,7 +22,7 @@ class SignedInLinks extends Component {
         console.log("signout success");
         this.setState({ isLoading: false });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         this.setState({ isLoading: false, error: err.message });
       });
@@ -56,7 +56,7 @@ class SignedInLinks extends Component {
                         className="btn btn-outline-primary float-left"
                         to={{
                           pathname: "/feedback",
-                          prevUrl: this.props.prevUrl
+                          prevUrl: this.props.prevUrl,
                         }}
                         onClick={this.hidePopover}
                         style={{ margin: "5px" }}
@@ -67,6 +67,7 @@ class SignedInLinks extends Component {
                         className="btn btn-outline-danger float-right"
                         onClick={this.handleSignOut}
                         style={{ margin: "5px" }}
+                        data-testid="signOutButtonTestId"
                       >
                         Sign Out
                       </button>
@@ -78,7 +79,10 @@ class SignedInLinks extends Component {
             rootClose
             ref="overlay"
           >
-            <button className="btn btn-secondary btn-circle btn-sm">
+            <button
+              className="btn btn-secondary btn-circle btn-sm"
+              data-testid="circleButtonTestId"
+            >
               {this.props.profile.initials}
             </button>
           </OverlayTrigger>
@@ -88,11 +92,11 @@ class SignedInLinks extends Component {
   }
 }
 
-const mapStatesToProps = state => {
+const mapStatesToProps = (state) => {
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
-    prevUrl: state.prevUrlRed.prevUrl
+    prevUrl: state.prevUrlRed.prevUrl,
   };
 };
 

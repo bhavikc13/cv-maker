@@ -72,6 +72,13 @@
   z-index: 400;
 }
 
+.showPassword {
+  position: relative;
+  cursor: pointer;
+  margin-top: -25px;
+  margin-right: 8px;
+}
+
 @media only screen and (max-width: 960px) {
   .form-conatinerSignUp {
     margin-right: 10%;
