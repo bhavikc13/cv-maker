@@ -116,7 +116,10 @@ class TemplateList extends Component {
     return this.state.isLoading ? (
       <Loader />
     ) : (
-      <div className="container-fluid d-flex justify-content-center screenViewTempList">
+      <div
+        className="container-fluid d-flex justify-content-center screenViewTempList"
+        data-testid="templateListTestId"
+      >
         {/*<div className="bgTempList" />*/}
         <div className="row rowTempList">
           <div className="col-md-6 colTempList" key={1}>

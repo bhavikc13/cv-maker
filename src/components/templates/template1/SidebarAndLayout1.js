@@ -62,18 +62,23 @@ const SidebarAndLayout1 = (props) => {
   return state.isLoading ? (
     <Loader />
   ) : (
-    <div>
+    <div data-testid="sidebarAndLayout1TestId">
       <PdfLayout1 />
       <h3 className="text-center cvtitle">{props.title}</h3>
       <div style={{ position: "relative" }}>
         <div className="screenView1">
           <div className="sidebar1" ref={drop} style={color}>
             <Accordion defaultActiveKey="">
-              <Card className="bgcolor" style={styles}>
+              <Card
+                className="bgcolor"
+                style={styles}
+                data-testid="uploadImageTestId"
+              >
                 <Accordion.Toggle
                   as={Card.Header}
                   eventKey="0"
                   style={{ paddingLeft: "44px" }}
+                  data-testid="uploadImageLinkTestId"
                 >
                   Upload Image
                 </Accordion.Toggle>
@@ -84,11 +89,16 @@ const SidebarAndLayout1 = (props) => {
                 </Accordion.Collapse>
               </Card>
 
-              <Card className="bgcolor" style={styles}>
+              <Card
+                className="bgcolor"
+                style={styles}
+                data-testid="personalInformationTestId"
+              >
                 <Accordion.Toggle
                   as={Card.Header}
                   eventKey="1"
                   style={{ paddingLeft: "44px" }}
+                  data-testid="personalInformationLinkTestId"
                 >
                   Personal Information
                 </Accordion.Toggle>

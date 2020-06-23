@@ -10,13 +10,12 @@ import AwardInfo from "./components/AwardInfo";
 import HobbyInfo from "./components/HobbyInfo";
 import "./style/SidebarStyle.css";
 
-
 const Block = ({ cvid, id, moveBlock, findBlock, eventKey }) => {
   const originalIndex = findBlock(id).index;
   const [{ isDragging }, drag, preview] = useDrag({
     item: { type: "block", id, originalIndex },
-    collect: monitor => ({
-      isDragging: monitor.isDragging()
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
     }),
     end: (dropResult, monitor) => {
       const { id: droppedId, originalIndex } = monitor.getItem();
@@ -24,7 +23,7 @@ const Block = ({ cvid, id, moveBlock, findBlock, eventKey }) => {
       if (!didDrop) {
         moveBlock(droppedId, originalIndex);
       }
-    }
+    },
   });
   const [, drop] = useDrop({
     accept: "block",
@@ -34,19 +33,37 @@ const Block = ({ cvid, id, moveBlock, findBlock, eventKey }) => {
         const { index: overIndex } = findBlock(id);
         moveBlock(draggedId, overIndex);
       }
-    }
+    },
   });
   const opacity = isDragging ? 0 : 1;
   const card = {
-    backgroundColor : "#202020"
-    
-  }
-  const cardBodyBg= {
-    backgroundColor: "#282828"
-  }
+    backgroundColor: "#202020",
+  };
+  const cardBodyBg = {
+    backgroundColor: "#282828",
+  };
+
+  const Names = [
+    "education",
+    "skill",
+    "internship",
+    "project",
+    "position",
+    "award",
+    "hobby",
+  ];
   return (
-    <Card ref={preview} className="bgcolor" style={card}>
-      <Accordion.Toggle as={Card.Header} eventKey={eventKey}>
+    <Card
+      ref={preview}
+      className="bgcolor"
+      style={card}
+      data-testid={Names[id - 1] + "TestId"}
+    >
+      <Accordion.Toggle
+        as={Card.Header}
+        eventKey={eventKey}
+        data-testid={Names[id - 1] + "LinkTestId"}
+      >
         {id === 1 ? "Education" : null}
         {id === 2 ? "Skills" : null}
         {id === 3 ? "Internship" : null}
@@ -55,13 +72,13 @@ const Block = ({ cvid, id, moveBlock, findBlock, eventKey }) => {
         {id === 6 ? "Awards and Achievement" : null}
         {id === 7 ? "Interests and Hobbies" : null}
         <p
-          ref={node => drag(drop(node))}
+          ref={(node) => drag(drop(node))}
           className="float-left"
           style={{
             paddingLeft: "10px",
             paddingRight: "10px",
             margin: "0px",
-            cursor: "move"
+            cursor: "move",
           }}
         >
           ::

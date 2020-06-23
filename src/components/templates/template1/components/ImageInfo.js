@@ -20,8 +20,8 @@ function dataURLtoFile(dataurl, filename) {
 }
 
 function download(url, filename) {
-  fetch(url).then(function(t) {
-    return t.blob().then(b => {
+  fetch(url).then(function (t) {
+    return t.blob().then((b) => {
       var a = document.createElement("a");
       a.href = URL.createObjectURL(b);
       a.setAttribute("download", filename);
@@ -38,7 +38,7 @@ async function getBase64ImageFromUrl(imageUrl) {
     var reader = new FileReader();
     reader.addEventListener(
       "load",
-      function() {
+      function () {
         resolve(reader.result);
       },
       false
@@ -58,7 +58,7 @@ class ImageInfo extends Component {
     this.state = {
       savedImage: null,
       isLoading: true,
-      isUploading: false
+      isUploading: false,
     };
   }
   componentWillUnmount() {
@@ -71,31 +71,31 @@ class ImageInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .get()
-      .then(resp => {
+      .then((resp) => {
         if (resp.data().imageUploaded) {
           let downloadRef = storage
             .ref()
             .child("profileImages/" + this.props.id);
           downloadRef
             .getDownloadURL()
-            .then(url => {
+            .then((url) => {
               getBase64ImageFromUrl(url)
-                .then(resp => {
+                .then((resp) => {
                   this.props.updateImage(resp);
                   this.setState({
                     isLoading: false,
-                    savedImage: resp
+                    savedImage: resp,
                   });
                   console.log("download done");
                 })
-                .catch(err => {
+                .catch((err) => {
                   console.log(err);
                   this.setState({
-                    isLoading: false
+                    isLoading: false,
                   });
                 });
             })
-            .catch(error => {
+            .catch((error) => {
               switch (error.code) {
                 case "storage/object-not-found":
                   console.log("File doesn't exist");
@@ -116,36 +116,36 @@ class ImageInfo extends Component {
                   break;
               }
               this.setState({
-                isLoading: false
+                isLoading: false,
               });
             });
         } else {
           this.setState({ isLoading: false });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         this.setState({ isLoading: false });
       });
   }
 
-  handleSavedImage = event => {
+  handleSavedImage = (event) => {
     let reader = new FileReader();
-    reader.onload = e => {
+    reader.onload = (e) => {
       this.setState({
-        savedImage: e.target.result
+        savedImage: e.target.result,
       });
     };
     reader.readAsDataURL(event.target.files[0]);
   };
 
-  handleUploadImage = event => {
+  handleUploadImage = (event) => {
     this.props.updateImage(this.state.savedImage);
     this.setState({ isLoading: true });
     let image = this.state.savedImage;
     let imageFile = dataURLtoFile(image, "profileImage.jpg");
     let metadata = {
-      contentType: imageFile.type
+      contentType: imageFile.type,
     };
     let uploadRef = storage
       .ref()
@@ -153,7 +153,7 @@ class ImageInfo extends Component {
       .put(imageFile, metadata);
     uploadRef.on(
       "state_changed",
-      snapshot => {
+      (snapshot) => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         progress = Math.floor(progress);
@@ -167,7 +167,7 @@ class ImageInfo extends Component {
             break;
         }
       },
-      error => {
+      (error) => {
         switch (error.code) {
           case "storage/unauthorized":
             // User doesn't have permission to access the object
@@ -182,12 +182,12 @@ class ImageInfo extends Component {
             break;
         }
         this.setState({
-          isUploading: false
+          isUploading: false,
         });
       },
       () => {
         // Upload completed successfully, now we can get the download URL
-        uploadRef.snapshot.ref.getDownloadURL().then(downloadURL => {
+        uploadRef.snapshot.ref.getDownloadURL().then((downloadURL) => {
           console.log("File available at", downloadURL);
           this.setState({ isLoading: false });
           firestore
@@ -196,10 +196,10 @@ class ImageInfo extends Component {
             .collection("cvs")
             .doc(this.props.id)
             .update({
-              imageUploaded: true
+              imageUploaded: true,
             })
             .then(() => console.log("imageUploaded"))
-            .catch(err => {
+            .catch((err) => {
               console.log(err);
             });
         });
@@ -212,10 +212,10 @@ class ImageInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -232,7 +232,7 @@ class ImageInfo extends Component {
         console.log("removed successfully");
         this.setState({ isLoading: false });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         this.setState({ isLoading: false });
       });
@@ -243,21 +243,21 @@ class ImageInfo extends Component {
       .doc(this.props.id)
       .update({
         updatedAt: new Date(),
-        imageUploaded: false
+        imageUploaded: false,
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   render() {
     const card = {
-      backgroundColor:"#202020",
+      backgroundColor: "#202020",
       margin: "10px 0px",
-      color:"white"
-    }
-    
+      color: "white",
+    };
+
     if (this.state.isLoading) {
       return (
         <div className="text-center">
@@ -268,7 +268,7 @@ class ImageInfo extends Component {
       );
     } else if (this.props.img === null) {
       return (
-        <div>
+        <div data-testid="uploadImageTestId">
           <Card body className="inputStyle" style={card}>
             <Form.Group
               controlId="formGroupImg"
@@ -276,9 +276,7 @@ class ImageInfo extends Component {
             >
               <input type="file" onChange={this.handleSavedImage} />
             </Form.Group>
-            <Button className="add" 
-            onClick={this.handleUploadImage}
-            >
+            <Button className="add" onClick={this.handleUploadImage}>
               {" "}
               + Upload{" "}
             </Button>
@@ -287,9 +285,11 @@ class ImageInfo extends Component {
       );
     } else if (this.props.img) {
       return (
-        <Button className="remove" 
-        onClick={this.handleRemoveImage}
-        style={{border:"none"}}>
+        <Button
+          className="remove"
+          onClick={this.handleRemoveImage}
+          style={{ border: "none" }}
+        >
           {" "}
           - Remove Image{" "}
         </Button>
@@ -320,21 +320,21 @@ class ImageInfo extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     img: state.imageRed_1.img_1,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    updateImage: img => {
+    updateImage: (img) => {
       dispatch({ type: "UPLOAD_IMAGE_1", img: img });
     },
     removeImage: () => {
       dispatch({ type: "REMOVE_IMAGE_1" });
-    }
+    },
   };
 };
 

@@ -18,10 +18,10 @@ class PersonalInfo extends Component {
         collegeName: this.props.collegeName,
         email: this.props.email,
         dob: this.props.dob,
-        address: this.props.address
+        address: this.props.address,
       })
       .then(() => console.log("update profile"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
@@ -41,7 +41,7 @@ class PersonalInfo extends Component {
       .collection("profile")
       .doc(this.props.id)
       .get()
-      .then(resp => {
+      .then((resp) => {
         let profile = resp.data();
         if (!profile) return null;
         this.props.updateName(profile.name);
@@ -51,7 +51,7 @@ class PersonalInfo extends Component {
         this.props.updateAddress(profile.address);
       });
   }
-  handleChangeName = event => {
+  handleChangeName = (event) => {
     this.props.updateName(event.target.value);
     firestore
       .collection("users")
@@ -59,15 +59,15 @@ class PersonalInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  handleChangeCollegeName = event => {
+  handleChangeCollegeName = (event) => {
     this.props.updateCollgeName(event.target.value);
     firestore
       .collection("users")
@@ -75,15 +75,15 @@ class PersonalInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  handleChangeEmail = event => {
+  handleChangeEmail = (event) => {
     this.props.updateEmail(event.target.value);
     firestore
       .collection("users")
@@ -91,15 +91,15 @@ class PersonalInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  handleChangeDOB = event => {
+  handleChangeDOB = (event) => {
     this.props.updateDOB(event.target.value);
     firestore
       .collection("users")
@@ -107,15 +107,15 @@ class PersonalInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  handleChangeAddress = event => {
+  handleChangeAddress = (event) => {
     this.props.updateAddress(event.target.value);
     firestore
       .collection("users")
@@ -123,26 +123,28 @@ class PersonalInfo extends Component {
       .collection("cvs")
       .doc(this.props.id)
       .update({
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .then(() => console.log("update date and time"))
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   render() {
     const bgcolor = {
-      backgroundColor:"#282828",
-      color:"white",
-      border:"none"
-    }
+      backgroundColor: "#282828",
+      color: "white",
+      border: "none",
+    };
     return (
-      <div>
+      <div data-testid="personalInformationTestId">
         <Form style={bgcolor}>
           <Form.Group controlId="formGroupFullName">
             <Form.Label>Name</Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control
+              className="inputStyle"
+              style={bgcolor}
               type="text"
               placeholder="Full Name"
               onChange={this.handleChangeName}
@@ -152,7 +154,9 @@ class PersonalInfo extends Component {
 
           <Form.Group controlId="formGroupCollegeName">
             <Form.Label>College Name</Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control
+              className="inputStyle"
+              style={bgcolor}
               type="text"
               placeholder="College name"
               onChange={this.handleChangeCollegeName}
@@ -162,7 +166,9 @@ class PersonalInfo extends Component {
 
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email</Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control
+              className="inputStyle"
+              style={bgcolor}
               type="email"
               placeholder="Email"
               onChange={this.handleChangeEmail}
@@ -172,7 +178,9 @@ class PersonalInfo extends Component {
 
           <Form.Group controlId="formGroupDOB">
             <Form.Label>Date of Birth</Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control
+              className="inputStyle"
+              style={bgcolor}
               type="text"
               placeholder="April 15, 2020"
               onChange={this.handleChangeDOB}
@@ -182,7 +190,9 @@ class PersonalInfo extends Component {
 
           <Form.Group controlId="formGroupAddress">
             <Form.Label>Address</Form.Label>
-            <Form.Control className="inputStyle" style={bgcolor}
+            <Form.Control
+              className="inputStyle"
+              style={bgcolor}
               as="textarea"
               rows="3"
               placeholder="Address"
@@ -235,34 +245,34 @@ class PersonalInfo extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     name: state.personRed_1.name_1,
     collegeName: state.personRed_1.collegeName_1,
     email: state.personRed_1.email_1,
     dob: state.personRed_1.dob_1,
     address: state.personRed_1.address_1,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    updateName: name => {
+    updateName: (name) => {
       dispatch({ type: "UPDATE_NAME_1", name: name });
     },
-    updateCollgeName: collegeName => {
+    updateCollgeName: (collegeName) => {
       dispatch({ type: "UPDATE_COLLEGENAME_1", collegeName: collegeName });
     },
-    updateEmail: email => {
+    updateEmail: (email) => {
       dispatch({ type: "UPDATE_EMAIL_1", email: email });
     },
-    updateDOB: dob => {
+    updateDOB: (dob) => {
       dispatch({ type: "UPDATE_DOB_1", dob: dob });
     },
-    updateAddress: address => {
+    updateAddress: (address) => {
       dispatch({ type: "UPDATE_ADDRESS_1", address: address });
-    }
+    },
   };
 };
 
