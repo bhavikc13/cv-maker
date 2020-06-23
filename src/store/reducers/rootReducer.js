@@ -34,7 +34,7 @@ import orderOfAwardBlocksRed from "./orderOfAwardBlocksRed";
 import orderOfHobbyBlocksRed from "./orderOfHobbyBlocksRed";
 import orderOfSkillBlocksRed from "./orderOfSkillBlocksRed";
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   orderOfSkillBlocksRed: orderOfSkillBlocksRed,
   orderOfHobbyBlocksRed: orderOfHobbyBlocksRed,
   orderOfAwardBlocksRed: orderOfAwardBlocksRed,
@@ -70,4 +70,5 @@ const rootReducer = combineReducers({
   imageRed_2: imageRed_2,
 });
 
+export const initState = {};
 export default rootReducer;
