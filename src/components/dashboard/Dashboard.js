@@ -6,6 +6,7 @@ import Loader from "./../loader/Loader";
 import { dashboardBG } from "../AddImage/dashboardBG.jpg";
 import "../style/dashboardStyle.css";
 import image from "../AddImage/dashboardBG2.jpeg";
+import firebase from "./../../firebase/fbConfig";
 
 class Dashboard extends Component {
   state = { isLoading: true };
@@ -23,6 +24,21 @@ class Dashboard extends Component {
       margin: "25px",
     };
     const { auth } = this.props;
+    if (auth.uid && auth.emailVerified === false) {
+      return (
+        <div style={{ marginTop: "50px" }} className="container">
+          <p style={{ color: "white", textAlign: "center" }}>
+            We have sent you mail on your registered email ID for verification.
+          </p>
+          <p style={{ color: "white", textAlign: "center" }}>
+            Please check your inbox!!
+          </p>
+          <p style={{ color: "white", textAlign: "center" }}>
+            After verifying your email ID refresh the browser page.
+          </p>
+        </div>
+      );
+    }
     if (!auth.uid) {
       return <Redirect to="/signin" />;
     }
@@ -113,22 +129,23 @@ class Dashboard extends Component {
               </span>
             </div>
 
-            <div  className="PrimaryButton">
+            <div className="PrimaryButton">
               Create New CV
-              <Link to="/templatelist"
-                    className="stretched-link"
-                    data-testid="createNewCVLinkTestId" 
+              <Link
+                to="/templatelist"
+                className="stretched-link"
+                data-testid="createNewCVLinkTestId"
               />
             </div>
 
-            <div  className="PrimaryButton">
+            <div className="PrimaryButton">
               Use Existing
-              <Link to="/cvlist"
-                    className="stretched-link"
-                    data-testid="useExistingCVLinkTestId" 
-              /> 
+              <Link
+                to="/cvlist"
+                className="stretched-link"
+                data-testid="useExistingCVLinkTestId"
+              />
             </div>
-
           </div>
         </div>
         <div className="Right">

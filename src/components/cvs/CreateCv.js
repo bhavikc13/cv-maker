@@ -115,7 +115,7 @@ class CreateCV extends Component {
                     .then((resp) => {
                       console.log("cv added");
                       this.setState({ isLoading: false });
-                      this.props.history.push("/" + resp.id);
+                      this.props.history.push("/cvlist/" + resp.id);
                     })
                     .catch((err) => {
                       console.log(err);
@@ -137,7 +137,7 @@ class CreateCV extends Component {
                     .then((resp) => {
                       console.log("cv added");
                       this.setState({ isLoading: false });
-                      this.props.history.push("/" + resp.id);
+                      this.props.history.push("/cvlist/" + resp.id);
                     })
                     .catch((err) => {
                       console.log(err);
@@ -175,7 +175,7 @@ class CreateCV extends Component {
               .then((resp) => {
                 console.log("cv added");
                 this.setState({ isLoading: false });
-                this.props.history.push("/" + resp.id);
+                this.props.history.push("/cvlist/" + resp.id);
               })
               .catch((err) => {
                 console.log(err);
@@ -197,7 +197,7 @@ class CreateCV extends Component {
               .then((resp) => {
                 console.log("cv added");
                 this.setState({ isLoading: false });
-                this.props.history.push("/" + resp.id);
+                this.props.history.push("/cvlist/" + resp.id);
               })
               .catch((err) => {
                 console.log(err);
@@ -218,6 +218,21 @@ class CreateCV extends Component {
   };
   render() {
     const { auth } = this.props;
+    if (auth.uid && auth.emailVerified === false) {
+      return (
+        <div style={{ marginTop: "50px" }}>
+          <p style={{ color: "white", textAlign: "center" }}>
+            We have sent you mail on your registered email ID for verification.
+          </p>
+          <p style={{ color: "white", textAlign: "center" }}>
+            Please check your inbox!!
+          </p>
+          <p style={{ color: "white", textAlign: "center" }}>
+            After verifying your email ID refresh the browser page.
+          </p>
+        </div>
+      );
+    }
     if (!auth.uid) {
       return <Redirect to="/signin" />;
     }

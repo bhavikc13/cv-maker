@@ -376,6 +376,21 @@ class CvList extends Component {
 
   render() {
     const { auth } = this.props;
+    if (auth.uid && auth.emailVerified === false) {
+      return (
+        <div style={{ marginTop: "50px" }}>
+          <p style={{ color: "white", textAlign: "center" }}>
+            We have sent you mail on your registered email ID for verification.
+          </p>
+          <p style={{ color: "white", textAlign: "center" }}>
+            Please check your inbox!!
+          </p>
+          <p style={{ color: "white", textAlign: "center" }}>
+            After verifying your email ID refresh the browser page.
+          </p>
+        </div>
+      );
+    }
     if (!auth.uid) {
       return <Redirect to="/signin" />;
     }
@@ -416,7 +431,7 @@ class CvList extends Component {
                       {cv.title}
                     </Card.Title>
                     <Link
-                      to={"/" + cv.id}
+                      to={"/cvlist/" + cv.id}
                       className="stretched-link"
                       data-testid={cv.title}
                     />

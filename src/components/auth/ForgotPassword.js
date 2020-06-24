@@ -6,22 +6,19 @@ import firebase from "./../../firebase/fbConfig";
 import Loader from "./../loader/Loader";
 import { Link } from "react-router-dom";
 import "../style/signinStyle.css";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { faEye as eyeSolid } from "@fortawesome/free-solid-svg-icons";
+import { faEye as eyeRegular } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-class SignIn extends Component {
+class ForgotPassword extends Component {
   state = {
     email: "",
-    password: "",
     isLoading: true,
     error: "",
-    showPassword: false,
+    emailSent: false,
   };
   componentDidMount() {
-    this.setState({
-      isLoading: false,
-    });
+    this.setState({ isLoading: false });
   }
   handleChange = (e) => {
     this.setState({
@@ -31,40 +28,18 @@ class SignIn extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.setState({ isLoading: true });
+
     firebase
       .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .sendPasswordResetEmail(this.state.email)
       .then(() => {
-        console.log("signin success");
-        firebase
-          .auth()
-          .currentUser.sendEmailVerification()
-          .then(() => {
-            console.log("verification email sent");
-            this.setState({
-              isLoading: false,
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-            this.setState({ isLoading: false, error: err.message });
-          });
+        console.log("email sent");
+        this.setState({ isLoading: false, emailSent: true });
       })
       .catch((err) => {
         console.log(err);
         this.setState({ isLoading: false, error: err.message });
       });
-  };
-  handleShowPassword = (e) => {
-    if (this.state.showPassword === false) {
-      this.setState({
-        showPassword: true,
-      });
-    } else {
-      this.setState({
-        showPassword: false,
-      });
-    }
   };
 
   render() {
@@ -87,6 +62,9 @@ class SignIn extends Component {
     if (auth.uid) {
       return <Redirect to="/" />;
     }
+    if (this.state.emailSent) {
+      return <Redirect to="/" />;
+    }
     return this.state.isLoading ? (
       <Loader />
     ) : (
@@ -98,7 +76,7 @@ class SignIn extends Component {
           className="form-conatinerSignIn"
           style={{ borderRadius: "25px" }}
         >
-          <h5 className="form-title title1SignIn">Sign In</h5>
+          <h5 className="form-title title1SignIn">Forgot Password</h5>
 
           <div className="form-groupSignIn" style={{ margin: "15px" }}>
             {/*<label htmlFor="email" className="title2SignIn">
@@ -114,67 +92,19 @@ class SignIn extends Component {
               required
             />
           </div>
-          <div className="form-groupSignIn" style={{ margin: "15px" }}>
-            {/*<label htmlFor="password" className="title2SignIn">
-              Password
-  </label>*/}
-            <input
-              data-testid="passwordInputId"
-              type={this.state.showPassword ? "text" : "password"}
-              className="form-control"
-              placeholder="Password"
-              id="password"
-              onChange={this.handleChange}
-              required
-            />
-            {this.state.showPassword === true ? (
-              <FontAwesomeIcon
-                className="showPassword float-right"
-                icon={faEyeSlash}
-                onClick={this.handleShowPassword}
-              />
-            ) : null}
-            {this.state.showPassword === false ? (
-              <FontAwesomeIcon
-                className="showPassword float-right"
-                icon={faEye}
-                onClick={this.handleShowPassword}
-              />
-            ) : null}
-          </div>
 
           <center>
             <div>
               <button
-                data-testid="signInButtonTestId"
+                data-testid=""
                 type="submit"
                 className="btn btn-primary"
                 style={{ margin: "10px" }}
               >
-                Sign In
+                Send a reset password email
               </button>
             </div>
-            <div style={{ margin: "10px", fontSize: "18px", color: "#fff" }}>
-              <Link to="/forgotpassword" style={{ color: "white" }}>
-                Forgot password?
-              </Link>
-            </div>
-            {
-              <div style={{ margin: "10px", fontSize: "18px", color: "#fff" }}>
-                New user?
-                <Link to="/signup">
-                  <button
-                    className="btn btn-primary btn-sm"
-                    style={{ margin: "5px" }}
-                    data-testid="signUpButtonTestId"
-                  >
-                    Sign Up
-                  </button>
-                </Link>
-              </div>
-            }
           </center>
-
           <div className="form-group text-center">
             {authError ? <p style={{ color: "white" }}>{authError}</p> : null}
           </div>
@@ -197,9 +127,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    signIn: (creds) => dispatch(signIn(creds)),
-  };
+  return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);
