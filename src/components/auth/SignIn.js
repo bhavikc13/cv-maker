@@ -36,19 +36,25 @@ class SignIn extends Component {
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
         console.log("signin success");
-        firebase
-          .auth()
-          .currentUser.sendEmailVerification()
-          .then(() => {
-            console.log("verification email sent");
-            this.setState({
-              isLoading: false,
+        let user = firebase.auth().currentUser;
+        if (!user.emailVerified) {
+          user
+            .sendEmailVerification()
+            .then(() => {
+              console.log("verification email sent");
+              this.setState({
+                isLoading: false,
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+              this.setState({ isLoading: false, error: err.message });
             });
-          })
-          .catch((err) => {
-            console.log(err);
-            this.setState({ isLoading: false, error: err.message });
+        } else {
+          this.setState({
+            isLoading: false,
           });
+        }
       })
       .catch((err) => {
         console.log(err);
