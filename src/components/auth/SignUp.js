@@ -34,11 +34,7 @@ class SignUp extends Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((resp) => {
-        return firestore.collection("users").doc(resp.user.uid).set({
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          initials: this.state.firstName[0],
-        });
+        console.log("user added");
       })
       .then(() => {
         console.log("signup success");
