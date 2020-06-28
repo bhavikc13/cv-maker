@@ -33,6 +33,12 @@ class SignedInLinks extends Component {
   };
 
   render() {
+    let displayName = "",
+      initial = "";
+    if (this.props.auth.displayName !== null) {
+      displayName = this.props.auth.displayName;
+      initial = displayName[0];
+    }
     return (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
@@ -44,8 +50,7 @@ class SignedInLinks extends Component {
                 <Popover.Content>
                   <div className="container-fluid">
                     <h4 style={{ textAlign: "center" }}>
-                      {this.props.profile.firstName}{" "}
-                      {this.props.profile.lastName}
+                      {displayName}
                     </h4>
 
                     <h5 style={{ textAlign: "center" }}>
@@ -83,7 +88,7 @@ class SignedInLinks extends Component {
               className="btn btn-secondary btn-circle btn-sm"
               data-testid="circleButtonTestId"
             >
-              {this.props.profile.initials}
+              {initial}
             </button>
           </OverlayTrigger>
         </li>
