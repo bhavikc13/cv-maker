@@ -22,7 +22,7 @@
     "@testing-library/user-event": "^7.2.1",
     "bootstrap": "^4.4.1",
     "faker": "^4.1.0",
-    "firebase": "^7.15.1",
+    "firebase": "^10.9.0",
     "history": "^5.0.0",
     "immutability-helper": "^3.0.1",
     "jest-dom": "^4.0.0",
